@@ -21,7 +21,7 @@ function renderAll() {
   renderProgram();
 };
 function renderProgram() {
-  for (var i = 0; i < 2; i++) {
+  for (var i = 0; i < 3; i++) {
     $(".program:nth-of-type(" + (i+1) + ")").className = ((game.programActive[i]) ? "program active" : "program");
   }
 }
@@ -40,7 +40,7 @@ function calcProgram() {
     }
   }
   if (game.programActive[2]) {
-    if (game.digits.gte(game.mDigits) && game.number.gte(game.base.pow(game.digits).sub(1))) {
+    if (game.digits.gte(game.mDigits) && game.number.gte(game.base.pow(game.digits).sub(1)) && game.base.lt(36)) {
       game.number = D(0);
       game.digits = D(1);
       game.base = game.base.add(1);
@@ -60,7 +60,7 @@ function activeProgram(num) {
 
 document.addEventListener("DOMContentLoaded", function(){
   setInterval( function () {
-    tGain =  (new Date().getTime()-game.tLast)/100;
+    tGain =  (new Date().getTime()-game.tLast)/10;
     calcAll();
     renderAll();
     game.tLast = new Date().getTime();
