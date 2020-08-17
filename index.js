@@ -40,7 +40,7 @@ function calcProgram() {
     }
   }
   if (game.programActive[2]) {
-    if (game.digits.gte(game.mDigits)) {
+    if (game.digits.gte(game.mDigits) && game.number.gte(game.base.pow(game.digits).sub(1))) {
       game.number = D(0);
       game.digits = D(1);
       game.base = game.base.add(1);
