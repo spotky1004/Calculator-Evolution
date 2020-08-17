@@ -1,0 +1,64 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto Mono', monospace;
+  user-select: none;
+}
+#warpAll {
+  width: 100vw; height: 100vh;
+  background-color: #000;
+  overflow: hidden;
+}
+#numberArea {
+  margin: 2vw 0 0 5vh;
+  font-size: 4vh;
+  animation: greenGlow ease 5s infinite;
+}
+@keyframes greenGlow {
+  from {
+    color: #49d124;
+    text-shadow: 0 0 2px #49d124;
+  }
+  50% {
+    color: #369c1a;
+    text-shadow: 0 0 6px #369c1a;
+  }
+  to {
+    color: #49d124;
+    text-shadow: 0 0 2px #49d124;
+  }
+}
+#programs {
+  margin: 1.5vw 0 0 7.5vh;
+}
+.program {
+  width: 30vw;
+  margin: 1vh 0 0 0; padding: 0.3vh 0.3vw;
+  border: 0.1vh solid #d12424;
+  background-color: rgba(56, 9, 9, 0.5);
+  animation: greenGlow ease 5s infinite;
+  transition: all 0.3s;
+  filter: blur(0.08vh);
+}
+.program:hover {
+  border: 0.1vh solid #9c1a1a;
+  background-color: rgba(56, 9, 9, 0.8);
+  filter: blur(0);
+}
+.program:active {
+  border: 0.1vh solid #49d124;
+  background-color: rgba(54, 156, 26, 0.5);
+  filter: blur(0);
+  transition: all 0s;
+}
+.program.active {
+  border: 0.1vh solid #49d124;
+  background-color: rgba(54, 156, 26, 0.5);
+  filter: blur(0);
+  transition: all 0.3s;
+}
+.program.active:hover {
+  border: 0.1vh solid #49d124;
+  background-color: rgba(54, 156, 26, 0.8);
+  filter: blur(0.1vh);
+}
