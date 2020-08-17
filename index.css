@@ -28,8 +28,12 @@
     text-shadow: 0 0 2px #49d124;
   }
 }
-#programs {
+.sectionTxt {
   margin: 1.5vw 0 0 7.5vh;
+  font-size: 2.5vh; color: #369c1a; text-shadow: 0 0 2px #369c1a;
+}
+#programs {
+  margin: 0 0 0 7.5vh;
 }
 .program {
   width: 30vw;
