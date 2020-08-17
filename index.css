@@ -28,6 +28,9 @@
     text-shadow: 0 0 2px #49d124;
   }
 }
+#memoryDigit {
+  filter: grayscale(1);
+}
 .sectionTxt {
   margin: 1.5vw 0 0 7.5vh;
   font-size: 2.5vh; color: #369c1a; text-shadow: 0 0 2px #369c1a;
