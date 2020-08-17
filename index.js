@@ -1,14 +1,18 @@
 const $ = _ => document.querySelector(_);
 const D = num => new Decimal(num);
 
-number = 0;
-base = 2;
-digits = 1;
+number = D(0);
+base = D(2);
+digits = D(1);
 tNow = new Date().getTime();
 programActive = [0, 0, 0];
 
+function dNum(infNum) {
+  return Number(infNum.valueOf());
+}
+
 function renderAll() {
-  $("#basedNumber").innerHTML = Math.floor(number).toString(base).padStart(digits, 0);
+  $("#basedNumber").innerHTML = dNum(number.floor()).toString(dNum(base)).padStart(dNum(digits), 0);
   renderProgram();
 };
 function renderProgram() {
@@ -22,12 +26,12 @@ function calcAll() {
 }
 function calcProgram() {
   if (programActive[0]) {
-    number = Math.min(number+tGain, base**digits-1);
+    number = number.add(tGain).min(base.pow(digits).sub(1));
   }
   if (programActive[1]) {
-    if (number >= base**digits-1) {
-      number -= base**digits-1;
-      digits++;
+    if (number.gte(base.pow(digits).sub(1))) {
+      number = number.sub(base.pow(digits).sub(1));
+      digits = digits.add(1);
     }
   }
 }
