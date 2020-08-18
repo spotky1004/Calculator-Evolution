@@ -1,7 +1,8 @@
 const $ = _ => document.querySelector(_);
 const D = num => new Decimal(num);
 
-game = {
+savePoint = 'CalculatorEvolution1';
+tempGame = {
   number: D(0),
   base: D(2),
   digits: D(1),
@@ -9,6 +10,34 @@ game = {
   tLast: new Date().getTime(),
   programActive: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 };
+game = {};
+
+function save() {
+  localStorage[savePoint] = JSON.stringify(game);
+}
+function load() {
+  for (const i in tempGame) {
+    if (tempGame[i] instanceof Decimal) {
+      game[i] = D(tempGame[i]);
+    } else {
+      game[i] = tempGame[i];
+    }
+  }
+  if (localStorage[savePoint] !== undefined) {
+    tempLoad = JSON.parse(localStorage[savePoint]);
+  } else {
+    tempLoad = {};
+  }
+  for (const i in game) {
+    if (tempLoad[i] !== undefined) {
+      if (tempGame[i] instanceof Decimal) {
+        game[i] = D(tempLoad[i]);
+      } else {
+        game[i] = tempLoad[i];
+      }
+    }
+  }
+}
 
 function dNum(infNum) {
   return Number(infNum.valueOf());
@@ -59,10 +88,14 @@ function activeProgram(num) {
 }
 
 document.addEventListener("DOMContentLoaded", function(){
+  load();
   setInterval( function () {
     tGain =  (new Date().getTime()-game.tLast)/10;
     calcAll();
     renderAll();
     game.tLast = new Date().getTime();
   }, 33);
+  setInterval( function () {
+    save();
+  }, 5000);
 });
