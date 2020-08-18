@@ -10,42 +10,74 @@
   overflow: hidden;
 }
 #numberArea {
-  margin: 2vw 0 0 5vh;
+  margin: 4vh 0 0 2.5vw;
   font-size: 4vh;
+  animation: greenGlow ease 5s infinite;
+}
+#moneyArea {
+  margin: 0 0 0 2.5vw;
+  font-size: 2vh;
   animation: greenGlow ease 5s infinite;
 }
 @keyframes greenGlow {
   from {
     color: #49d124;
-    text-shadow: 0 0 2px #49d124;
+    text-shadow: 0 0 0.4vh #49d124;
   }
   50% {
     color: #369c1a;
-    text-shadow: 0 0 6px #369c1a;
+    text-shadow: 0 0 1.2vh #369c1a;
   }
   to {
     color: #49d124;
-    text-shadow: 0 0 2px #49d124;
+    text-shadow: 0 0 0.4vh #49d124;
   }
 }
 #memoryDigit {
   filter: grayscale(1);
 }
+#mainNav {
+  height: 5vh;
+  margin: 2vh 0 0 5vw;
+  font-size: 2.7vh;
+}
+.tabNav {
+  display: block; float: left;
+  margin: 0 2vw 0 0; padding: 0.2vh 0.2vw;
+  border-radius: 0.3vh;
+  transition: 0.3s;
+}
+.tabNav:hover {
+  filter: brightness(1.3);
+}
+.tabNav:active {
+  filter: brightness(1.6);
+  transform: scale(1.1);
+  transition: 0s;
+}
+.t1Nav {
+  border: 0.35vh solid #49d124;
+  background-color: rgba(54, 156, 26, 0.5);
+  cursor: pointer;
+  animation: greenGlow ease 5s infinite;
+}
 .sectionTxt {
-  margin: 1.5vw 0 0 7.5vh;
-  font-size: 2.5vh; color: #369c1a; text-shadow: 0 0 2px #369c1a;
+  margin: 1.4vh 0 0 3.5vw;
+  font-size: 2.5vh; color: #369c1a; text-shadow: 0 0 0.4vh #369c1a;
 }
 #programs {
-  margin: 0 0 0 7.5vh;
+  margin: 0 0 0 3.5vw;
 }
 .program {
   width: 30vw;
   margin: 1vh 0 0 0; padding: 0.3vh 0.3vw;
+  font-size: 1.7vh;
   border: 0.1vh solid #d12424;
   background-color: rgba(56, 9, 9, 0.5);
+  filter: blur(0.08vh);
+  cursor: pointer;
   animation: greenGlow ease 5s infinite;
   transition: all 0.3s;
-  filter: blur(0.08vh);
 }
 .program:hover {
   border: 0.1vh solid #9c1a1a;
@@ -68,4 +100,61 @@
   border: 0.1vh solid #49d124;
   background-color: rgba(54, 156, 26, 0.8);
   filter: blur(0.1vh);
+}
+.tab:nth-of-type(2) {
+  margin: 5vh 0 0 10vw;
+}
+.shopBox {
+  display: block; float: left;
+  margin-right: 2.5vw;
+  width: 25vw; height: 60vh;
+  border-radius: 2vh; border: 0.3vh solid #239423;
+  background-color: rgba(23, 99, 23, 0.8);
+  animation: greenBoxShade ease 13s infinite;
+}
+@keyframes greenBoxShade {
+  from {
+    box-shadow: 0 0 0.5vh 0.25vh #239423 inset;
+  }
+  50% {
+    box-shadow: 0 0 2vh 1vh #3cc93c inset;
+  }
+  to {
+    box-shadow: 0 0 0.5vh 0.25vh #239423 inset;
+  }
+}
+.sectionTxtShop {
+  margin: 2vh 0 0 0;
+  width: 100%;
+  font-size: 2.5vh; color: #0a360a; text-shadow: 0 0 1.2vh #0a360a; text-align: center;
+  background-color: #239423;
+}
+.shopItem {
+  margin: 2.2vh 2vw;
+  height: 7.8vh;
+  color: #0c3b0c;
+  border-radius: 1vh; border: 0.2vh solid #135e13;
+  background-color: rgba(35, 148, 35, 0.7);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out -0.1s;
+}
+.shopItem:hover {
+  color: #59d459; text-shadow: 0 0 0.3vh #59d459;
+}
+.shopItem:active {
+  color: #fff; text-shadow: 0 0 0.6vh #fff;
+  transition: all 0s;
+}
+.shopItem > .itemName {
+  margin-top: 0.5vh;
+  height: 3.6vh;
+  font-size: 3.2vh; text-align: center;
+}
+.shopItem > .itemCost {
+  height: 2vh;
+  font-size: 2vh; text-align: center;
+}
+.shopItem.bought {
+  color: #59d459; text-shadow: 0 0 0.6vh #59d459;
+  transition: all 1s;
 }
