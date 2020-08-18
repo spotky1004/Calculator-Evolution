@@ -2,6 +2,7 @@ const $ = _ => document.querySelector(_);
 const D = num => new Decimal(num);
 
 savePoint = 'CalculatorEvolution2';
+siSymbol = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'];
 tabNow = 0;
 tempGame = {
   number: D(0),
@@ -46,10 +47,24 @@ function dNum(infNum) {
   return Number(infNum.valueOf());
 }
 function dNotation(infNum, dim=0) {
+  if (!(infNum instanceof Decimal)) {
+    infNum = D(infNum);
+  }
   if (infNum.gte(1e5)) {
     return infNum.toFixed(3).valueOf();
   } else {
-    return dNum(infNum).toFixed(D(dim).sub(infNum.log(10)));
+    return dNum(infNum).toFixed(D(dim).sub(infNum.add(1).log(10)).max(0));
+  }
+}
+function notationSI(num, dim=0) {
+  if (!(num instanceof Decimal)) {
+    num = D(num);
+  }
+  if (num.gt(1024**8)) {
+    return dNotation(num.div(1024**8), dim) + 'Y';
+  } else {
+    numLv = Math.floor(num.log(1024));
+    return num.div(1024**numLv).toFixed(dim) + siSymbol[numLv];
   }
 }
 
@@ -74,9 +89,14 @@ function renderProgram() {
   $(".program:nth-of-type(4)").style.display = ((game.shopBought[0]) ? "block" : "none");
 }
 function renderShop() {
-  for (var i = 0; i < 1; i++) {
+  for (var i = 0; i < 5; i++) {
     $(".shopItem:nth-of-type(" + (i+1) + ")").className = ((game.shopBought[i]) ? "shopItem bought" : "shopItem");
   }
+  for (var i = 0; i < 5; i++) {
+    $(".shopBox:nth-of-type(2) > .shopItem:nth-of-type(" + (i+1) + ") > .itemCost > .itemCostNum").innerHTML = dNotation(calcShopCost()[i+5], 5);
+  }
+  $(".cpuHz:nth-of-type(1)").innerHTML = notationSI(D(2).pow(game.shopBought[5]), 0);
+  $(".cpuHz:nth-of-type(2)").innerHTML = notationSI(D(2).pow(game.shopBought[5]+1), 0);
 }
 
 function calcAll() {
@@ -106,17 +126,19 @@ function calcProgram() {
 
 function calcCPU() {
   var tempVar = D(1);
-
+  tempVar = tempVar.mul(D(2).pow(game.shopBought[5]))
   return tempVar;
 }
 function calcShopCost() {
-  const tempArr = [];
+  const tempArr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   tempArr[0] = D(0.03);
+  tempArr[5] = D(3+game.shopBought[5]/10).pow(game.shopBought[5]);
   return tempArr;
 }
 function calcShopMax() {
-  const tempArr = [];
+  const tempArr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   tempArr[0] = 1;
+  tempArr[5] = 100;
   return tempArr;
 }
 
@@ -139,7 +161,7 @@ function activeProgram(num) {
 }
 function shopBuy(num) {
   if (game.money.gte(calcShopCost()[num]) && game.shopBought[num] < calcShopMax()[num]) {
-    game.money.sub(calcShopCost()[num]);
+    game.money = game.money.sub(calcShopCost()[num]);
     game.shopBought[num]++;
   }
   renderShop();
@@ -148,10 +170,10 @@ function shopBuy(num) {
 document.addEventListener("DOMContentLoaded", function(){
   load();
   setInterval( function () {
-    tGain =  (new Date().getTime()-game.tLast)/1000;
+    tGain = (new Date().getTime()-game.tLast)/1000;
+    game.tLast = new Date().getTime();
     calcAll();
     renderAll();
-    game.tLast = new Date().getTime();
   }, 33);
   setInterval( function () {
     save();
