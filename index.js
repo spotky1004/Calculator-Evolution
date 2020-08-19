@@ -51,9 +51,9 @@ function dNotation(infNum, dim=0) {
     infNum = D(infNum);
   }
   if (infNum.gte(1e5)) {
-    return infNum.toFixed(3).valueOf();
+    return infNum.mantissa.toFixed(3) + 'e' + dNotation(infNum.exponent, 0);
   } else {
-    return dNum(infNum).toFixed(D(dim).sub(infNum.add(1).log(10)).max(0));
+    return dNum(infNum).toFixed(D(dim).sub(infNum.add(1).log(10)).max(0).valueOf());
   }
 }
 function notationSI(num, dim=0) {
@@ -95,8 +95,7 @@ function renderShop() {
   for (var i = 0; i < 5; i++) {
     $(".shopBox:nth-of-type(2) > .shopItem:nth-of-type(" + (i+1) + ") > .itemCost > .itemCostNum").innerHTML = dNotation(calcShopCost()[i+5], 5);
   }
-  $(".cpuHz:nth-of-type(1)").innerHTML = notationSI(D(2).pow(game.shopBought[5]), 0);
-  $(".cpuHz:nth-of-type(2)").innerHTML = notationSI(D(2).pow(game.shopBought[5]+1), 0);
+  $("#cpuHz").innerHTML = notationSI(D(2).pow(game.shopBought[5]+1), 0);
 }
 
 function calcAll() {
