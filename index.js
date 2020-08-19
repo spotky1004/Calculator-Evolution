@@ -70,7 +70,10 @@ function notationSI(num, dim=0) {
 
 function renderAll() {
   numStr = dNum(game.number.floor()).toString(dNum(game.base)).padStart(dNum(game.digits), 0).toUpperCase();
-  $("#basedNumber").innerHTML = numStr.substr(0, (numStr).indexOf(".")-1);;
+  if ((numStr).indexOf(".") != -1) {
+    numStr = numStr.substr(0, (numStr).indexOf("."));
+  }
+  $("#basedNumber").innerHTML = numStr;
   $("#money").innerHTML = dNotation(game.money, 5);
   $("#memoryDigit").innerHTML = ("").padStart(dNum(game.mDigits)-dNum(game.digits), 0);
   $("#numberBase").innerHTML = game.base;
