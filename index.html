@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="user-scalable=no">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="index.css?ver=0.6.3">
+    <link rel="stylesheet" href="index.css?ver=0.6.4">
     <script src="breakInfiniryMin.js"></script>
-    <script src="index.js?ver=0.6.3"></script>
-    <title>Calculator Evolution v0.6.3</title>
+    <script src="index.js?ver=0.6.4"></script>
+    <title>Calculator Evolution v0.6.4</title>
   </head>
   <body>
     <div id="warpAll">
@@ -20,6 +20,7 @@
       <div id="mainNav">
         <span class="tabNav t1Nav" onclick="goTab(0)">Module</span>
         <span class="tabNav t1Nav" onclick="goTab(1)">Shop</span>
+        <span class="tabNav t1Nav" onclick="goTab(2)">Research</span>
       </div>
       <div id="tabs">
         <div class="tab">
@@ -34,7 +35,7 @@
             <div class="program" onclick="activeProgram(2);">
               <span>⬤</span> <span>Memory.exe</span>
             </div>
-            <div class="program" onclick="activeProgram(3);">
+            <div class="program" onclick="activeProgram(3);" style="display:none;">
               <span>⬤</span> <span>Base_Increaser.exe</span>
             </div>
           </div>
@@ -137,6 +138,14 @@
               </div>
             </div>
           </span>
+        </div>
+        <div class="tab" style="display:none;">
+          <div id="rebootButton" color="green">
+            Reboot!
+          </div>
+          <div class="">
+
+          </div>
         </div>
       </div>
     </div>

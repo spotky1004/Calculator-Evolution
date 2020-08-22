@@ -108,9 +108,15 @@ function calcAll() {
 function calcProgram() {
   if (game.programActive[0]) {
     game.number = game.number.add(calcCPU().mul(tGain)).min(game.base.pow(game.digits).sub(1));
+    rainbowEffect("#basedNumber");
+  } else {
+    delRainbowEffect("#basedNumber");
   }
   if (game.programActive[1]) {
     game.money = game.money.add(calcCPU().mul(tGain/1e5).mul(game.number));
+    rainbowEffect("#money");
+  } else {
+    delRainbowEffect("#money");
   }
   if (game.programActive[2]) {
     if (game.number.gte(game.base.pow(game.digits).sub(1)) && game.digits.lt(game.mDigits)) {
@@ -146,7 +152,7 @@ function calcShopMax() {
 }
 
 function goTab(num) {
-  for (var i = 0; i < 2; i++) {
+  for (var i = 0; i < 3; i++) {
     $(".tab:nth-of-type(" + (i+1) + ")").style.display = "none";
   }
   $(".tab:nth-of-type(" + (num+1) + ")").style.display = "block";
@@ -168,6 +174,17 @@ function shopBuy(num) {
     game.shopBought[num]++;
   }
   renderShop();
+}
+function rainbowEffect(sel, pow=1) {
+  if ($(sel).style.filter != "") {
+    thisHue = Number($(sel).style.filter.replace('hue-rotate(', '').replace('deg)', ''));
+  } else {
+    thisHue = 0;
+  }
+  $(sel).style.filter = 'hue-rotate(' + (thisHue+1) + 'deg)';
+}
+function delRainbowEffect(sel) {
+  $(sel).style.filter = 'hue-rotate(0deg)';
 }
 
 document.addEventListener("DOMContentLoaded", function(){
