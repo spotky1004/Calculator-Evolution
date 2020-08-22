@@ -106,6 +106,9 @@ function calcAll() {
   calcProgram();
 }
 function calcProgram() {
+  if (game.shopBought[1]) {
+    $(".program:nth-of-type(2) > span:nth-child(2)").innerHTML = "Mine_2.0.exe"
+  }
   if (game.programActive[0]) {
     game.number = game.number.add(calcCPU().mul(tGain)).min(game.base.pow(game.digits).sub(1));
     rainbowEffect("#basedNumber");
@@ -113,7 +116,9 @@ function calcProgram() {
     delRainbowEffect("#basedNumber");
   }
   if (game.programActive[1]) {
-    game.money = game.money.add(calcCPU().mul(tGain/1e5).mul(game.number));
+    moneyGot = calcCPU().mul(tGain/1e5).mul(game.number);
+    if (game.shopBought[1]) moneyGot.mul(game.digits);
+    game.money = game.money.add(moneyGot);
     rainbowEffect("#money");
   } else {
     delRainbowEffect("#money");
@@ -141,12 +146,14 @@ function calcCPU() {
 function calcShopCost() {
   const tempArr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   tempArr[0] = D(0.03);
+  tempArr[1] = D(1e6);
   tempArr[5] = D(3+game.shopBought[5]/10).pow(game.shopBought[5]);
   return tempArr;
 }
 function calcShopMax() {
   const tempArr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   tempArr[0] = 1;
+  tempArr[1] = 1;
   tempArr[5] = 100;
   return tempArr;
 }
@@ -175,6 +182,7 @@ function shopBuy(num) {
   }
   renderShop();
 }
+
 function rainbowEffect(sel, pow=1) {
   if ($(sel).style.filter != "") {
     thisHue = Number($(sel).style.filter.replace('hue-rotate(', '').replace('deg)', ''));

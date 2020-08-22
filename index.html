@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="user-scalable=no">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="index.css?ver=0.6.4">
+    <link rel="stylesheet" href="index.css?ver=0.7">
     <script src="breakInfiniryMin.js"></script>
-    <script src="index.js?ver=0.6.4"></script>
-    <title>Calculator Evolution v0.6.4</title>
+    <script src="index.js?ver=0.7"></script>
+    <title>Calculator Evolution v0.7</title>
   </head>
   <body>
     <div id="warpAll">
@@ -50,13 +50,19 @@
               <div class="itemCost">
                 Cost: <span class="itemCostNum">0.03000$</span>
               </div>
+              <div class="itemDesc">
+                Increase your base to store more number
+              </div>
             </div>
-            <div class="shopItem" style="display:none;" onclick="shopBuy(1)">
+            <div class="shopItem" onclick="shopBuy(1)">
               <div class="itemName">
-                Base_Increaser.exe
+                Mine_2.0.exe
               </div>
               <div class="itemCost">
-                Cost: <span class="itemCostNum">0.00000$</span>
+                Cost: <span class="itemCostNum">1.000e6$</span>
+              </div>
+              <div class="itemDesc">
+                Mine power will be based on digits
               </div>
             </div>
             <div class="shopItem" style="display:none;" onclick="shopBuy(2)">
@@ -92,6 +98,9 @@
               </div>
               <div class="itemCost">
                 Cost: <span class="itemCostNum">0.00000</span>$
+              </div>
+              <div class="itemDesc">
+                Make speed 2x faster
               </div>
             </div>
             <div class="shopItem" style="display:none;" onclick="shopBuy(6)">
@@ -142,9 +151,6 @@
         <div class="tab" style="display:none;">
           <div id="rebootButton" color="green">
             Reboot!
-          </div>
-          <div class="">
-
           </div>
         </div>
       </div>
