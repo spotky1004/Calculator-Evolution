@@ -231,7 +231,7 @@ function calcResearchCost() {
 }
 function calcResearchSpeed(lv) {
   if (lv != 0) {
-    return D(5).pow(lv-1);
+    return D(10).pow(lv-1);
   } else {
     return D(0);
   }
@@ -261,6 +261,9 @@ function goTab(num) {
   }
 }
 function activeProgram(num) {
+  if (num == 3 && !game.shopBought[0]) {
+    return;
+  }
   var programCount = 0;
   if (game.programActive[num]) {
     programCount--;
