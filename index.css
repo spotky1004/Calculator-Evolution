@@ -19,20 +19,6 @@
   font-size: 2vh;
   animation: greenGlow ease 5s infinite;
 }
-@keyframes greenGlow {
-  from {
-    color: #49d124;
-    text-shadow: 0 0 0.4vh #49d124;
-  }
-  50% {
-    color: #369c1a;
-    text-shadow: 0 0 1.2vh #369c1a;
-  }
-  to {
-    color: #49d124;
-    text-shadow: 0 0 0.4vh #49d124;
-  }
-}
 #memoryDigit {
   filter: grayscale(1);
 }
@@ -60,6 +46,12 @@
   background-color: rgba(54, 156, 26, 0.5);
   cursor: pointer;
   animation: greenGlow ease 5s infinite;
+}
+.t2Nav {
+  border: 0.35vh solid #24d18c;
+  background-color: rgba(26, 156, 104, 0.5);
+  cursor: pointer;
+  animation: cyanGlow ease 5s infinite;
 }
 .sectionTxt {
   margin: 1.4vh 0 0 3.5vw;
@@ -101,6 +93,7 @@
   background-color: rgba(54, 156, 26, 0.8);
   filter: blur(0.1vh);
 }
+
 .tab:nth-of-type(2) {
   margin: 5vh 0 0 10vw;
 }
@@ -111,17 +104,6 @@
   border-radius: 2vh; border: 0.3vh solid #239423;
   background-color: rgba(23, 99, 23, 0.8);
   animation: greenBoxShade ease 13s infinite;
-}
-@keyframes greenBoxShade {
-  from {
-    box-shadow: 0 0 0.5vh 0.25vh #239423 inset;
-  }
-  50% {
-    box-shadow: 0 0 2vh 1vh #3cc93c inset;
-  }
-  to {
-    box-shadow: 0 0 0.5vh 0.25vh #239423 inset;
-  }
 }
 .sectionTxtShop {
   margin: 2vh 0 0 0;
@@ -146,7 +128,7 @@
   transition: all 0s;
 }
 .shopItem > .itemName {
-  margin-top: 0.3vh;
+  margin-top: 0.15vh;
   height: 3.5vh;
   font-size: 3.2vh; text-align: center;
 }
@@ -163,3 +145,105 @@
   color: #59d459; text-shadow: 0 0 0.6vh #59d459;
   transition: all 1s;
 }
+
+.tab:nth-of-type(3) {
+  text-align: center;
+}
+#rebootButton {
+  margin: 0 0 0 45vw; padding: 1vh 0 0 0;
+  width: 10vw; height: 5vh;
+  font-size: 3vh;
+  border-radius: 0.5vh;
+  cursor: pointer;
+  transition: all 0.4s;
+  animation: rebootButtonGlow linear 8s infinite;
+}
+#rebootButton:not(.disabled):hover {
+  transform: scale(1.1);
+  filter: brightness(0.9) hue-rotate(-110deg);
+}
+#rebootButton:not(.disabled):active {
+  transform: scale(1);
+  filter: brightness(2) hue-rotate(-110deg);
+  transition: all 0s;
+}
+#rebootButton.disabled {
+  cursor: auto;
+  filter: grayscale(1);
+  color: #49d124; text-shadow: 0 0 0.4vh #49d124;
+  background-color: #2e8018;
+  border: 0.4vh solid #49d124;
+  box-shadow: 0 0 0 0 #2e8018 inset;
+  transition: all 1s;
+  animation: none;
+}
+#rebootDesc {
+  color: #49d124; font-size: 1.8vh;
+}
+#rpDisplay {
+  margin-top: 1vh;
+  font-size: 3.6vh;
+  animation: greenGlow ease 2.5s infinite;
+}
+.research {
+  margin: 2vh 0 0 15vw; padding: 0 0 0 1vw;
+  width: 69vw; height: 15vh;
+  text-align: left;
+  border-radius: 2vh; border: 0.4vh solid #469e3a;
+  background: linear-gradient(#469e3a, #1f7816);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.research:hover {
+  filter: brightness(1.05);
+  transform: scale(1.02);
+}
+.research:active {
+  filter: brightness(1.2);
+  transform: scale(1);
+  transition: all 0s;
+}
+.researchName {
+  font-size: 4vh; color: #89d47b; text-shadow: 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605;
+}
+.researchProgress {
+  width: 64vw; height: 5vh;
+  position: relative;
+  border: 0.4vh solid #469e3a;
+  background: linear-gradient(#173313, #12450c);
+}
+.researchLevel {
+  margin: 0.5vh 0 0 0;
+  position: absolute;
+  font-size: 4vh;
+  z-index: 5;
+  animation: whiteGlow ease 5s infinite;
+}
+.innerBar {
+  width: 0; height: 5vh;
+  position: absolute;
+  background-color: #dba7a7;
+  animation: hueRotate linear 4s infinite;
+}
+.shadowBar {
+  width: 64vw; height: 5vh;
+  position: absolute;
+  box-shadow: 0 0 0.5vh 0.25vh rgba(128, 128, 128, 0.8) inset;
+}
+.researchCost {
+  font-size: 1.7vh; color: #89d47b; text-shadow: 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605;
+}
+
+.tab:nth-of-type(4) {
+  text-align: center;
+}
+#achWarp {
+  margin: 0 auto;
+  border-spacing: 0.5vh;
+}
+#achWarp > tbody > tr > td {
+  width: 10vh; height: 10vh;
+  background-color: green;
+}
+
+/* animation: animationName ease 5s infinite */

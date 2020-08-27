@@ -4,10 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="user-scalable=no">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="index.css?ver=0.7">
+    <link rel="stylesheet" href="animation.css?ver=0.8">
+    <link rel="stylesheet" href="index.css?ver=0.8">
     <script src="breakInfiniryMin.js"></script>
-    <script src="index.js?ver=0.7"></script>
-    <title>Calculator Evolution v0.7</title>
+    <script src="index.js?ver=0.8"></script>
+    <title>Calculator Evolution v0.8</title>
   </head>
   <body>
     <div id="warpAll">
@@ -20,23 +21,24 @@
       <div id="mainNav">
         <span class="tabNav t1Nav" onclick="goTab(0)">Module</span>
         <span class="tabNav t1Nav" onclick="goTab(1)">Shop</span>
-        <span class="tabNav t1Nav" onclick="goTab(2)">Research</span>
+        <span class="tabNav t1Nav" onclick="goTab(3)">Achievements</span>
+        <span class="tabNav t2Nav" onclick="goTab(2)">Research</span>
       </div>
       <div id="tabs">
         <div class="tab">
           <p class="sectionTxt">Programs</p>
           <div id="programs">
             <div class="program" onclick="activeProgram(0);">
-              <span>⬤</span> <span>Increment.exe</span>
+              <span>(1)</span> <span>Increment.exe</span>
             </div>
             <div class="program" onclick="activeProgram(1);">
-              <span>⬤</span> <span>Mine.exe</span>
+              <span>(2)</span> <span>Mine.exe</span>
             </div>
             <div class="program" onclick="activeProgram(2);">
-              <span>⬤</span> <span>Memory.exe</span>
+              <span>(3)</span> <span>Memory.exe</span>
             </div>
             <div class="program" onclick="activeProgram(3);" style="display:none;">
-              <span>⬤</span> <span>Base_Increaser.exe</span>
+              <span>(4)</span> <span>Base_Increaser.exe</span>
             </div>
           </div>
         </div>
@@ -149,9 +151,66 @@
           </span>
         </div>
         <div class="tab" style="display:none;">
-          <div id="rebootButton" color="green">
-            Reboot!
+          <div id="rebootButton" class="" onclick="reboot()">
+            Reboot
           </div>
+          <div id="rebootDesc">
+            If you Reboot now, you'll get 0 Research Points<br>You need to reach 63,999,999(10) to Reboot<br>You lose Number, Memery, Base, Monsy, Upgrades on Reboot
+          </div>
+          <div id="rpDisplay">
+            You have 0 Research Points
+          </div>
+          <div id="researchWarp" style="display:none;">
+            <div class="research" onclick="researchBuy(0)">
+              <div class="researchName">
+                Bonus CPU Level (speed x<span>0</span>)
+              </div>
+              <div class="researchProgress">
+                <span class="researchLevel">Lv.0</span>
+                <div class="innerBar">
+
+                </div>
+                <div class="shadowBar">
+
+                </div>
+              </div>
+              <div class="researchCost">
+                Cost: <span>1</span> RP, <span>0</span> $
+              </div>
+            </div>
+            <div class="research" onclick="researchBuy(1)">
+              <div class="researchName">
+                Multi Process (speed x<span>0</span>)
+              </div>
+              <div class="researchProgress">
+                <span class="researchLevel">Lv.0</span>
+                <div class="innerBar">
+
+                </div>
+                <div class="shadowBar">
+
+                </div>
+              </div>
+              <div class="researchCost">
+                Cost: <span>1</span> RP, <span>0</span> $
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab" style="display:none">
+          <div class="" style="color:green">
+            Comming Soon!
+          </div>
+          <table id="achWarp">
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </table>
         </div>
       </div>
     </div>

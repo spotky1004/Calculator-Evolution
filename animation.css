@@ -1,0 +1,93 @@
+@keyframes greenGlow {
+  from {
+    color: #49d124;
+    text-shadow: 0 0 0.4vh #49d124;
+  }
+  50% {
+    color: #369c1a;
+    text-shadow: 0 0 1.2vh #369c1a;
+  }
+  to {
+    color: #49d124;
+    text-shadow: 0 0 0.4vh #49d124;
+  }
+}
+@keyframes whiteGlow {
+  from {
+    color: #fff;
+    text-shadow: 0 0 0.4vh #fff;
+  }
+  50% {
+    color: #eee;
+    text-shadow: 0 0 1.2vh #eee;
+  }
+  to {
+    color: #fff;
+    text-shadow: 0 0 0.4vh #fff;
+  }
+}
+@keyframes cyanGlow {
+  from {
+    color: #24d194;
+    text-shadow: 0 0 0.4vh #24d194;
+  }
+  50% {
+    color: #1a9c6a;
+    text-shadow: 0 0 1.2vh #1a9c6a;
+  }
+  to {
+    color: #24d194;
+    text-shadow: 0 0 0.4vh #24d194;
+  }
+}
+@keyframes greenBoxShade {
+  from {
+    box-shadow: 0 0 0.5vh 0.25vh #239423 inset;
+  }
+  50% {
+    box-shadow: 0 0 2vh 1vh #3cc93c inset;
+  }
+  to {
+    box-shadow: 0 0 0.5vh 0.25vh #239423 inset;
+  }
+}
+@keyframes rebootButtonGlow {
+  from {
+    color: #49d124; text-shadow: 0 0 0.4vh #49d124;
+    background-color: #2e8018;
+    border: 0.4vh solid #49d124;
+    box-shadow: 0 0 0 0 #2e8018 inset;
+  }
+  45% {
+    color: #49d124; text-shadow: 0 0 3vh #49d124;
+    background-color: #2e8018;
+    border: 0.4vh solid #49d124;
+    box-shadow: 0 0 0.5vh 3vh #49d124 inset;
+  }
+  50% {
+    color: #2e8018; text-shadow: 0 0 1.2vh #2e8018;
+    background-color: #49d124;
+    border: 0.4vh solid #2e8018;
+    box-shadow: 0 0 0 0 #49d124 inset;
+  }
+  95% {
+    color: #2e8018; text-shadow: 0 0 3vh #2e8018;
+    background-color: #49d124;
+    border: 0.4vh solid #2e8018;
+    box-shadow: 0 0 0.5vh 3vh #2e8018 inset;
+  }
+  to {
+    color: #49d124; text-shadow: 0 0 0.4vh #49d124;
+    background-color: #2e8018;
+    border: 0.4vh solid #49d124;
+    box-shadow: 0 0 0 0 #2e8018 inset;
+  }
+}
+@keyframes hueRotate {
+  from {
+    filter: hue-rotate(0deg);
+  }
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
