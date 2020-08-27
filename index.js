@@ -302,7 +302,7 @@ function reboot() {
       game.programActive[i] = 0;
     }
     game.shopBought[5] = 0;
-    game.money = 0;
+    game.money = D(0);
     //animation
     rebooting = 1;
     setTimeout( function () {
