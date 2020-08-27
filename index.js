@@ -261,9 +261,8 @@ function goTab(num) {
   }
 }
 function activeProgram(num) {
-  if (num == 3 && !game.shopBought[0]) {
-    return;
-  }
+  if (rebooting) return;
+  if (num == 3 && !game.shopBought[0]) return;
   var programCount = 0;
   if (game.programActive[num]) {
     programCount--;
