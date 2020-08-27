@@ -136,7 +136,7 @@ function renderResearch() {
   } else {
     $('#rebootButton').className = "disabled";
   }
-  $('#rebootDesc').innerHTML = "If you Reboot now, you'll get " + dNotation(calcRPGain()) + " Research Points<br>You need to reach " + baseNum(calcRPGain().add(19).pow(6).ceil(), game.base) + "(" + game.base + ") to get next RP<br>You lose Number, Memery, Base, Upgrades, Money on Reboot";
+  $('#rebootDesc').innerHTML = "If you Reboot now, you'll get " + dNotation(calcRPGain()) + " Research Points<br>You need to reach " + baseNum(calcRPGain().add(19).pow(6).ceil(), game.base) + "(" + game.base + ") to get next RP<br>You lose Number, Memory, Base, Upgrades, Money on Reboot";
   $('#rpDisplay').innerHTML = "You have " + dNotation(game.researchPoint) + " Research Points";
   for (var i = 0; i < 2; i++) {
     $('.research:nth-of-type(' + (i+1) + ') > .researchName > span').innerHTML = dNotation(calcResearchSpeed(game.researchSpeed[i]));
