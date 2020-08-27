@@ -191,7 +191,7 @@ function calcResearch() {
     $('#researchWarp').style.display = "none";
   }
   for (var i = 0; i < 5; i++) {
-    game.researchProgress[i] += Number(calcResearchSpeed(game.researchSpeed[i]).div(calcResearchDivide(i)).valueOf())/100;
+    game.researchProgress[i] += Number(calcResearchSpeed(game.researchSpeed[i]).div(calcResearchDivide(i)).valueOf())*tGain;
     if (game.researchProgress[i] >= 1) {
       game.researchProgress[i] = 0;
       game.researchLevel[i]++;
