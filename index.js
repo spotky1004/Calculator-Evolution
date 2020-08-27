@@ -231,7 +231,7 @@ function calcResearchCost() {
 }
 function calcResearchSpeed(lv) {
   if (lv != 0) {
-    return D(10).pow(lv-1);
+    return D(100).pow(lv-1);
   } else {
     return D(0);
   }
