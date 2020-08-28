@@ -182,7 +182,7 @@ function calcProgram() {
   }
 }
 function calcResearch() {
-  if (game.base.gte(20)) {
+  if (calcRPGain().gte(1)) {
     game.t2toggle = 1;
   }
   if (game.t2toggle) {
@@ -294,7 +294,7 @@ function shopBuy(num) {
   renderShop();
 }
 function reboot() {
-  if (!rebooting) {
+  if (!rebooting && calcRPGain().gte(1)) {
     //calculate
     game.researchPoint = game.researchPoint.add(calcRPGain());
     for (var i = 0; i < game.programActive.length; i++) {
@@ -304,12 +304,14 @@ function reboot() {
     game.money = D(0);
     //animation
     rebooting = 1;
+    $('#rebootButton').innerHTML = "Rebooting";
     setTimeout( function () {
       $('#rebootButton').className = "disabled";
     }, 500);
     setTimeout( function () {
       rebooting = 0;
       $('#rebootButton').className = "";
+      $('#rebootButton').innerHTML = "Reboot";
     }, 5000);
     tempNum = game.number;
     for (var i = 0; i < 50; i++) {
