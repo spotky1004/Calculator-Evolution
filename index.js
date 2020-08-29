@@ -63,7 +63,7 @@ function dNotation(infNum, dim=0) {
     infNum = D(infNum);
   }
   if (infNum.gte(1e5)) {
-    return infNum.mantissa.toFixed(3) + 'e' + dNotation(infNum.exponent, 0);
+    return Math.floor(infNum.mantissa*1000)/1000 + 'e' + dNotation(infNum.exponent, 0);
   } else {
     return dNum(infNum).toFixed(D(dim).sub(infNum.add(1).log(10)).max(0).valueOf());
   }
