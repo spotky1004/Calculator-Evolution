@@ -209,7 +209,7 @@ function calcShopCost() {
   const tempArr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   tempArr[0] = D(0.03);
   tempArr[1] = D(1e6);
-  tempArr[5] = D(3+game.shopBought[5]/10).pow(game.shopBought[5]);
+  tempArr[5] = D(3+game.shopBought[5]/9).pow(game.shopBought[5]);
   return tempArr;
 }
 function calcShopMax() {
