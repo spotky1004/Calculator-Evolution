@@ -169,7 +169,7 @@ function renderResearch() {
 }
 function renderOption() {
   for (var i = 0; i < 1; i++) {
-    $('.optionBtn:nth-of-type(' + (i+1) + ')').className = 'optionBtn' + ((game.optionToggle[i]) ? '' : ' disabled');
+    $('#optionToggle' + i).className = 'optionBtn' + ((game.optionToggle[i]) ? '' : ' disabled');
   }
 }
 
