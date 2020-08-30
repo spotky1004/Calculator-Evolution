@@ -356,7 +356,7 @@ function reboot() {
     game.shopBought[5] = 0;
     game.money = D(0);
     //animation
-    commandAppend('rebooting... (Got ' + dNotation(gotRP) +' RP)', 75);
+    commandAppend('reboot', 75);
     rebooting = 1;
     $('#rebootButton').innerHTML = "Rebooting";
     setTimeout( function () {
@@ -366,7 +366,7 @@ function reboot() {
       rebooting = 0;
       $('#rebootButton').className = "";
       $('#rebootButton').innerHTML = "Reboot";
-      commandAppend('done!', 75);
+      commandAppend('reboot done! (Got ' + dNotation(gotRP) +' RP)', 75, 1);
     }, 5000);
     tempNum = game.number;
     for (var i = 0; i < 50; i++) {
@@ -407,14 +407,14 @@ function rainbowEffect(sel, pow=1) {
 function delRainbowEffect(sel) {
   $(sel).style.filter = 'hue-rotate(0deg)';
 }
-function commandAppend(str, hue=0) {
+function commandAppend(str, hue=0, out=0) {
   if (!game.optionToggle[0]) {
     return;
   }
   commandFloat(7);
   commandTxt = document.createElement('span');
   commandTxt.className += 'commandTxt';
-  commandTxt.innerHTML = '> ' + str;
+  commandTxt.innerHTML = ((!out) ? '> ' : '') + str;
   commandTxt.style.bottom = '0vh';
   commandTxt.style.opacity = 1;
   commandTxt.style.filter = 'hue-rotate(' + hue + 'deg)';
