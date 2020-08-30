@@ -188,7 +188,7 @@ function calcProgram() {
   }
   if (game.programActive[1]) {
     moneyGot = calcCPU().mul(tGain/3e4).mul(game.number);
-    if (game.shopBought[1]) moneyGot.mul(game.digits);
+    if (game.shopBought[1]) moneyGot = moneyGot.mul(game.digits);
     game.money = game.money.add(moneyGot);
     rainbowEffect("#money");
   } else {
