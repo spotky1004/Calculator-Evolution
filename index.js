@@ -72,24 +72,28 @@ function dNotation(infNum, dim=0) {
       numE = numE.add(1);
       numI /= 10;
     }
-    while (numI.toString().length != 5) {
-      if (numI.toString().length == 1) numI += '.';
-      numI += '0';
-    }
+    if (numI.toString().length == 1) numI += '.';
+    numI = numI.toString().padEnd(5, '0');
     return numI + 'e' + numE;
   } else {
     return dNum(infNum).toFixed(D(dim).sub(infNum.add(1).log(10)).max(0).valueOf());
   }
 }
-function baseNum(infNum, base, pad=0) {
+function baseNum(infNum, base, len=0) {
   if (!(infNum instanceof Decimal)) {
     infNum = D(infNum);
+  }
+  if (!(base instanceof Decimal)) {
+    base = D(base);
+  }
+  if (infNum.gte(base.pow(len).mul(0.9999)) && len != 0) {
+    return ('').padStart(len, dNum(base.sub(1)).toString(dNum(base)).toUpperCase());
   }
   infNum = dNum(infNum.floor()).toString(dNum(base)).toUpperCase();
   if ((infNum).indexOf(".") != -1) {
     infNum = infNum.substr(0, (infNum).indexOf("."));
   }
-  infNum = infNum.padStart(dNum(pad), 0);
+  infNum = infNum.padStart(dNum(len), 0);
   return infNum;
 }
 function notationSI(num, dim=0) {
