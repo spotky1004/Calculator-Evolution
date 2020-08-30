@@ -328,8 +328,8 @@ function activeProgram(num) {
   renderProgram();
 }
 function shopBuy(num) {
-  if (game.money.gte(calcShopCost()[num]) && game.shopBought[num] < calcShopMax()[num]) {
-    game.money = game.money.sub(calcShopCost()[num]);
+  if (game.money.gte(calcShopCost()[num].floor()) && game.shopBought[num] < calcShopMax()[num]) {
+    game.money = game.money.sub(calcShopCost()[num].floor());
     game.shopBought[num]++;
     switch (num) {
       case 0:
