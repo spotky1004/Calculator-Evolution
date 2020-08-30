@@ -254,7 +254,7 @@ function calcResearchCost() {
   var tempArr = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0]];
   tempArr[0][0] = D(10+Math.sqrt(game.researchSpeed[0])).pow(game.researchSpeed[0]/1.2); tempArr[0][1] = D(1e10).mul(D(10).pow(game.researchSpeed[0]**2)).pow(game.researchSpeed[0]/100+1).sub(1e10);
   tempArr[1][0] = D(10+game.researchSpeed[1]**2).pow(game.researchSpeed[1]); tempArr[1][1] = D(1e10).mul(D(10).pow(game.researchSpeed[1]**2+1)).pow(game.researchSpeed[1]+1).sub(1e10);
-  tempArr[2][0] = D(150).mul(D(2).pow(game.researchSpeed[2])); tempArr[2][1] = D(1e16).mul(D(10).pow(game.researchSpeed[2])).pow(Math.sqrt(game.researchSpeed[2])/4+1);
+  tempArr[2][0] = D(80).mul(D(2).pow(game.researchSpeed[2])); tempArr[2][1] = D(1e16).mul(D(10).pow(game.researchSpeed[2])).pow(Math.sqrt(game.researchSpeed[2])/4+1);
   return tempArr;
 }
 function calcResearchSpeed(lv) {
