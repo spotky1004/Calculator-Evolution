@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="user-scalable=no">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="animation.css?ver=0.8.13">
-    <link rel="stylesheet" href="index.css?ver=0.8.13">
+    <link rel="stylesheet" href="animation.css?ver=0.9">
+    <link rel="stylesheet" href="index.css?ver=0.9">
     <script src="breakInfiniryMin.js"></script>
-    <script src="index.js?ver=0.8.13"></script>
-    <title>Calculator Evolution v0.8.13</title>
+    <script src="index.js?ver=0.9"></script>
+    <title>Calculator Evolution v0.9</title>
   </head>
   <body>
     <div id="warpAll">
@@ -22,6 +22,7 @@
         <span class="tabNav t1Nav" onclick="goTab(0)">Module</span>
         <span class="tabNav t1Nav" onclick="goTab(1)">Shop</span>
         <span class="tabNav t1Nav" onclick="goTab(3)">Achievements</span>
+        <span class="tabNav t1Nav" onclick="goTab(4)">Option</span>
         <span class="tabNav t2Nav" onclick="goTab(2)">Research</span>
       </div>
       <div id="tabs">
@@ -195,6 +196,23 @@
                 Cost: <span>1</span> RP, <span>0</span> $
               </div>
             </div>
+            <div class="research" onclick="researchBuy(2)">
+              <div class="researchName">
+                Extra Digit (speed x<span>0</span>)
+              </div>
+              <div class="researchProgress">
+                <span class="researchLevel">Lv.0</span>
+                <div class="innerBar">
+
+                </div>
+                <div class="shadowBar">
+
+                </div>
+              </div>
+              <div class="researchCost">
+                Cost: <span>1</span> RP, <span>0</span> $
+              </div>
+            </div>
           </div>
         </div>
         <div class="tab" style="display:none">
@@ -214,6 +232,14 @@
             </tr>
           </table>
         </div>
+        <div class="tab" style="display:none">
+          <div class="optionBtn" onclick="optionBtn(0)">
+            Effects
+          </div>
+        </div>
+      </div>
+      <div id="commandArea">
+
       </div>
     </div>
   </body>

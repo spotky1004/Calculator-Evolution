@@ -53,6 +53,22 @@
   cursor: pointer;
   animation: cyanGlow ease 5s infinite;
 }
+
+#commandArea {
+  margin-left: 1.5vw;
+  position: absolute; top: 97vh;
+  width: 98.5vw; height: 1.9vh;
+}
+.commandTxt {
+  position: absolute;
+  opacity: 0.7;
+  font-size: 1.9vh;
+  animation: greenGlow ease 5s infinite;
+}
+
+.tab:nth-of-type(1) {
+
+}
 .sectionTxt {
   margin: 1.4vh 0 0 3.5vw;
   font-size: 2.5vh; color: #369c1a; text-shadow: 0 0 0.4vh #369c1a;
@@ -248,6 +264,43 @@
 #achWarp > tbody > tr > td {
   width: 10vh; height: 10vh;
   background-color: green;
+}
+
+.tab:nth-of-type(5) {
+  text-align: center;
+}
+.optionBtn {
+  margin: 1vh 0 0 0; padding: 0.25vh 1vw;
+  display: inline-block;
+  border: 0.35vh solid #49d124; border-radius: 0.5vh;
+  background-color: rgba(54, 156, 26, 0.5);
+  font-size: 3vh;
+  cursor: pointer;
+  transition: all ease 0.3s;
+  animation: greenGlow ease 5s infinite;
+}
+.optionBtn.disabled {
+  filter: hue-rotate(-110deg) brightness(1);
+}
+.optionBtn:hover {
+  transform: scale(1.1);
+  transition: all 0.3s;
+}
+.optionBtn:not(.disabled):hover {
+  filter: hue-rotate(0deg) brightness(1);
+}
+.optionBtn.disabled:hover {
+  filter: hue-rotate(-110deg) brightness(1);
+}
+.optionBtn:active {
+  transform: scale(1);
+  transition: all 0s;
+}
+.optionBtn:not(.disabled):active {
+  filter: hue-rotate(-110deg) brightness(2);
+}
+.optionBtn.disabled:active {
+  filter: hue-rotate(0deg) brightness(2);
 }
 
 /* animation: animationName ease 5s infinite */
