@@ -56,6 +56,17 @@ function load() {
   }
   commandAppend('load', 70);
 }
+function hardReset() {
+  for (const i in tempGame) {
+    game[i] = tempGame[i];
+  }
+  save();
+}
+String.prototype.replaceAt=function(index, char) {
+    var a = this.split("");
+    a[index] = char;
+    return a.join("");
+}
 
 //number function
 function dNum(infNum) {
@@ -89,12 +100,17 @@ function baseNum(infNum, base, len=0) {
   if (infNum.gte(base.pow(len).mul(0.9999)) && len != 0) {
     return ('').padStart(len, dNum(base.sub(1)).toString(dNum(base)).toUpperCase());
   }
-  infNum = dNum(infNum.floor()).toString(dNum(base)).toUpperCase();
-  if ((infNum).indexOf(".") != -1) {
-    infNum = infNum.substr(0, (infNum).indexOf("."));
+  var bNum = dNum(infNum.floor()).toString(dNum(base)).toUpperCase();
+  if ((bNum).indexOf(".") != -1) {
+    bNum = bNum.substr(0, (bNum).indexOf("."));
   }
-  infNum = infNum.padStart(dNum(len), 0);
-  return infNum;
+  bNum = bNum.padStart(dNum(len), 0);
+  if (infNum.gte(1e16)) {
+    for (var i = Math.floor(D(1e16).log(36)); i < bNum.length; i++) {
+      bNum = bNum.replaceAt(i, (Math.floor(Math.random()*dNum(base))).toString(dNum(base)).toUpperCase());
+    }
+  }
+  return bNum;
 }
 function notationSI(num, dim=0) {
   if (!(num instanceof Decimal)) {
