@@ -11,6 +11,7 @@ rebooting = 0;
 //temp var for game object
 tempGame = {
   number: D(0),
+  rebootNum: D(0),
   base: D(2),
   digits: D(1),
   mDigits: D(6),
@@ -90,7 +91,7 @@ function dNotation(infNum, dim=0) {
     return dNum(infNum).toFixed(D(dim).sub(infNum.add(1).log(10)).max(0).valueOf());
   }
 }
-function baseNum(infNum, base, len=0) {
+function baseNum(infNum, base, len=0, rand=0) {
   if (!(infNum instanceof Decimal)) {
     infNum = D(infNum);
   }
@@ -105,7 +106,7 @@ function baseNum(infNum, base, len=0) {
     bNum = bNum.substr(0, (bNum).indexOf("."));
   }
   bNum = bNum.padStart(dNum(len), 0);
-  if (infNum.gte(1e16)) {
+  if (infNum.gte(1e16) && rand) {
     for (var i = Math.floor(D(1e16).log(36)); i < bNum.length; i++) {
       bNum = bNum.replaceAt(i, (Math.floor(Math.random()*dNum(base))).toString(dNum(base)).toUpperCase());
     }
@@ -143,7 +144,7 @@ function renderAll() {
   }
 }
 function renderBasic() {
-  $("#basedNumber").innerHTML = baseNum(game.number, game.base, game.digits);
+  $("#basedNumber").innerHTML = baseNum(game.number, game.base, game.digits, 1);
   $("#money").innerHTML = dNotation(game.money, 5);
   $("#memoryDigit").innerHTML = ("").padStart(dNum(game.mDigits)-dNum(game.digits), 0);
   $("#numberBase").innerHTML = game.base;
@@ -198,6 +199,7 @@ function calcAll() {
 function calcProgram() {
   if (game.programActive[0]) {
     game.number = game.number.add(calcCPU().mul(tGain)).min(game.base.pow(game.digits).sub(1));
+    game.rebootNum = game.number.max(game.rebootNum);
     rainbowEffect("#basedNumber");
   } else {
     delRainbowEffect("#basedNumber");
@@ -263,7 +265,7 @@ function calcShopMax() {
   return tempArr;
 }
 function calcRPGain() {
-  var tempNum = game.number.add(1).pow(1/6).floor().sub(19);
+  var tempNum = game.rebootNum.add(1).pow(1/6).floor().sub(19);
   return tempNum.max(0);
 }
 function calcResearchCost() {
@@ -371,6 +373,7 @@ function reboot() {
     }
     game.shopBought[5] = 0;
     game.money = D(0);
+    game.rebootNum = D(0);
     //animation
     commandAppend('reboot', 75);
     rebooting = 1;
