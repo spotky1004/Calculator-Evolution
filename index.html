@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="user-scalable=no">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="animation.css?ver=0.9.9">
-    <link rel="stylesheet" href="index.css?ver=0.9.9">
+    <link rel="stylesheet" href="animation.css?ver=0.10">
+    <link rel="stylesheet" href="index.css?ver=0.10">
     <script src="breakInfiniryMin.js"></script>
-    <script src="index.js?ver=0.9.9"></script>
-    <title>Calculator Evolution v0.9.9</title>
+    <script src="index.js?ver=0.10"></script>
+    <title>Calculator Evolution v0.10</title>
   </head>
   <body>
     <div id="warpAll">
@@ -41,6 +41,12 @@
             <div class="program" onclick="activeProgram(3);" style="display:none;">
               <span>(4)</span> <span>Base_Increaser.exe</span>
             </div>
+            <div class="program" onclick="activeProgram(4);" style="display:none;">
+              <span>(5)</span> <span>Data_Holder.exe</span>
+            </div>
+            <div class="program" onclick="activeProgram(5);" style="display:none;">
+              <span>(6)</span> <span>Auto_Upgrader.exe</span>
+            </div>
           </div>
         </div>
         <div class="tab" style="display:none;">
@@ -68,23 +74,29 @@
                 Mine power will be based on digits
               </div>
             </div>
-            <div class="shopItem" style="display:none;" onclick="shopBuy(2)">
+            <div class="shopItem" onclick="shopBuy(2)">
               <div class="itemName">
-                Base_Increaser.exe
+                Data_Holder.exe
               </div>
               <div class="itemCost">
-                Cost: <span class="itemCostNum">0.00000$</span>
+                Cost: <span class="itemCostNum">2.000e15</span>$
+              </div>
+              <div class="itemDesc">
+                Keep your base(cap: 36), programs on reboot
+              </div>
+            </div>
+            <div class="shopItem" onclick="shopBuy(3)">
+              <div class="itemName">
+                Auto_Upgrader.exe
+              </div>
+              <div class="itemCost">
+                Cost: <span class="itemCostNum">3.210e30</span>$
+              </div>
+              <div class="itemDesc">
+                Buy CPU upgrade automatically
               </div>
             </div>
             <div class="shopItem" style="display:none;" onclick="shopBuy(4)">
-              <div class="itemName">
-                Base_Increaser.exe
-              </div>
-              <div class="itemCost">
-                Cost: <span class="itemCostNum">0.00000$</span>
-              </div>
-            </div>
-            <div class="shopItem" style="display:none;" onclick="shopBuy(3)">
               <div class="itemName">
                 Base_Increaser.exe
               </div>

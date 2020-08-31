@@ -151,10 +151,12 @@ function renderBasic() {
   commandFloat();
 }
 function renderProgram() {
-  for (var i = 0; i < 4; i++) {
+  for (var i = 0; i < 6; i++) {
     $(".program:nth-of-type(" + (i+1) + ")").className = ((game.programActive[i]) ? "program active" : "program");
   }
   $(".program:nth-of-type(4)").style.display = ((game.shopBought[0]) ? "block" : "none");
+  $(".program:nth-of-type(5)").style.display = ((game.shopBought[2]) ? "block" : "none");
+  $(".program:nth-of-type(6)").style.display = ((game.shopBought[3]) ? "block" : "none");
   if (game.shopBought[1]) {
     $(".program:nth-of-type(2) > span:nth-child(2)").innerHTML = "Mine_2.0.exe"
   }
@@ -197,6 +199,9 @@ function calcAll() {
   calcResearch();
 }
 function calcProgram() {
+  if (rebooting) {
+    return;
+  }
   if (game.programActive[0]) {
     game.number = game.number.add(calcCPU().mul(tGain)).min(game.base.pow(game.digits).sub(1));
     game.rebootNum = game.number.max(game.rebootNum);
@@ -224,6 +229,9 @@ function calcProgram() {
       game.digits = D(1);
       game.base = game.base.add(1);
     }
+  }
+  if (game.programActive[5]) {
+    shopBuy(5);
   }
 }
 function calcResearch() {
@@ -254,6 +262,8 @@ function calcShopCost() {
   const tempArr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   tempArr[0] = D(0.03);
   tempArr[1] = D(1e6);
+  tempArr[2] = D(2e15);
+  tempArr[3] = D(3.21e30);
   tempArr[5] = D(3+game.shopBought[5]/9).pow(game.shopBought[5]);
   return tempArr;
 }
@@ -261,6 +271,8 @@ function calcShopMax() {
   const tempArr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   tempArr[0] = 1;
   tempArr[1] = 1;
+  tempArr[2] = 1;
+  tempArr[3] = 1;
   tempArr[5] = 100;
   return tempArr;
 }
@@ -317,6 +329,8 @@ function goTab(num) {
 function activeProgram(num) {
   if (rebooting) return;
   if (num == 3 && !game.shopBought[0]) return;
+  if (num == 4 && !game.shopBought[2]) return;
+  if (num == 5 && !game.shopBought[3]) return;
   var programCount = 0;
   if (game.programActive[num]) {
     programCount--;
@@ -368,8 +382,10 @@ function reboot() {
     //calculate
     game.researchPoint = game.researchPoint.add(calcRPGain());
     gotRP = calcRPGain();
-    for (var i = 0; i < game.programActive.length; i++) {
-      game.programActive[i] = 0;
+    if (!game.programActive[4]) {
+      for (var i = 0; i < game.programActive.length; i++) {
+        game.programActive[i] = 0;
+      }
     }
     game.shopBought[5] = 0;
     game.money = D(0);
@@ -392,7 +408,7 @@ function reboot() {
       setTimeout( function () {
         game.number = game.number.mul(0.99).sub(tempNum.div(50)).max(0);
         game.digits = game.digits.sub(1).max(1);
-        game.base = game.base.sub(1).max(2);
+        if (!game.programActive[4]) game.base = game.base.sub(1).max(2);
         game.number = game.number.min(game.base.pow(game.digits).sub(1));
       }, i*90);
     }
@@ -465,6 +481,12 @@ function commandFloat(speed=1) {
     }
     if (keyCode == 52) {
       activeProgram(3);
+    }
+    if (keyCode == 53) {
+      activeProgram(4);
+    }
+    if (keyCode == 54) {
+      activeProgram(5);
     }
   })
 })();
