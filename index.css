@@ -11,8 +11,10 @@
 }
 #numberArea {
   margin: 4vh 0 0 2.5vw;
+  height: 6vh;
   font-size: 4vh;
   animation: greenGlow ease 5s infinite;
+  direction: ltr;
 }
 #moneyArea {
   margin: 0 0 0 2.5vw;
@@ -29,7 +31,7 @@
 }
 .tabNav {
   display: block; float: left;
-  margin: 0 2vw 0 0; padding: 0.2vh 0.2vw;
+  margin: 0 1.2vw 0 0; padding: 0.2vh 0.2vw;
   border-radius: 0.3vh;
   transition: 0.3s;
 }
@@ -53,17 +55,37 @@
   cursor: pointer;
   animation: cyanGlow ease 5s infinite;
 }
+.t3Nav {
+  border: 0.35vh solid #d442f5;
+  background-color: rgba(212, 66, 245, 0.5);
+  cursor: pointer;
+  animation: t3Animation ease 3s infinite;
+}
 
 #commandArea {
   margin-left: 1.5vw;
   position: absolute; top: 97vh;
   width: 98.5vw; height: 1.9vh;
+  pointer-events: none;
 }
 .commandTxt {
   position: absolute;
   opacity: 0.7;
   font-size: 1.9vh;
   animation: greenGlow ease 5s infinite;
+}
+
+#infoArea {
+  position: absolute;
+  top: 0; right: 0;
+  background-color: rgba(255, 255, 255, 0.6); box-shadow: 0 0 3vh rgba(255, 255, 255, 0.6);
+  pointer-events: none;
+}
+#infoArea > div {
+  padding: 0.5vh 0.5vw;
+}
+#overclockInfo {
+  animation: purpleGlow ease 5s infinite;
 }
 
 .tab:nth-of-type(1) {
@@ -109,6 +131,21 @@
   background-color: rgba(54, 156, 26, 0.8);
   filter: blur(0.1vh);
 }
+.program.permanent {
+  animation: purpleGlow ease 5s infinite;
+}
+.program.permanent:hover {
+  border: 0.1vh solid #9c1a1a;
+  background-color: rgba(56, 9, 9, 0.8);
+}
+.program.permanent:active {
+  border: 0.1vh solid #9224d1;
+  background-color: rgba(106, 26, 156, 0.5);
+}
+.program.permanent.active {
+  border: 0.1vh solid #9224d1;
+  background-color: rgba(106, 26, 156, 0.5);
+}
 
 .tab:nth-of-type(2) {
   margin: 5vh 0 0 10vw;
@@ -146,7 +183,7 @@
 .shopItem > .itemName {
   margin-top: 0.15vh;
   height: 3.5vh;
-  font-size: 3.2vh; text-align: center;
+  font-size: 2.8vh; text-align: center;
 }
 .shopItem > .itemCost {
   height: 1.8vh;
@@ -195,6 +232,7 @@
 }
 #rebootDesc {
   color: #49d124; font-size: 1.8vh;
+  height: 6vh;
 }
 #rpDisplay {
   margin-top: 1vh;
@@ -202,8 +240,9 @@
   animation: greenGlow ease 2.5s infinite;
 }
 .research {
-  margin: 2vh 0 0 15vw; padding: 0 0 0 1vw;
-  width: 69vw; height: 15vh;
+  display: inline-block;
+  margin: 2vh 0 0 0; padding: 0 0 0 1vw;
+  width: 28vw; height: 15vh;
   text-align: left;
   border-radius: 2vh; border: 0.4vh solid #469e3a;
   background: linear-gradient(#469e3a, #1f7816);
@@ -220,10 +259,16 @@
   transition: all 0s;
 }
 .researchName {
+  width: 28vw; height: 5vh;
+  overflow: hidden;
+  text-overflow: ellipsis;
   font-size: 4vh; color: #89d47b; text-shadow: 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605;
 }
+.researchName > span {
+  font-size: 1.6vh;
+}
 .researchProgress {
-  width: 64vw; height: 5vh;
+  width: 26vw; height: 5vh;
   position: relative;
   border: 0.4vh solid #469e3a;
   background: linear-gradient(#173313, #12450c);
@@ -235,6 +280,15 @@
   z-index: 5;
   animation: whiteGlow ease 5s infinite;
 }
+.researchProgressDisplay {
+  width: 26vw; height: 2vh;
+  text-align: right;
+  position: absolute;
+  font-size: 2vh;
+  z-index: 5;
+  animation: whiteGlow ease 5s infinite;
+  filter: brightness(0.7);
+}
 .innerBar {
   width: 0; height: 5vh;
   position: absolute;
@@ -242,7 +296,7 @@
   animation: hueRotate linear 4s infinite;
 }
 .shadowBar {
-  width: 64vw; height: 5vh;
+  width: 26vw ; height: 5vh;
   position: absolute;
   box-shadow: 0 0 0.5vh 0.25vh rgba(128, 128, 128, 0.8) inset;
 }
@@ -254,8 +308,8 @@
   text-align: center;
 }
 #achPageNav {
-  margin: 0 auto;
-  width: 30vw; height: 6vh;
+  margin: 2vh auto 0 auto;
+  width: 30vw; height: 4vh;
 }
 #achWarp {
   margin: 0 auto;
@@ -263,6 +317,7 @@
 }
 #achWarp > tbody > tr > td {
   width: 10vh; height: 10vh;
+  color: #fff; text-shadow: 0 0 1vh #fff;
   background-color: green;
 }
 
@@ -303,4 +358,13 @@
   filter: hue-rotate(0deg) brightness(2);
 }
 
+.tab:nth-of-type(6) {
+  text-align: center;
+}
+.normalButton {
+
+}
+.normalText {
+  color: #49d124; font-size: 1.8vh;
+}
 /* animation: animationName ease 5s infinite */

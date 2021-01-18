@@ -12,6 +12,20 @@
     text-shadow: 0 0 0.4vh #49d124;
   }
 }
+@keyframes purpleGlow {
+  from {
+    color: #8f24d1;
+    text-shadow: 0 0 0.4vh #8f24d1;
+  }
+  50% {
+    color: #681a9c;
+    text-shadow: 0 0 1.2vh #681a9c;
+  }
+  to {
+    color: #8f24d1;
+    text-shadow: 0 0 0.4vh #8f24d1;
+  }
+}
 @keyframes whiteGlow {
   from {
     color: #fff;
@@ -38,6 +52,20 @@
   to {
     color: #24d194;
     text-shadow: 0 0 0.4vh #24d194;
+  }
+}
+@keyframes t3Animation {
+  from {
+    color: #fff;
+    text-shadow: 0 0 0.8vh #222;
+  }
+  50% {
+    color: #eee;
+    text-shadow: 0 0 2vh #000;
+  }
+  to {
+    color: #fff;
+    text-shadow: 0 0 0.8vh #222;
   }
 }
 @keyframes greenBoxShade {
