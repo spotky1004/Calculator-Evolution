@@ -1,0 +1,7 @@
+function quantum() {
+
+}
+
+function calcQuantum() {
+
+}

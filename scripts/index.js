@@ -28,6 +28,7 @@ function renderAll() {
   }
 }
 function calcAll() {
+  calcToggleTabs();
   game.mDigits = calcMaxDigit();
   calcProgram();
   calcResearch();

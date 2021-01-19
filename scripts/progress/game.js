@@ -50,6 +50,17 @@
         "itemCost": '2e15',
         "itemDesc": "Keep your base(cap: 36), programs on reboot",
       },
+      {
+        // dino ref.!
+        "itemName": "Data_Holder_2.0.exe",
+        "itemCost": '1.997e80',
+        "itemDesc": "Keep your Digit and Number on reboot",
+      },
+      {
+        "itemName": "Data_Holder_3.0.exe",
+        "itemCost": '0.911e85',
+        "itemDesc": "Keep your Money and Upgrade on reboot",
+      },
     ],
     // Auto_Upgrader.exe
     [
@@ -75,6 +86,9 @@ function renderBasic() {
   $("#money").innerHTML = dNotation(game.money, 5);
   $("#memoryDigit").innerHTML = ("").padStart(dNum(game.mDigits)-dNum(game.digits), 0);
   $("#numberBase").innerHTML = game.base;
+
+  //tabs
+  $('#mainNav > .tabNav:nth-child(6)').style.display = (game.t3toggle ? 'inline' : 'none');
 
   commandFloat();
 }
@@ -130,6 +144,10 @@ function goTab(num) {
 }
 function optionBtn(num) {
   game.optionToggle[num] = !game.optionToggle[num];
+}
+function calcToggleTabs() {
+  if (calcRPGain().gte(1)) game.t2toggle = 1;
+  if (game.money.gte(1e80)) game.t3toggle = 1;
 }
 function activeProgram(num) {
   if (rebooting) return;
@@ -275,7 +293,11 @@ function calcProgram() {
   }
   if (game.programActive[6]) {
     game.durability = game.durability.sub(getOverclockPower().add(1).log(2).div(D.pow(2, game.researchLevel[7])).div(1000).mul(tGain));
+
+    // minus bug fix
     if (game.durability.lte(0.01)) game.durability = D(0);
+
+    // hardcap fix
     if (game.durability.eq(0) && calcRPGain().lt(1)) {
       commandAppend('< Fatal Error Found...', -120, 1);
       commandAppend('shutdown system', 0);

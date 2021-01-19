@@ -361,10 +361,15 @@
 .tab:nth-of-type(6) {
   text-align: center;
 }
+#quantumDesc {
+  color: #d442f5;
+}
+
 .normalButton {
 
 }
 .normalText {
   color: #49d124; font-size: 1.8vh;
 }
+
 /* animation: animationName ease 5s infinite */

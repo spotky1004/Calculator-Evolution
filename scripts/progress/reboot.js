@@ -30,42 +30,18 @@ function reboot() {
     //calculate
     game.researchPoint = game.researchPoint.plus(calcRPGain());
     gotRP = calcRPGain();
-    if (!game.programActive[4]) {
-      for (var i = 0; i < game.programActive.length; i++) {
-        game.programActive[i] = 0;
-      }
-    }
-    game.shopBought[5] = 0;
-    game.money = D(0);
-    game.rebootNum = D(0);
-    game.durability = D(1);
+    rebootReset();
+
     //animation
     commandAppend('reboot', 75);
     rebooting = 1;
     $('#rebootButton').innerHTML = "Rebooting";
     setTimeout( function () {
-      $('#rebootButton').className = "disabled";
-    }, 500);
-    setTimeout( function () {
       rebooting = 0;
       $('#rebootButton').className = "";
       $('#rebootButton').innerHTML = "Reboot";
       commandAppend('reboot done! (Got ' + dNotation(gotRP, 4) +' RP)', 75, 1);
-      if (!game.programActive[4]) {
-        game.base = D(2);
-        game.digits = D(1);
-        game.number = D(0);
-      }
     }, 5000);
-    tempNum = game.number;
-    for (var i = 0; i < 50; i++) {
-      setTimeout( function () {
-        game.number = D.max(game.number.mul(0.99).sub(tempNum.div(50)), 0);
-        game.digits = D.max(game.digits.sub(1), 1);
-        if (!game.programActive[4]) game.base = D.max(game.base.sub(1), 2);
-        game.number = D.min(game.number, game.base.pow(game.digits).sub(1));
-      }, i*90);
-    }
   }
 }
 function researchBuy(num) {
@@ -78,9 +54,6 @@ function researchBuy(num) {
 }
 
 function calcResearch() {
-  if (calcRPGain().gte(1)) {
-    game.t2toggle = 1;
-  }
   if (game.t2toggle) {
     $('#researchWarp').style.display = "block";
   } else {
