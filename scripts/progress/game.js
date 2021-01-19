@@ -276,5 +276,20 @@ function calcProgram() {
   if (game.programActive[6]) {
     game.durability = game.durability.sub(getOverclockPower().add(1).log(2).div(D.pow(2, game.researchLevel[7])).div(1000).mul(tGain));
     if (game.durability.lte(0.01)) game.durability = D(0);
+    if (game.durability.eq(0) && calcRPGain().lt(1)) {
+      commandAppend('< Fatal Error Found...', -120, 1);
+      commandAppend('shutdown system', 0);
+      goTab(2);
+      for (var i = 0; i < game.programActive.length; i++) {
+        game.programActive[i] = 0;
+      }
+      game.shopBought[5] = 0;
+      game.money = D(0);
+      game.rebootNum = D(0);
+      game.durability = D(1);
+      game.base = D(2);
+      game.digits = D(1);
+      game.number = D(0);
+    }
   }
 }

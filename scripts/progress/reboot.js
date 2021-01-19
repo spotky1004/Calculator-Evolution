@@ -50,8 +50,12 @@ function reboot() {
       rebooting = 0;
       $('#rebootButton').className = "";
       $('#rebootButton').innerHTML = "Reboot";
-      commandAppend('reboot done! (Got ' + dNotation(gotRP) +' RP)', 75, 1);
-      if (!game.programActive[4]) game.base = D(2);
+      commandAppend('reboot done! (Got ' + dNotation(gotRP, 4) +' RP)', 75, 1);
+      if (!game.programActive[4]) {
+        game.base = D(2);
+        game.digits = D(1);
+        game.number = D(0);
+      }
     }, 5000);
     tempNum = game.number;
     for (var i = 0; i < 50; i++) {
