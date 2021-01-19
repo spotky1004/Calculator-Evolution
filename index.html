@@ -4,18 +4,18 @@
     <meta charset="utf-8">
     <meta name="viewport" content="user-scalable=no">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="animation.css?ver=0.12">
-    <link rel="stylesheet" href="index.css?ver=0.12">
+    <link rel="stylesheet" href="animation.css?ver=0.13">
+    <link rel="stylesheet" href="index.css?ver=0.13">
     <script src="./scripts/decimalMin.js"></script>
-    <script src="./scripts/index.js?ver=0.12" defer></script>
-    <script src="./scripts/numberFunc.js?ver=0.12" defer></script>
-    <script src="./scripts/achievement.js?ver=0.12" defer></script>
-    <script src="./scripts/progress/game.js?ver=0.12" defer></script>
-    <script src="./scripts/progress/reboot.js?ver=0.12" defer></script>
-    <script src="./scripts/saveload.js?ver=0.12" defer></script>
-    <script src="./scripts/loop.js?ver=0.12" defer></script>
-    <script src="./scripts/reset.js?ver=0.12" defer></script>
-    <title>Calculator Evolution v0.12</title>
+    <script src="./scripts/index.js?ver=0.13" defer></script>
+    <script src="./scripts/numberFunc.js?ver=0.13" defer></script>
+    <script src="./scripts/achievement.js?ver=0.13" defer></script>
+    <script src="./scripts/progress/game.js?ver=0.13" defer></script>
+    <script src="./scripts/progress/reboot.js?ver=0.13" defer></script>
+    <script src="./scripts/saveload.js?ver=0.13" defer></script>
+    <script src="./scripts/loop.js?ver=0.13" defer></script>
+    <script src="./scripts/reset.js?ver=0.13" defer></script>
+    <title>Calculator Evolution v0.13</title>
   </head>
   <body>
     <div id="warpAll">
@@ -271,7 +271,7 @@
             </div>
             <div class="research" onclick="researchBuy(4)">
               <div class="researchName">
-                Durability
+                Durability Speed
               </div>
               <div class="researchProgress">
                 <span class="researchLevel">Lv.0</span>
@@ -287,12 +287,49 @@
                 Cost: <span>1</span> RP, <span>0</span> $
               </div>
             </div>
-            <div class="research" style="opacity:0; pointer-events: none;">
+            <div class="research" onclick="researchBuy(5)">
               <div class="researchName">
-                Multi Process
+                Max Durability
               </div>
               <div class="researchProgress">
                 <span class="researchLevel">Lv.0</span>
+                <span class="researchProgressDisplay">(0/10)</span>
+                <div class="innerBar">
+
+                </div>
+                <div class="shadowBar">
+
+                </div>
+              </div>
+              <div class="researchCost">
+                Cost: <span>1</span> RP, <span>0</span> $
+              </div>
+            </div>
+            <div class="research" onclick="researchBuy(6)">
+              <div class="researchName">
+                RP Gain
+              </div>
+              <div class="researchProgress">
+                <span class="researchLevel">Lv.0</span>
+                <span class="researchProgressDisplay">(0/10)</span>
+                <div class="innerBar">
+
+                </div>
+                <div class="shadowBar">
+
+                </div>
+              </div>
+              <div class="researchCost">
+                Cost: <span>1</span> RP, <span>0</span> $
+              </div>
+            </div>
+            <div class="research" onclick="researchBuy(7)">
+              <div class="researchName">
+                Reboot Cool Down
+              </div>
+              <div class="researchProgress">
+                <span class="researchLevel">Lv.0</span>
+                <span class="researchProgressDisplay">(0/10)</span>
                 <div class="innerBar">
 
                 </div>

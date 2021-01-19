@@ -1,6 +1,6 @@
 function rebootReset() {
   game.rebootNum = D(0);
-  game.durability = D(1);
+  game.durability = D(1).mul(game.researchLevel[5]+1);
   if (!game.programActive[4]) {
     for (var i = 0; i < game.programActive.length; i++) {
       game.programActive[i] = 0;

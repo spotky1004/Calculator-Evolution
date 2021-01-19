@@ -48,7 +48,7 @@
       {
         "itemName": "Data_Holder.exe",
         "itemCost": '2e15',
-        "itemDesc": "Keep your base(cap: 36), programs on reboot",
+        "itemDesc": "Keep your Base and Programs on reboot",
       },
       {
         // dino ref.!
@@ -58,7 +58,7 @@
       },
       {
         "itemName": "Data_Holder_3.0.exe",
-        "itemCost": '0.911e85',
+        "itemCost": '0.911e90',
         "itemDesc": "Keep your Money and Upgrade on reboot",
       },
     ],
