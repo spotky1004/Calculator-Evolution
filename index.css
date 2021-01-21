@@ -429,6 +429,25 @@
   font-size: 3.6vh;
   animation: quarkGlow ease 10s infinite;
 }
+#quantumUpgrades {
+  --w: 80vw; --h: 50vh; --c: 4; --r: 3;
+  margin: 1vh auto;
+  width: calc(1vw * var(--c) + var(--w)); height: calc(1vh * var(--r) + var(--h));
+}
+.quantumUpgrade {
+  --col: #000;
+  display: inline-block;
+  margin-bottom: 1vh;
+  width: calc(calc(-1vw * calc(var(--c) - 1) + var(--w)) / var(--c)); height: calc(calc(1vh * -1 * calc(var(--r) - 1) + var(--h)) / var(--r));
+  background-color: var(--col);
+  border: 0.4vh solid #d442f5; border-radius: 0.6vh;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  animation: quarkGlow ease 7.3s infinite;
+}
+.quantumUpgrade:not(:nth-child(4n)) {
+  margin-right: 1vw;
+}
 
 .normalButton {
 

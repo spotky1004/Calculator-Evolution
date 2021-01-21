@@ -1,5 +1,16 @@
 (function(){
-  quantumUpgrades = {};
+  // upgrade
+  quantumUpgrade = {};
+
+  (function(){
+    // upgrade init
+    for (var i = 0; i < 12; i++) {
+      var upNode = document.createElement("span");
+      upNode.classList.add('quantumUpgrade');
+      $('#quantumUpgrades').append(upNode);
+    }
+  })();
+
 })();
 
 function quantum() {

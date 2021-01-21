@@ -113,7 +113,7 @@ function renderShop() {
     $(".shopItem:nth-of-type(" + (i+1) + ") > .itemName").innerHTML = infoObj.itemName;
     $(".shopItem:nth-of-type(" + (i+1) + ") > .itemCost > .itemCostNum").innerHTML = dNotation(infoObj.itemCost, 4) + '$';
     $(".shopItem:nth-of-type(" + (i+1) + ") > .itemDesc").innerHTML = infoObj.itemDesc;
-    $(".shopItem:nth-of-type(" + (i+1) + ")").className = ((shopItems[i].length == game.shopBought[i]) ? "shopItem bought" : "shopItem");
+    $(".shopItem:nth-of-type(" + (i+1) + ")").className = ((calcShopMax()[i] == game.shopBought[i]) ? "shopItem bought" : "shopItem");
   }
   for (var i = 0; i < 5; i++) {
     $(".shopBox:nth-of-type(2) > .shopItem:nth-of-type(" + (i+1) + ") > .itemCost > .itemCostNum").innerHTML = dNotation(calcShopCost()[i+5], 5);
@@ -221,7 +221,7 @@ function calcShopMax() {
   for (var i = 0; i < 5; i++) {
     tempArr[i] = shopItems[i].length;
   }
-  tempArr[5] = 100;
+  tempArr[5] = 1e15;
   return tempArr;
 }
 function calcMaxDigit() {
