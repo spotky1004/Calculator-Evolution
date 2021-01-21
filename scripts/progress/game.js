@@ -109,14 +109,11 @@ function renderProgram() {
 function renderShop() {
   for (var i = 0; i < 5; i++) {
     var infoObj = shopItems[i][Math.min(game.shopBought[i], shopItems[i].length-1)];
-    if (typeof infoObj != "undefined") {
-      $(".shopItem:nth-of-type(" + (i+1) + ") > .itemName").innerHTML = infoObj.itemName;
-      $(".shopItem:nth-of-type(" + (i+1) + ") > .itemCost > .itemCostNum").innerHTML = dNotation(infoObj.itemCost, 4) + '$';
-      $(".shopItem:nth-of-type(" + (i+1) + ") > .itemDesc").innerHTML = infoObj.itemDesc;
-      if (shopItems[i].length == game.shopBought[i]) {
-        $(".shopItem:nth-of-type(" + (i+1) + ")").className = ((game.shopBought[i]) ? "shopItem bought" : "shopItem");
-      }
-    }
+    if (typeof infoObj == "undefined") continue;
+    $(".shopItem:nth-of-type(" + (i+1) + ") > .itemName").innerHTML = infoObj.itemName;
+    $(".shopItem:nth-of-type(" + (i+1) + ") > .itemCost > .itemCostNum").innerHTML = dNotation(infoObj.itemCost, 4) + '$';
+    $(".shopItem:nth-of-type(" + (i+1) + ") > .itemDesc").innerHTML = infoObj.itemDesc;
+    $(".shopItem:nth-of-type(" + (i+1) + ")").className = ((shopItems[i].length == game.shopBought[i]) ? "shopItem bought" : "shopItem");
   }
   for (var i = 0; i < 5; i++) {
     $(".shopBox:nth-of-type(2) > .shopItem:nth-of-type(" + (i+1) + ") > .itemCost > .itemCostNum").innerHTML = dNotation(calcShopCost()[i+5], 5);
