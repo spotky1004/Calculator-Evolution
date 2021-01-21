@@ -73,7 +73,7 @@
     // Memory.exe
     [
       {
-        "itemName": "Base_Increaser_2.0.exe",
+        "itemName": "Memory_2.0.exe",
         "itemCost": '4.4444e70',
         "itemDesc": "Increase digit won't reset anything",
       },
@@ -93,11 +93,15 @@ function renderBasic() {
   commandFloat();
 }
 function renderProgram() {
-  var programPoint = [-1, 1, -1, 0, 2, 3, -1]
+  var programPoint = [-1, 1, 4, 0, 2, 3, -1];
+  var defNames = ["", "Miner.exe", "Memory.exe", "Increment.exe", "Data_Holder.exe", "Auto_Upgrader.exe", ""];
   for (var i = 0; i < 7; i++) {
     $(".program:nth-of-type(" + (i+1) + ")").className = ((game.programActive[i]) ? "program active" : "program") + (i==6 ? " permanent": "");
     if (programPoint[i] != -1) {
-      if (game.shopBought[programPoint[i]]-1 == -1) continue;
+      if (game.shopBought[programPoint[i]]-1 == -1) {
+        $(".program:nth-of-type(" + (i+1) + ") > span:nth-child(2)").innerHTML = defNames[i];
+        continue;
+      }
       $(".program:nth-of-type(" + (i+1) + ") > span:nth-child(2)").innerHTML = shopItems[programPoint[i]][game.shopBought[programPoint[i]]-1].itemName;
     }
   }
