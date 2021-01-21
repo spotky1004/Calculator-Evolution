@@ -8,8 +8,8 @@ function renderResearch() {
   } else {
     $('#rebootButton').className = "disabled";
   }
-  $('#rebootDesc').innerHTML = "If you Reboot now, you'll get " + dNotation(calcRPGain(), 4) + " Research Points<br>You need to reach " + formatWithBase(calcRPGain().plus(20).pow(6).sub(1).ceil(), game.base) + "(" + game.base + ") to get next RP<br>You lose Number, Memory, Base, Upgrades, Money on Reboot";
-  $('#rpDisplay').innerHTML = "You have " + dNotation(game.researchPoint, 4) + " Research Points";
+  $('#rebootDesc').innerHTML = "If you Reboot now, you'll get " + dNotation(calcRPGain(), 4, 0) + " Research Points<br>You need to reach " + formatWithBase(calcRPGain().plus(20).pow(6).sub(1).ceil(), game.base) + "(" + game.base + ") to get next RP<br>You lose Number, Memory, Base, Upgrades, Money on Reboot";
+  $('#rpDisplay').innerHTML = "You have " + dNotation(game.researchPoint, 4, 0) + " Research Points";
   for (var i = 0; i < 8; i++) {
     $('.research:nth-of-type(' + (i+1) + ') > .researchProgress > .innerBar').style.width = game.researchProgress[i]*26 + 'vw';
     $('.research:nth-of-type(' + (i+1) + ') > .researchProgress > .researchLevel').innerHTML = 'Lv.' + game.researchLevel[i];
@@ -44,7 +44,7 @@ function reboot() {
       rebooting = 0;
       $('#rebootButton').className = "";
       $('#rebootButton').innerHTML = "Reboot";
-      commandAppend('reboot done! (Got ' + dNotation(gotRP, 4) +' RP)', 75, 1);
+      commandAppend('reboot done! (Got ' + dNotation(gotRP, 4, 0) +' RP)', 75, 1);
     }, 5000*((2/3)**game.researchLevel[7]));
   }
 }
