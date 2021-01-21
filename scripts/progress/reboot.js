@@ -18,11 +18,11 @@ function renderResearch() {
     $('.research:nth-of-type(' + (i+1) + ') > .researchCost > span:nth-child(2)').innerHTML = dNotation(calcResearchCost()[i][1], 3);
 
   }
-  $('.research:nth-of-type(4)').style.display = ((game.researchLevel[0]>=1) ? "inline" : "none");
-  $('.research:nth-of-type(5)').style.display = ((game.researchLevel[0]>=1) ? "inline" : "none");
-  $('.research:nth-of-type(6)').style.display = ((game.researchLevel[3]>=1) ? "inline" : "none");
-  $('.research:nth-of-type(7)').style.display = ((game.researchLevel[5]>=1) ? "inline" : "none");
-  $('.research:nth-of-type(8)').style.display = ((game.researchLevel[6]>=1) ? "inline" : "none");
+  $('.research:nth-of-type(4)').style.display = ((game.researchLevel[0]>=1) ? "inline-block" : "none");
+  $('.research:nth-of-type(5)').style.display = ((game.researchLevel[0]>=1) ? "inline-block" : "none");
+  $('.research:nth-of-type(6)').style.display = ((game.researchLevel[3]>=1) ? "inline-block" : "none");
+  $('.research:nth-of-type(7)').style.display = ((game.researchLevel[5]>=1) ? "inline-block" : "none");
+  $('.research:nth-of-type(8)').style.display = ((game.researchLevel[6]>=1) ? "inline-block" : "none");
 }
 function renderOverclockInfo() {
   document.getElementById('overclockInfo').style.display = ((game.researchLevel[0]>=1)?"block":"none");
