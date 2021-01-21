@@ -106,5 +106,8 @@ function commandFloat(speed=0.8) {
     if (keyCode == 55) {
       activeProgram(6);
     }
+    if (keyCode == 82) {
+      reboot();
+    }
   })
 })();
