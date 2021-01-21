@@ -278,7 +278,7 @@ function calcProgram() {
         (
           game.shopBought[0] >= 2 ?
           D.min(13, game.mDigits) :
-          game.mDigits
+          D(1e308)
         )
       ) ||
       game.number.gte(getBaseIncreaseReq())) &&
