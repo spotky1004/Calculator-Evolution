@@ -36,10 +36,12 @@ function calcQuantumLabGain() {
   if (fromRpGain.isNaN()) fromRpGain = D(0);
 
   var labGain = D.min(
+    D.min(
     fromMoneyGain,
     fromRpGain,
+    ).sub(game.quantumLab),
     getMaxQuantumLabGain()
-  ).sub(game.quantumLab);
+  );
 
   return labGain;
 }
