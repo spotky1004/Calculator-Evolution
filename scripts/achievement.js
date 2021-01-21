@@ -8,13 +8,13 @@
   achievementGoal = [
     'Reach ${formatWithBase(63, game.base)}', 'Have a ${dNotation(1)} $', 'Buy ${dNotation(3)} CPU upgrade', 'Reach base ${dNotation(10)}', 'Reach base ${dNotation(36)}',
     'Perform Reboot', 'Reach Bonus CPU Level ${dNotation(3)}', 'Reach Multi Process Level ${dNotation(1)}', 'Reach Extra Digit Level ${dNotation(5)}', 'Have ${dNotation(1e3)} RP',
-    'Perform Overclock', 'Reach base ${dNotation(62)}', 'Perform Overclock with Power ${dNotation(1e3)}', 'Have ${dNotation(1e100)} $', 'Have ${dNotation(1e25)} RP',
+    'Perform Overclock', 'Reach base ${dNotation(62)}', 'Perform Overclock with Power ${dNotation(1e10)}', 'Have ${dNotation(1e100)} $', 'Have ${dNotation(1.11e11)} RP',
     'Perform Quantum', 'Have ${dNotation(100)} Qubits', 'Upgrade Qubits once', 'Have ${dNotation(1e1000)} $', 'Reach base ${dNotation(250)}'
   ];
   achievementGoalFunc = [
     'game.number.gte(63)', 'game.money.gte(1)', 'game.shopBought[5] >= 3', 'game.base.gte(10)', 'game.base.gte(36)',
     'rebooting', 'game.researchLevel[0]>=3', 'game.researchLevel[1]>=1', 'game.researchLevel[2]>=5', 'game.researchPoint.gte(1e3)',
-    'getOverclockPower().gt(1)', 'game.base.gte(62)', 'getOverclockPower().gte(1e10)', 'game.money.gte(1e100)', 'game.researchPoint.gte(1e15)',
+    'getOverclockPower().gt(1)', 'game.base.gte(62)', 'getOverclockPower().gte(1e10)', 'game.money.gte(1e100)', 'game.researchPoint.gte(1.11e11)',
     '0', '0', '0', 'game.money.gte(1e1000)', 'game.base.gte(250)'
   ];
 })();

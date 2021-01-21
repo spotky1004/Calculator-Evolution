@@ -12,6 +12,17 @@ function rebootReset() {
   if (!game.programActive[4] || game.shopBought[2] < 3) game.money = D(0);
   if (!game.programActive[4] || game.shopBought[2] < 3) game.shopBought[5] = 0;
 }
-function quantumReset() {
 
+function quantumReset() {
+  game.programActive[4] = false;
+  rebootReset();
+  game.researchPoint = D(0);
+  for (var i = 0; i < 9; i++) {
+    game.researchProgress[i] = 0;
+    game.researchLevel[i] = 0;
+    game.researchSpeed[i] = 0;
+  }
+  for (var i = 0; i < 15; i++) {
+    game.shopBought[i] = 0;
+  }
 }

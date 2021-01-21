@@ -25,11 +25,17 @@ function renderAll() {
     case 4:
     renderOption();
       break;
+    case 5:
+    renderQunatum();
+      break;
   }
 }
 function calcAll() {
   calcToggleTabs();
+
   game.mDigits = calcMaxDigit();
+
+  calcQuantum();
   calcProgram();
   calcResearch();
   calcAchievements();

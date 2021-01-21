@@ -186,7 +186,7 @@ function activeProgram(num) {
   renderProgram();
 }
 function shopBuy(num) {
-  if (game.money.gte(calcShopCost()[num].floor()) && game.shopBought[num] < calcShopMax()[num]) {
+  if (game.money.gte(calcShopCost()[num]) && game.shopBought[num] < calcShopMax()[num]) {
     game.money = game.money.sub(calcShopCost()[num]);
     game.shopBought[num]++;
     switch (num) {
@@ -204,6 +204,7 @@ function shopBuy(num) {
 function calcCPU() {
   var tempVar = D(1);
   tempVar = tempVar.mul(D(2).pow(game.shopBought[5]+game.researchLevel[0])).mul(getOverclockPower());
+  tempVar = tempVar.mul(calcQubitEffect());
   return tempVar;
 }
 function calcShopCost() {

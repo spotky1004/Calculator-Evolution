@@ -21,6 +21,11 @@ tempGame = {
   optionToggle: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   achievements: [],
   durability: D(1),
+  t3toggle: 0,
+  quantumLab: D(0),
+  qubit: D(0),
+  freeQubit: D(0),
+  qubitProgress: D(0)
 };
 game = {};
 

@@ -68,6 +68,17 @@
     text-shadow: 0 0 0.8vh #222;
   }
 }
+@keyframes quarkGlow {
+  from {
+    color: #fff; text-shadow: 0 0 0.4vh #d442f5, 0 0 0.4vh #d442f5, 0 0 0.4vh #d442f5;
+  }
+  50% {
+    color: #eee; text-shadow: 0 0 0.5vh #d442f5, 0 0 0.5vh #d442f5, 0 0 0.5vh #d442f5;
+  }
+  to {
+    color: #fff; text-shadow: 0 0 0.4vh #d442f5, 0 0 0.4vh #d442f5, 0 0 0.4vh #d442f5;
+  }
+}
 @keyframes greenBoxShade {
   from {
     box-shadow: 0 0 0.5vh 0.25vh #239423 inset;
@@ -109,6 +120,14 @@
     background-color: #2e8018;
     border: 0.4vh solid #49d124;
     box-shadow: 0 0 0 0 #2e8018 inset;
+  }
+}
+@keyframes quantumButtonOverlapMove {
+  from {
+    background-position-x: 0;
+  }
+  to {
+    background-position-x: 20vw;
   }
 }
 @keyframes hueRotate {

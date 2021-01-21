@@ -1,12 +1,12 @@
 function dNum(infNum) {
   return Number(infNum.valueOf());
 }
-function dNotation(infNum, dim=0) {
+function dNotation(infNum, dim=0, preDim=dim) {
   infNum = D(infNum);
   if (infNum.gte(1e5)) {
     return infNum.toExponential(Math.min(4, dim)).replace('+', '');
   } else {
-    return infNum.toFixed(Math.max(0, dim-infNum.toFixed(0).length+1));
+    return infNum.toFixed(Math.max(0, preDim-infNum.toFixed(0).length+1));
   }
 }
 function formatWithBase(infNum, base=2, len=D(1e300), padStart=0) {
@@ -62,4 +62,18 @@ function factorial(num) {
     tempNum = tempNum.mul(i+1);
   }
   return tempNum;
+}
+function ordNum(num) {
+  num = D(num).floor();
+  var ordStr = "";
+  if (num.eq(1) || (num.gt(20) && num.mod(10).eq(1))) {
+    ordStr = "st";
+  } else if (num.eq(2) || (num.gt(20) && num.mod(10).eq(2))) {
+    ordStr = "nd";
+  } else if (num.eq(3) || (num.gt(20) && num.mod(10).eq(3))) {
+    ordStr = "rd";
+  } else {
+    ordStr = "th";
+  }
+  return num.valueOf() + ordStr;
 }
