@@ -25,7 +25,7 @@
 }
 #numberDigits {
   display: inline-block;
-  max-width: 65vw; height: 4.2vh;
+  max-width: 65vw; height: 4.4vh;
   overflow: hidden;
   text-overflow: ellipsis;
 }

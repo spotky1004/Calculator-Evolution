@@ -23,10 +23,10 @@
     [
       "Qubit production speed x100",
       "Pow Quantum req based on base (^${dNotation(D(0.999).pow(D.min(200, game.base)), 4, 5)})",
+      "Each Qubit boosts itself Production Speed by x1.3 (x${dNotation(D(1.3).pow(game.qubit), 4, 2)})",
       "Coming Soon!",
       "Coming Soon!",
-      "Coming Soon!",
-      "Coming Soon!"
+      "You can bulk buy Quantum Labs"
     ],
     // 4: QoL
     [
@@ -90,7 +90,7 @@ function quantum() {
 }
 function renderQunatum() {
   $("#quantumButton").className = calcQuantumLabGain().gte(1) ? "" : "disabled";
-  $("#quantumLabCost").innerHTML = `Next Lab: ${dNotation(D(1e100).mul(D(10).pow(D(5).mul(game.quantumLab.mul(game.quantumLab.sub(1)).add(game.quantumLab)))).pow(getQuantumReqPow()), 0)}$, ${dNotation(D(1e11).mul(D(10).pow(D(1/2).mul(game.quantumLab.mul(game.quantumLab.sub(1)).add(game.quantumLab)))).pow(getQuantumReqPow()), 0)} RP`;
+  $("#quantumLabCost").innerHTML = `Next Lab: ${dNotation(D(1e100).mul(D(10).pow(D(5).mul(game.quantumLab.mul(game.quantumLab.sub(1)).add(game.quantumLab)))).pow(getQuantumReqPow()), 2)}$, ${dNotation(D(1e11).mul(D(10).pow(D(1/2).mul(game.quantumLab.mul(game.quantumLab.sub(1)).add(game.quantumLab)))).pow(getQuantumReqPow()), 2)} RP`;
   $("#quantumDesc").innerHTML = `You have ${game.quantumLab} Quantum Lab which makes Qubit Prodution ${dNotation(calcQubitSpeed(), 4, 0)}x faster<br>Each Qubit makes your CPU 2x faster (x${dNotation(calcQubitEffect(), 4, 0)})`;
   $("#qubitDisplay").innerHTML = `You have ${game.qubit.sub(calcUsedQubit())}/${game.qubit} Qubit (next Qubit in ${timeNotation(D(3).pow(game.qubit.add(1)).sub(game.qubitProgress).div(calcQubitSpeed()))})`;
   for (var i = 0; i < 36; i++) document.getElementsByClassName("quantumUpgrade")[i].classList[(game.quantumUpgradeBought.includes((i%6+1) + '' + (Math.floor(i/6)+1)) ? 'add' : 'remove')]("bought");
@@ -129,7 +129,7 @@ function buyQuantumUpgrade(idx) {
 }
 function getQuantumUpgradeCost(idx) {
   var fixedIdx = [Math.floor(idx/6), idx%6];
-  return ((fixedIdx[0]*2)**3+2)*Math.floor(fixedIdx[1]==5?fixedIdx[1]**1.2+5:1);
+  return ((fixedIdx[0]*2)**3+2)*Math.floor(fixedIdx[1]==5?fixedIdx[1]**1.2+5:1)-fixedIdx[0];
 }
 function quantumUpgradeRespec() {
   if (typeof qRespecTimeout != "undefined") clearTimeout(qRespecTimeout);
@@ -173,10 +173,10 @@ function getQuantumReqPow() {
 }
 function calcQuantumLabGain() {
   // Money: start from e100, +e5, +e15, +e25, +e35  ... -> (n*(n-1)+n)*5
-  var fromMoneyGain = game.money.div(1e100).log(10).div(getQuantumReqPow()).div(5).sqrt(2).add(1);
+  var fromMoneyGain = game.money.pow(D(1).div(getQuantumReqPow())).div(1e100).log(10).div(5).sqrt(2).add(1);
   if (fromMoneyGain.isNaN()) fromMoneyGain = D(0);
   // RP   : start from e11, +10^0.5, +10^1.5, +10^2.5 ... -> (n*(n-1)+n)/2
-  var fromRpGain = game.researchPoint.div(1e11).log(10).div(getQuantumReqPow()).mul(2).sqrt(2).add(1.000004);
+  var fromRpGain = game.researchPoint.pow(D(1).div(getQuantumReqPow())).div(1e11).log(10).mul(2).sqrt(2).add(1.000004); // <- .000004 is for floting point fix
   if (fromRpGain.isNaN()) fromRpGain = D(0);
 
   var labGain = D.min(
@@ -193,6 +193,7 @@ function calcQuantumLabGain() {
 function calcQubitSpeed() {
   var tempSpd = game.quantumLab.pow(game.quantumLab.sqrt(2)).mul(D(10).add(game.quantumLab.pow(2)).pow(game.quantumLab.sub(1))).sub(0.1);
   if (game.quantumUpgradeBought.includes('31')) tempSpd = tempSpd.mul(100);
+  if (game.quantumUpgradeBought.includes('33')) tempSpd = tempSpd.mul(D(1.3).pow(game.qubit));
   return tempSpd;
 }
 function calcUsedQubit() {

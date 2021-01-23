@@ -42,6 +42,11 @@
         "itemCost": '2.4680e55',
         "itemDesc": "Multiply mine power by Research Point",
       },
+      {
+        "itemName": "Miner_4.0.exe",
+        "itemCost": '2.2222e179',
+        "itemDesc": "Multiply mine power by Overclock Power",
+      }
     ],
     // Data_Holder.exe
     [
@@ -273,6 +278,7 @@ function calcProgram() {
     moneyGain = D.max(0, calcCPU().mul(tGain/3e4).mul(game.number));
     if (game.shopBought[1] >= 1) moneyGain = moneyGain.mul(game.digits);
     if (game.shopBought[1] >= 2) moneyGain = moneyGain.mul(game.researchPoint);
+    if (game.shopBought[1] >= 3) moneyGain = moneyGain.mul(getOverclockPower());
     game.money = game.money.plus(moneyGain);
     rainbowEffect("#money");
   } else {
