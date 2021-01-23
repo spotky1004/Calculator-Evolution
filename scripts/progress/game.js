@@ -262,7 +262,7 @@ function getBaseIncreaseReq() {
   return game.base.pow(
     (
       game.shopBought[0] >= 2 ?
-      D.min(12, game.digits) :
+      D.min(12, game.mDigits) :
       game.mDigits
     )
   ).sub(1);
