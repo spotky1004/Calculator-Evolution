@@ -14,7 +14,7 @@
     [
       "RP gain x10",
       "Boost RP gain based on Qubit and RP (x${dNotation(D(1.2).pow(game.qubit).pow(D.min(game.researchPoint.add(1).log(10).div(25), 1)), 4, 2)})",
-      "Multiply research upgrade effect by x10 (x${!game.quantumUpgradeBought.includes('23') ? dNotation(calcPerResearchSpeedBase(), 0, 1) : dNotation(base().calcPerResearchSpeedBase(10), 0, 1)} -> x${!game.quantumUpgradeBought.includes('23') ? dNotation(calcPerResearchSpeedBase().mul(10), 0, 1) : dNotation(calcPerResearchSpeedBase(), 0, 1)})",
+      "Multiply research upgrade effect by x10 (x${!game.quantumUpgradeBought.includes('23') ? dNotation(calcPerResearchSpeedBase(), 0, 1) : dNotation(calcPerResearchSpeedBase().div(10), 0, 1)} -> x${!game.quantumUpgradeBought.includes('23') ? dNotation(calcPerResearchSpeedBase().mul(10), 0, 1) : dNotation(calcPerResearchSpeedBase(), 0, 1)})",
       "Boost Research speed based on time spent on this quantum (x${dNotation(D(2).pow(D(game.tLast-game.quantumTime).pow(0.2)), 4, 2)})",
       "Coming Soon!",
       "Coming Soon!"
