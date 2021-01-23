@@ -3,6 +3,7 @@
   padding: 0;
   font-family: 'Roboto Mono', monospace;
   user-select: none;
+  overflow: visible;
 }
 #warpAll {
   width: 100vw; height: 100vh;
@@ -14,12 +15,19 @@
   height: 6vh;
   font-size: 4vh;
   animation: greenGlow ease 5s infinite;
+  white-space: nowrap;
   direction: ltr;
 }
 #moneyArea {
   margin: 0 0 0 2.5vw;
   font-size: 2vh;
   animation: greenGlow ease 5s infinite;
+}
+#numberDigits {
+  display: inline-block;
+  max-width: 65vw; height: 4.2vh;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 #memoryDigit {
   filter: grayscale(1);
@@ -78,6 +86,7 @@
 #infoArea {
   position: absolute;
   top: 0; right: 0;
+  font-size: 1.6vh;
   background-color: rgba(255, 255, 255, 0.6); box-shadow: 0 0 3vh rgba(255, 255, 255, 0.6);
   pointer-events: none;
 }
@@ -247,6 +256,7 @@
   border-radius: 2vh; border: 0.4vh solid #469e3a;
   background: linear-gradient(#469e3a, #1f7816);
   cursor: pointer;
+  overflow: hidden;
   transition: all 0.3s;
 }
 .research:hover {
@@ -302,6 +312,9 @@
 }
 .researchCost {
   font-size: 1.7vh; color: #89d47b; text-shadow: 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605;
+}
+.researchDesc {
+  font-size: 1.2vh; color: #89d47b; text-shadow: 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605, 0 0 0.3vh #0d3605;
 }
 
 .tab:nth-of-type(4) {
@@ -422,6 +435,7 @@
   font-size: 1.2vh;
 }
 #quantumDesc {
+  font-size: 1.8vh;
   color: #d442f5;
 }
 #qubitDisplay {
@@ -430,23 +444,102 @@
   animation: quarkGlow ease 10s infinite;
 }
 #quantumUpgrades {
-  --w: 80vw; --h: 50vh; --c: 4; --r: 3;
+  --s: min(50vw, 50vh); --n: 6; --s2: calc(var(--s) / var(--n) * 8 / 10 - 0.4vh); --m: calc(var(--s) / var(--n) / 10);
   margin: 1vh auto;
-  width: calc(1vw * var(--c) + var(--w)); height: calc(1vh * var(--r) + var(--h));
+  width: var(--s); height: var(--s);
 }
 .quantumUpgrade {
-  --col: #000;
+  --col: #000; --col2: #000;
   display: inline-block;
-  margin-bottom: 1vh;
-  width: calc(calc(-1vw * calc(var(--c) - 1) + var(--w)) / var(--c)); height: calc(calc(1vh * -1 * calc(var(--r) - 1) + var(--h)) / var(--r));
-  background-color: var(--col);
-  border: 0.4vh solid #d442f5; border-radius: 0.6vh;
-  text-overflow: ellipsis;
-  overflow: hidden;
+  margin-bottom: var(--m);
+  width: var(--s2); height: var(--s2);
+  border: 0.4vh solid var(--col); border-radius: var(--s2);
+  background-color: #000;
+  cursor: pointer;
+  transition: background-color 3s, transform 5s;
   animation: quarkGlow ease 7.3s infinite;
 }
-.quantumUpgrade:not(:nth-child(4n)) {
-  margin-right: 1vw;
+.quantumUpgrade:not(.bought):hover {
+  background-color: var(--col2);
+  transform: scale(1.1);
+  transition: background-color 0.25s, transform 0.2s;
+}
+.quantumUpgrade.bought {
+  background-color: var(--col);
+}
+.quantumUpgrade:not(:nth-child(6n)) {
+  margin-right: var(--m);
+}
+#quantumRespec {
+  --tempOp: 0; --tempDis: none;
+  margin: 0 auto;
+  padding-top: 0.2vh;
+  width: 10vh; height: 1.8vh;
+  font-size: 1.2vh;
+  color: #000; text-shadow: 0 0 0.4vh #666, 0 0 0.4vh #666, 0 0 0.4vh #666;
+  background-color: #a62bc2;
+  border: 0.4vh solid #b24bc9; border-radius: 1vh;
+  box-shadow: 0 0 1vh #a62bc2;
+  cursor: pointer;
+  transition: all 0.3s;
+  overflow: hidden;
+}
+#quantumRespec:hover {
+  --tempOp: 1; --tempDis: inline;
+  width: 24vh;
+  background-color: #ddd;
+  border-color: #666;
+  box-shadow: 0 0 1vh #ddd;
+  transform: scale(1.1);
+}
+#quantumRespec:active {
+  background-color: #ddd;
+  border-color: #666;
+  box-shadow: 0 0 1vh #ddd;
+  transform: scale(1);
+  transition: all 0s;
+}
+#quantumRestart {
+  --tempOp: 0; --tempDis: none;
+  margin: 1vh auto;
+  padding-top: 0.2vh;
+  width: 10vh; height: 1.8vh;
+  font-size: 1.2vh;
+  color: #000; text-shadow: 0 0 0.4vh #666, 0 0 0.4vh #666, 0 0 0.4vh #666;
+  background-color: #a62bc2;
+  border: 0.4vh solid #b24bc9; border-radius: 1vh;
+  box-shadow: 0 0 1vh #a62bc2;
+  cursor: pointer;
+  transition: all 0.3s;
+  overflow: hidden;
+}
+#quantumRestart:hover {
+  --tempOp: 1; --tempDis: inline;
+  width: 24vh;
+  background-color: #ddd;
+  border-color: #666;
+  box-shadow: 0 0 1vh #ddd;
+  transform: scale(1.1);
+}
+#quantumRestart:active {
+  background-color: #ddd;
+  border-color: #666;
+  box-shadow: 0 0 1vh #ddd;
+  transform: scale(1);
+  transition: all 0s;
+}
+#quantumUpgradeDesc {
+  position: absolute;
+  padding: 1vh 1vw;
+  color: #fff; text-shadow: 0 0 0.3vh #d442f5, 0 0 0.3vh #d442f5; text-align: left; font-size: 1.7vh;
+  background-color: rgba(255, 255, 255, 0.3);
+  border: 0.4vh solid #fff; border-radius: 0.3vh;
+  box-shadow: 0 0 0.5vh #fff;
+  opacity: 0;
+  backdrop-filter: blur(0.7vh) brightness(1.7) drop-shadow(0 0 1vh #d442f5);
+  transform: scaleX(0);
+  transition: all 0.3s, transform 0.2s ease 0.1s;
+  pointer-events: none;
 }
 
 .normalButton {

@@ -6,10 +6,10 @@
     'New Age', 'Extreme speed', 'Qutrit', 'Richer', 'A to Œ'
   ];
   achievementGoal = [
-    'Reach ${formatWithBase(63, game.base)}', 'Have a ${dNotation(1)} $', 'Buy ${dNotation(3)} CPU upgrade', 'Reach base ${dNotation(10)}', 'Reach base ${dNotation(36)}',
-    'Perform Reboot', 'Reach Bonus CPU Level ${dNotation(3)}', 'Reach Multi Process Level ${dNotation(1)}', 'Reach Extra Digit Level ${dNotation(5)}', 'Have ${dNotation(1e3)} RP',
-    'Perform Overclock', 'Reach base ${dNotation(62)}', 'Perform Overclock with Power ${dNotation(1e10)}', 'Have ${dNotation(1e100)} $', 'Have ${dNotation(1.11e11)} RP',
-    'Perform Quantum', 'Have ${dNotation(100)} Qubits', 'Upgrade Qubits once', 'Have ${dNotation(1e1000)} $', 'Reach base ${dNotation(250)}'
+    'Reach ${formatWithBase(63, game.base)}', 'Have a ${dNotation(1, 0, 0)} $', 'Buy ${dNotation(3, 0, 0)} CPU upgrade', 'Reach base ${dNotation(10, 0, 0)}', 'Reach base ${dNotation(36, 0, 0)}',
+    'Perform Reboot', 'Reach Bonus CPU Level ${dNotation(3, 0, 0)}', 'Reach Multi Process Level ${dNotation(1, 0, 0)}', 'Reach Extra Digit Level ${dNotation(5, 0, 0)}', 'Have ${dNotation(1e3, 4, 0)} RP',
+    'Perform Overclock', 'Reach base ${dNotation(62, 4, 0)}', 'Perform Overclock with Power ${dNotation(1e10, 4, 0)}', 'Have ${dNotation(1e100)} $', 'Have ${dNotation(1.11e11, 4, 0)} RP',
+    'Perform Quantum', 'Have ${dNotation(100, 4, 0)} Qubits', 'Upgrade Qubits once', 'Have ${dNotation(1e1000, 4, 0)} $', 'Reach base ${dNotation(250, 4, 0)}'
   ];
   achievementGoalFunc = [
     'game.number.gte(63)', 'game.money.gte(1)', 'game.shopBought[5] >= 3', 'game.base.gte(10)', 'game.base.gte(36)',

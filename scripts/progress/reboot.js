@@ -13,7 +13,8 @@ function renderResearch() {
   for (var i = 0; i < 8; i++) {
     $('.research:nth-of-type(' + (i+1) + ') > .researchProgress > .innerBar').style.width = game.researchProgress[i]*26 + 'vw';
     $('.research:nth-of-type(' + (i+1) + ') > .researchProgress > .researchLevel').innerHTML = 'Lv.' + game.researchLevel[i];
-    $('.research:nth-of-type(' + (i+1) + ') > .researchProgress > .researchProgressDisplay').innerHTML = `(${dNotation(game.researchProgress[i]*calcResearchDivide(i), 2)}/${dNotation(calcResearchDivide(i), 2)})`;
+    $('.research:nth-of-type(' + (i+1) + ') > .researchProgress > .researchProgressDisplay').innerHTML = timeNotation(Number(calcResearchDivide(i).div(calcResearchSpeed(game.researchSpeed[i])).valueOf())*(1-game.researchProgress[i])) + ' left';
+    // ${dNotation(game.researchProgress[i]*calcResearchDivide(i), 2)}/${dNotation(calcResearchDivide(i), 2)}
     $('.research:nth-of-type(' + (i+1) + ') > .researchCost > span:nth-child(1)').innerHTML = dNotation(calcResearchCost()[i][0], 3);
     $('.research:nth-of-type(' + (i+1) + ') > .researchCost > span:nth-child(2)').innerHTML = dNotation(calcResearchCost()[i][1], 3);
 
@@ -74,6 +75,7 @@ function calcResearch() {
 function calcRPGain() {
   var tempNum = game.rebootNum.plus(2).pow(1/6).floor().sub(19);
   tempNum = tempNum.mul(D(2).pow(game.researchLevel[6]));
+  if (game.quantumUpgradeBought.includes('21')) tempNum = tempNum.mul(10);
   return Decimal.max(tempNum, 0);
 }
 function calcResearchCost() {
@@ -88,9 +90,16 @@ function calcResearchCost() {
   tempArr[7][0] = D(1e9).mul(D(1+game.researchSpeed[7]/5).pow(game.researchSpeed[7])); tempArr[7][1] = D(1e90).mul(D(1e5).pow(game.researchSpeed[7])).pow(1+(game.researchSpeed[7]/11)**2);
   return tempArr;
 }
+function calcPerResearchSpeedBase() {
+  var base = D(100);
+  if (game.quantumUpgradeBought.includes('23')) base = base.mul(10);
+  return base;
+}
 function calcResearchSpeed(lv) {
   if (lv != 0) {
-    return D(100).pow(lv-1);
+    var tempSpeed = calcPerResearchSpeedBase().pow(lv-1);
+    if (game.quantumUpgradeBought.includes('24')) tempNum = tempNum.mul(D(2).pow(D(game.tLast-game.quantumTime).pow(0.2)));
+    return tempSpeed;
   } else {
     return D(0);
   }

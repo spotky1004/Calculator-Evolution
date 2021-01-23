@@ -25,4 +25,5 @@ function quantumReset() {
   for (var i = 0; i < 15; i++) {
     game.shopBought[i] = 0;
   }
+  if (game.quantumUpgradeBought.includes('41') && game.researchLevel[1] < 2) game.researchLevel[1] = 2; 
 }

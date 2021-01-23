@@ -123,6 +123,7 @@ function renderShop() {
     $(".shopBox:nth-of-type(2) > .shopItem:nth-of-type(" + (i+1) + ") > .itemCost > .itemCostNum").innerHTML = dNotation(calcShopCost()[i+5], 5);
   }
   $("#cpuHz").innerHTML = notationSI(calcCPU(), 0);
+  $("#cpuSpeed").innerHTML = dNotation(calcCpuUpgradeEffect(), 4, 1);
 }
 function renderOption() {
   for (var i = 0; i < 1; i++) {
@@ -202,10 +203,19 @@ function shopBuy(num) {
   renderShop();
 }
 
+function calcCpuUpgradeEffect() {
+  var eff = D(2);
+  if (game.quantumUpgradeBought.includes('11')) eff = eff.mul(1.1);
+  return eff;
+}
 function calcCPU() {
   var tempVar = D(1);
-  tempVar = tempVar.mul(D(2).pow(game.shopBought[5]+game.researchLevel[0])).mul(getOverclockPower());
+  tempVar = tempVar.mul(calcCpuUpgradeEffect().pow(
+    game.shopBought[5]+
+    game.researchLevel[0]*(game.quantumUpgradeBought.includes('13')?2:1)
+  )).mul(getOverclockPower());
   tempVar = tempVar.mul(calcQubitEffect());
+  if (game.quantumUpgradeBought.includes('14')) eff = eff.mul(D(3).pow(game.quantumLab));
   return tempVar;
 }
 function calcShopCost() {
@@ -231,6 +241,7 @@ function calcShopMax() {
 function calcMaxDigit() {
   var tempNum = D(6);
   tempNum = tempNum.plus(game.researchLevel[2]);
+  if (game.quantumUpgradeBought.includes('12')) tempNum = tempNum.plus(game.base.pow(0.6).floor());
   return tempNum;
 }
 function calcMaxBase() {
@@ -294,7 +305,7 @@ function calcProgram() {
     shopBuy(5);
   }
   if (game.programActive[6]) {
-    game.durability = game.durability.sub(getOverclockPower().add(1).log(2).div(D.pow(2, game.researchLevel[7])).div(1000).mul(tGain));
+    game.durability = game.durability.sub(getOverclockPower().add(1).log(2).div(D.pow(1.1, game.researchLevel[4])).div(1000).mul(tGain).div(game.quantumUpgradeBought.includes('42') ? 100 : 1));
 
     // minus bug fix
     if (game.durability.lte(0.01)) game.durability = D(0);

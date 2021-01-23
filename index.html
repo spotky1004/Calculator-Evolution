@@ -4,24 +4,24 @@
     <meta charset="utf-8">
     <meta name="viewport" content="user-scalable=no">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="animation.css?ver=0.14.9">
-    <link rel="stylesheet" href="index.css?ver=0.14.9">
+    <link rel="stylesheet" href="animation.css?ver=0.15">
+    <link rel="stylesheet" href="index.css?ver=0.15">
     <script src="./scripts/decimalMin.js"></script>
-    <script src="./scripts/index.js?ver=0.14.9" defer></script>
-    <script src="./scripts/numberFunc.js?ver=0.14.9" defer></script>
-    <script src="./scripts/achievement.js?ver=0.14.9" defer></script>
-    <script src="./scripts/progress/game.js?ver=0.14.9" defer></script>
-    <script src="./scripts/progress/reboot.js?ver=0.14.9" defer></script>
-    <script src="./scripts/progress/quantum.js?ver=0.14.9" defer></script>
-    <script src="./scripts/saveload.js?ver=0.14.9" defer></script>
-    <script src="./scripts/loop.js?ver=0.14.9" defer></script>
-    <script src="./scripts/reset.js?ver=0.14.9" defer></script>
-    <title>Calculator Evolution v0.14.9</title>
+    <script src="./scripts/index.js?ver=0.15" defer></script>
+    <script src="./scripts/numberFunc.js?ver=0.15" defer></script>
+    <script src="./scripts/achievement.js?ver=0.15" defer></script>
+    <script src="./scripts/progress/game.js?ver=0.15" defer></script>
+    <script src="./scripts/progress/reboot.js?ver=0.15" defer></script>
+    <script src="./scripts/progress/quantum.js?ver=0.15" defer></script>
+    <script src="./scripts/saveload.js?ver=0.15" defer></script>
+    <script src="./scripts/loop.js?ver=0.15" defer></script>
+    <script src="./scripts/reset.js?ver=0.15" defer></script>
+    <title>Calculator Evolution v0.15</title>
   </head>
   <body>
     <div id="warpAll">
       <div id="numberArea">
-        Number: <span id="memoryDigit">00000</span><span id="basedNumber">0</span>(<span id="numberBase">2</span>)
+        Number: <span id="numberDigits"><span id="memoryDigit">00000</span><span id="basedNumber">0</span></span>(<span id="numberBase">2</span>)
       </div>
       <div id="moneyArea">
         <span id="money">0.00</span> $
@@ -132,7 +132,7 @@
                 Cost: <span class="itemCostNum">0.00000</span>$
               </div>
               <div class="itemDesc">
-                Make speed 2x faster
+                Make speed <span id="cpuSpeed">2</span>x faster
               </div>
             </div>
             <div class="shopItem" style="display:none;" onclick="shopBuy(6)">
@@ -215,6 +215,9 @@
               <div class="researchCost">
                 Cost: <span>1</span> RP, <span>0</span> $
               </div>
+              <div class="researchDesc">
+                CPU upgrade level +1
+              </div>
             </div>
             <div class="research" onclick="researchBuy(1)">
               <div class="researchName">
@@ -232,6 +235,9 @@
               </div>
               <div class="researchCost">
                 Cost: <span>1</span> RP, <span>0</span> $
+              </div>
+              <div class="researchDesc">
+                Max program run at one time +1
               </div>
             </div>
             <div class="research" onclick="researchBuy(2)">
@@ -251,6 +257,9 @@
               <div class="researchCost">
                 Cost: <span>1</span> RP, <span>0</span> $
               </div>
+              <div class="researchDesc">
+                Max digit +1
+              </div>
             </div>
             <div class="research" onclick="researchBuy(3)">
               <div class="researchName">
@@ -268,6 +277,9 @@
               </div>
               <div class="researchCost">
                 Cost: <span>1</span> RP, <span>0</span> $
+              </div>
+              <div class="researchDesc">
+                Overclocker effect x2, but Durability decrease speed +x1
               </div>
             </div>
             <div class="research" onclick="researchBuy(4)">
@@ -287,6 +299,9 @@
               <div class="researchCost">
                 Cost: <span>1</span> RP, <span>0</span> $
               </div>
+              <div class="researchDesc">
+                Durability decrease speed /1.1
+              </div>
             </div>
             <div class="research" onclick="researchBuy(5)">
               <div class="researchName">
@@ -304,6 +319,9 @@
               </div>
               <div class="researchCost">
                 Cost: <span>1</span> RP, <span>0</span> $
+              </div>
+              <div class="researchDesc">
+                Start durability +100%
               </div>
             </div>
             <div class="research" onclick="researchBuy(6)">
@@ -323,6 +341,9 @@
               <div class="researchCost">
                 Cost: <span>1</span> RP, <span>0</span> $
               </div>
+              <div class="researchDesc">
+                RP gain x2
+              </div>
             </div>
             <div class="research" onclick="researchBuy(7)">
               <div class="researchName">
@@ -340,6 +361,9 @@
               </div>
               <div class="researchCost">
                 Cost: <span>1</span> RP, <span>0</span> $
+              </div>
+              <div class="researchDesc">
+                Reboot cooldown /1.5
               </div>
             </div>
           </div>
@@ -381,7 +405,18 @@
           <div id="qubitDisplay">
             You have 0/0 Qubit (next Qubit at Infinity sec)
           </div>
-          <div id="quantumUpgrades">
+          <div id="quantumUpgradeWarp">
+            <div id="quantumUpgrades">
+            </div>
+            <div id="quantumRespec" onclick="quantumUpgradeRespec()">
+              Respec <span style="opacity: var(--tempOp); display: var(--tempDis)">& Quantum Reset<span>
+            </div>
+            <div id="quantumRestart" onclick="quantumRestart()">
+              Restart <span style="opacity: var(--tempOp); display: var(--tempDis)">Quantum Run<span>
+            </div>
+          </div>
+          <div id="quantumUpgradeDesc">
+
           </div>
         </div>
       </div>

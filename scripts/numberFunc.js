@@ -16,9 +16,7 @@ function formatWithBase(infNum, base=2, len=D(1e300), padStart=0) {
   if (infNum.eq(0)) return ("0").repeat(padStart?Number(len.valueOf()):1);
   let outputString = "";
   const logThing = Math.floor(infNum.log(base));
-  if (infNum.gte(base.pow(len).pow(0.9999))) {
-    return String.fromCharCode(getModifiedCharcode(base.sub(1).valueOf())).repeat(len.valueOf());
-  }
+  if (infNum.gte(base.pow(len).pow(0.9999))) return String.fromCharCode(getModifiedCharcode(base.sub(1).valueOf())).repeat(len.valueOf());
   for (let index = 0; index <= logThing; index++) {
     var strIdx = Number(infNum.div(base.pow(logThing-index)).mod(base).floor());
     infNum = infNum.sub(base.pow(logThing-index).mul(strIdx));
@@ -32,15 +30,9 @@ function formatWithBase(infNum, base=2, len=D(1e300), padStart=0) {
 function getModifiedCharcode(charCode) {
   charCode = Number(charCode);
   var p = 0;
-  if (charCode >= 10) {
-    p = p+7;
-  }
-  if (charCode >= 36) {
-    p = p+6;
-  }
-  if (charCode >= 66) {
-    p = p+27;
-  }
+  if (charCode >= 10) p = p+7;
+  if (charCode >= 36) p = p+6;
+  if (charCode >= 66) p = p+34;
   charCode = charCode+48+p;
   return charCode;
 }
@@ -76,4 +68,30 @@ function ordNum(num) {
     ordStr = "th";
   }
   return num.valueOf() + ordStr;
+}
+function romanize (num) {
+  if (num == 0) {
+    return '0';
+  }
+  if (isNaN(num))
+    return NaN;
+  var digits = String(+num).split(""),
+    key = [
+      "","C","CC","CCC","CD","D","DC","DCC","DCCC","CM",
+      "","X","XX","XXX","XL","L","LX","LXX","LXXX","XC",
+      "","I","II","III","IV","V","VI","VII","VIII","IX"
+    ],
+    roman = "",
+    i = 3;
+  while (i--)
+    roman = (key[+digits.pop() + (i * 10)] || "") + roman;
+    return (Array(+digits.join("") + 1).join("M") + roman).toLowerCase();
+}
+function timeNotation(sec) {
+  if (sec > 3600*24*365) return `${(sec/3600/24/365).toFixed(3)}y`;
+  if (sec > 3600*24) return `${(sec/3600/24).toFixed(2)}d`;
+  if (sec > 3600) return `${(sec/3600).toFixed(2)}h`;
+  if (sec > 60) return `${(sec/60).toFixed(2)}m`;
+  if (sec > 1) return `${(sec).toFixed(1)}s`;
+  return `${(sec*1000).toFixed(0)}ms`;
 }
