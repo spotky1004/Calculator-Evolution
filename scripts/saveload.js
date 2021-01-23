@@ -74,3 +74,17 @@ function hardReset() {
   }
   save();
 }
+
+function exportGame() {
+  prompt("Your Savefile:", btoa(JSON.stringify(game)));
+}
+function importGame() {
+  var recSaveFile = atob(window.prompt("Import Savefile here", ""));
+  try {
+    game = JSON.parse(recSaveFile);
+    save();
+    load();
+  } catch (e) {
+    alert("Invaild Savefile!");
+  }
+}

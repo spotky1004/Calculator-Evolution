@@ -97,7 +97,7 @@ function renderQunatum() {
 }
 function calcQuantum() {
   game.qubitProgress = game.qubitProgress.add(calcQubitSpeed().mul(tGain));
-  game.qubit = D.max(0, game.qubitProgress.log(3)).floor(0);
+  game.qubit = D.max(0, game.qubitProgress.add(1).log(3)).floor(0);
 }
 
 function displayQuantumUpgradeDesc(idx) {
