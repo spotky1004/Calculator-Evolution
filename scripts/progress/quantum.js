@@ -6,7 +6,7 @@
       "CPU upgrade effect x${dNotation(1.1, 0, 1)} (x${!game.quantumUpgradeBought.includes('11') ? dNotation(calcCpuUpgradeEffect(), 0, 1) : dNotation(calcCpuUpgradeEffect().div(1.1), 0, 1)} -> x${!game.quantumUpgradeBought.includes('11') ? dNotation(calcCpuUpgradeEffect().mul(1.1), 0, 1) : dNotation(calcCpuUpgradeEffect(), 0, 1)})",
       "Increase digit cap based on base (+${dNotation(game.base.pow(0.6).floor(), 4, 0)})",
       "'Bonus CPU Level' research's effect x2",
-      "Each Quantum Lab Boosts CPU by x3 (x${D(3).pow(game.quantumLab)})",
+      "Each Quantum Lab Boosts CPU by x3 (x${D(9).pow(game.quantumLab)})",
       "Coming Soon!",
       "Coming Soon!"
     ],
