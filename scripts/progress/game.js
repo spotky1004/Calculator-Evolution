@@ -89,6 +89,10 @@
 function renderBasic() {
   $("#basedNumber").innerHTML = formatWithBase(game.number, game.base, game.digits, 1);
   $("#money").innerHTML = dNotation(game.money, 5);
+  tempRes = '';
+  if (game.t2toggle) tempRes += ` | ${dNotation(game.researchPoint, 4, 0)} RP\n`;
+  if (game.t3toggle) tempRes += ` | ${dNotation(game.qubit, 4, 0)} Qubit , ${dNotation(game.quantumLab, 4, 0)} Lab\n`;
+  $("#otherRes").innerHTML = tempRes;
   $("#memoryDigit").innerHTML = ("").padStart(dNum(game.mDigits)-dNum(game.digits), 0);
   $("#numberBase").innerHTML = game.base;
 
