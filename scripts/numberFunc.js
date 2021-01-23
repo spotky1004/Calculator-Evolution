@@ -33,6 +33,7 @@ function getModifiedCharcode(charCode) {
   if (charCode >= 10) p = p+7;
   if (charCode >= 36) p = p+6;
   if (charCode >= 66) p = p+34;
+  if (charCode >= 78) p = p+1;
   charCode = charCode+48+p;
   return charCode;
 }
