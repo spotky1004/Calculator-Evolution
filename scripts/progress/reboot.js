@@ -46,7 +46,7 @@ function reboot() {
       $('#rebootButton').className = "";
       $('#rebootButton').innerHTML = "Reboot";
       commandAppend('reboot done! (Got ' + dNotation(gotRP, 4, 0) +' RP)', 75, 1);
-    }, 5000*((2/3)**game.researchLevel[7]));
+    }, 5000*((2/3)**game.researchLevel[7])/(game.quantumUpgradeBought.includes('43')?5:1));
   }
 }
 function researchBuy(num) {
@@ -76,6 +76,7 @@ function calcRPGain() {
   var tempNum = game.rebootNum.plus(2).pow(1/6).floor().sub(19);
   tempNum = tempNum.mul(D(2).pow(game.researchLevel[6]));
   if (game.quantumUpgradeBought.includes('21')) tempNum = tempNum.mul(10);
+  if (game.quantumUpgradeBought.includes('22')) tempNum = tempNum.mul(D(1.2).pow(game.qubit).pow(D.min(game.researchPoint.add(1).log(10).div(25), 1)));
   return Decimal.max(tempNum, 0);
 }
 function calcResearchCost() {
