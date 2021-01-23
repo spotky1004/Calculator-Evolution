@@ -224,7 +224,7 @@ function calcCPU() {
     game.researchLevel[0]*(game.quantumUpgradeBought.includes('13')?2:1)
   )).mul(getOverclockPower());
   tempVar = tempVar.mul(calcQubitEffect());
-  if (game.quantumUpgradeBought.includes('14')) eff = eff.mul(D(3).pow(game.quantumLab));
+  if (game.quantumUpgradeBought.includes('14')) tempVar = tempVar.mul(D(3).pow(game.quantumLab));
   return tempVar;
 }
 function calcShopCost() {
