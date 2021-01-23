@@ -11,7 +11,7 @@ function renderResearch() {
   $('#rebootDesc').innerHTML = "If you Reboot now, you'll get " + dNotation(calcRPGain(), 4, 0) + " Research Points<br>You need to reach " + formatWithBase(calcRPGain().plus(20).pow(6).sub(1).ceil(), game.base) + "(" + game.base + ") to get next RP<br>You lose Number, Memory, Base, Upgrades, Money on Reboot";
   $('#rpDisplay').innerHTML = "You have " + dNotation(game.researchPoint, 4, 0) + " Research Points";
   for (var i = 0; i < 8; i++) {
-    $('.research:nth-of-type(' + (i+1) + ') > .researchProgress > .innerBar').style.width = game.researchProgress[i]*26 + 'vw';
+    $('.research:nth-of-type(' + (i+1) + ') > .researchProgress > .innerBar').style.width = Math.min(1, game.researchProgress[i])*26 + 'vw';
     $('.research:nth-of-type(' + (i+1) + ') > .researchProgress > .researchLevel').innerHTML = 'Lv.' + game.researchLevel[i];
     $('.research:nth-of-type(' + (i+1) + ') > .researchProgress > .researchProgressDisplay').innerHTML = timeNotation(Number(calcResearchDivide(i).div(calcResearchSpeed(game.researchSpeed[i])).valueOf())*(1-game.researchProgress[i])) + ' left';
     // ${dNotation(game.researchProgress[i]*calcResearchDivide(i), 2)}/${dNotation(calcResearchDivide(i), 2)}
@@ -99,7 +99,7 @@ function calcPerResearchSpeedBase() {
 function calcResearchSpeed(lv) {
   if (lv != 0) {
     var tempSpeed = calcPerResearchSpeedBase().pow(lv-1);
-    if (game.quantumUpgradeBought.includes('24')) tempNum = tempNum.mul(D(2).pow(D(game.tLast-game.quantumTime).pow(0.2)));
+    if (game.quantumUpgradeBought.includes('24')) tempSpeed = tempSpeed.mul(D(2).pow(D(game.tLast-game.quantumTime).pow(0.2)));
     return tempSpeed;
   } else {
     return D(0);
