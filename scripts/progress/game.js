@@ -97,7 +97,7 @@ function renderBasic() {
   $("#numberBase").innerHTML = game.base;
 
   //tabs
-  $('#mainNav > .tabNav:nth-child(6)').style.display = (game.t3toggle ? 'inline' : 'none');
+  $('#mainNav > .tabNav:nth-child(6)').style.display = (game.t3toggle ? 'inline-block' : 'none');
 
   commandFloat();
 }

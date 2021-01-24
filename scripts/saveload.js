@@ -27,6 +27,7 @@ tempGame = {
   freeQubit: D(0),
   qubitProgress: D(0),
   quantumUpgradeBought: [],
+  quantumAutomateToggle: [1, 1, 1, 1, 1, 1],
   quantumTime: new Date().getTime()
 };
 game = {};

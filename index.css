@@ -38,8 +38,8 @@
   font-size: 2.7vh;
 }
 .tabNav {
-  display: block; float: left;
-  margin: 0 1.2vw 0 0; padding: 0.2vh 0.2vw;
+  display: inline-block;
+  padding: 0.2vh 0.2vw;
   border-radius: 0.3vh;
   transition: 0.3s;
 }
@@ -456,7 +456,7 @@
   border: 0.4vh solid var(--col); border-radius: var(--s2);
   background-color: #000;
   cursor: pointer;
-  transition: background-color 3s, transform 5s;
+  transition: background-color 3s, transform 5s, opacity 2s;;
   animation: quarkGlow ease 7.3s infinite;
 }
 .quantumUpgrade:not(.bought):hover {
@@ -466,6 +466,9 @@
 }
 .quantumUpgrade.bought {
   background-color: var(--col);
+}
+.quantumUpgrade.deactivated {
+  opacity: 0.3;
 }
 .quantumUpgrade:not(:nth-child(6n)) {
   margin-right: var(--m);

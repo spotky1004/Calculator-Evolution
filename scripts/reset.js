@@ -14,16 +14,20 @@ function rebootReset() {
 }
 
 function quantumReset() {
-  game.programActive[4] = false;
+  if (!game.quantumUpgradeBought.includes('65')) game.programActive[4] = false;
   rebootReset();
-  game.researchPoint = D(0);
+  if (!game.quantumUpgradeBought.includes('63')) game.researchPoint = D(0);
   for (var i = 0; i < 9; i++) {
     game.researchProgress[i] = 0;
-    game.researchLevel[i] = 0;
+    if (!game.quantumUpgradeBought.includes('66')) game.researchLevel[i] = (game.quantumUpgradeBought.includes('62') ? Math.min(3, game.researchLevel[i]) : 0);
     game.researchSpeed[i] = 0;
   }
   for (var i = 0; i < 15; i++) {
+    if (i < 5) {
+      if (game.quantumUpgradeBought.includes('64')) continue;
+      if (game.quantumUpgradeBought.includes('61')) game.shopBought[i] = Math.min(1, game.shopBought[i]);
+    }
     game.shopBought[i] = 0;
   }
-  if (game.quantumUpgradeBought.includes('41') && game.researchLevel[1] < 2) game.researchLevel[1] = 2; 
+  if (game.quantumUpgradeBought.includes('41') && game.researchLevel[1] < 2) game.researchLevel[1] = 2;
 }
