@@ -144,7 +144,7 @@ function renderInfo() {
 }
 
 function goTab(num) {
-  if (!rebooting) {
+  if (!rebooting || game.t3toggle) {
     for (var i = 0; i < document.getElementsByClassName('tab').length; i++) {
       $(".tab:nth-of-type(" + (i+1) + ")").style.display = "none";
     }
