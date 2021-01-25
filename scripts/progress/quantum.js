@@ -22,7 +22,7 @@
     // 3: Quantum
     [
       "Qubit production speed x100",
-      "Pow Quantum req based on Base (^${dNotation(D(0.999).pow(D.min(200, game.base)), 4, 5)})",
+      "Pow Quantum requirements based on Base (^${dNotation(D(0.999).pow(D.min(200, game.base)), 4, 5)})",
       "Each Qubit boosts itself Production Speed by x1.3 (x${dNotation(D(1.3).pow(game.qubit), 4, 2)})",
       "Boost Qubit production speed based on Number (x${dNotation(D.min(game.number.add(1).log(10).div(10).sqrt(2), 1).add(1).pow(game.number.add(1).log(10).pow(0.6)), 4, 2)})",
       "Coming Soon!",
@@ -102,12 +102,12 @@ function calcQuantum() {
   calcQuantumAuto();
 }
 function calcQuantumAuto() {
-  if (game.quantumUpgradeBought.includes('41') && game.quantumAutomateToggle[0]) for (var i = 0; i < 5; i++) shopBuy(i);
-  if (game.quantumUpgradeBought.includes('42') && game.quantumAutomateToggle[1]) for (var i = 0; i < 5; i++) reboot();
-  if (game.quantumUpgradeBought.includes('43') && game.quantumAutomateToggle[2]) for (var i = 0; i < 3; i++) researchBuy(i);
-  if (game.quantumUpgradeBought.includes('44') && game.quantumAutomateToggle[3]) for (var i = 3; i < 6; i++) researchBuy(i);
-  if (game.quantumUpgradeBought.includes('45') && game.quantumAutomateToggle[4]) for (var i = 6; i < 8; i++) researchBuy(i);
-  if (game.quantumUpgradeBought.includes('46') && game.quantumAutomateToggle[5]) quantum();
+  if (game.quantumUpgradeBought.includes('51') && game.quantumAutomateToggle[0]) for (var i = 0; i < 5; i++) shopBuy(i);
+  if (game.quantumUpgradeBought.includes('52') && game.quantumAutomateToggle[1]) reboot();
+  if (game.quantumUpgradeBought.includes('53') && game.quantumAutomateToggle[2]) for (var i = 0; i < 3; i++) researchBuy(i);
+  if (game.quantumUpgradeBought.includes('54') && game.quantumAutomateToggle[3]) for (var i = 3; i < 6; i++) researchBuy(i);
+  if (game.quantumUpgradeBought.includes('55') && game.quantumAutomateToggle[4]) for (var i = 6; i < 8; i++) researchBuy(i);
+  if (game.quantumUpgradeBought.includes('56') && game.quantumAutomateToggle[5]) quantum();
 }
 
 function displayQuantumUpgradeDesc(idx) {
