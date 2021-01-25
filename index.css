@@ -31,7 +31,7 @@
 }
 #memoryDigit {
   display: inline-block;
-  max-width: 1000vw; height: 4.4vh;
+  max-width: 40vw; height: 4.4vh;
   overflow: hidden;
   text-overflow: ellipsis;
   filter: grayscale(1);
