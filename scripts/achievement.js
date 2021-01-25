@@ -20,6 +20,7 @@
     'game.quantumLab.gte(1)', 'game.qubit.gte(10)', 'game.quantumUpgradeBought.length>=8', 'game.quantumLab.gte(7)', 'game.qubit.gte(50)',
     'game.money.gte(1e1000)', 'game.base.gte(250)'
   ];
+  /* IDEA from Pillow: 'Reach Base ${dNotation(50, 0, 0)} without a RP', 'Get ${dNotation(1e6, 3, 0)} RP without RP',*/
 })();
 
 function initAchievements() {

@@ -14,6 +14,7 @@ function renderResearch() {
   $('#rpDisplay').innerHTML = "You have " + dNotation(game.researchPoint, 4, 0) + " Research Points";
   for (var i = 0; i < 8; i++) {
     $('.research:nth-of-type(' + (i+1) + ') > .researchProgress > .innerBar').style.width = Math.min(1, game.researchProgress[i])*26 + 'vw';
+    $('.research:nth-of-type(' + (i+1) + ') > .researchProgress > .innerBar').style.filter = `hue-rotate(${Math.min(1, game.researchProgress[i])*180}deg)`;
     $('.research:nth-of-type(' + (i+1) + ') > .researchProgress > .researchLevel').innerHTML = 'Lv.' + game.researchLevel[i];
     $('.research:nth-of-type(' + (i+1) + ') > .researchProgress > .researchProgressDisplay').innerHTML = timeNotation(Number(calcResearchDivide(i).div(calcResearchSpeed(game.researchSpeed[i])).valueOf())*(1-game.researchProgress[i])) + ' left';
     // progress number display: ${dNotation(game.researchProgress[i]*calcResearchDivide(i), 2)}/${dNotation(calcResearchDivide(i), 2)}

@@ -31,7 +31,7 @@
 }
 #memoryDigit {
   display: inline-block;
-  max-width: 40vw; height: 4.4vh;
+  max-width: 40vw; height: 4.15vh;
   overflow: hidden;
   text-overflow: ellipsis;
   filter: grayscale(1);
@@ -307,7 +307,6 @@
   width: 0; height: 5vh;
   position: absolute;
   background-color: #dba7a7;
-  animation: hueRotate linear 4s infinite;
 }
 .shadowBar {
   width: 26vw ; height: 5vh;
