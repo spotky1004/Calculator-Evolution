@@ -89,13 +89,19 @@
 
 #infoArea {
   position: absolute;
+  padding: 0.5vh 0;
   top: 0; right: 0;
+  min-width: 24vh;
   font-size: 1.6vh;
   background-color: rgba(255, 255, 255, 0.6); box-shadow: 0 0 3vh rgba(255, 255, 255, 0.6);
   pointer-events: none;
 }
 #infoArea > div {
-  padding: 0.5vh 0.5vw;
+  padding: 0.1vh 0.5vw;
+}
+#basicInfo {
+  filter: brightness(0.6);
+  animation: greenGlow ease 5s infinite;
 }
 #overclockInfo {
   animation: purpleGlow ease 5s infinite;

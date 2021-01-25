@@ -11,7 +11,8 @@ String.prototype.replaceAt=function(index, char) {
 // all
 function renderAll() {
   renderBasic();
-  renderOverclockInfo();
+  renderInfo();
+
   switch (tabNow) {
     case 0:
     renderProgram();
@@ -29,6 +30,11 @@ function renderAll() {
     renderQunatum();
       break;
   }
+}
+function renderInfo() {
+  $('#infoArea').style.display = (game.t2toggle ? 'block' : 'none')
+  renderBasicInfo();
+  renderOverclockInfo();
 }
 function calcAll() {
   calcToggleTabs();

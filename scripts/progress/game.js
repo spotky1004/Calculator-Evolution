@@ -139,8 +139,8 @@ function renderOption() {
     $('#optionToggle' + i).className = 'optionBtn' + ((game.optionToggle[i]) ? '' : ' disabled');
   }
 }
-function renderInfo() {
-  renderOverclockInfo();
+function renderBasicInfo() {
+  $('#basicInfo').innerHTML = `Number: ${dNotation(game.number, 2, 0)} / ${dNotation(game.base.pow(game.digits), 2, 0)}<br>Digit: ${dNotation(game.digits, 2, 0)} / ${dNotation(calcMaxDigit(), 2, 0)}`;
 }
 
 function goTab(num) {
