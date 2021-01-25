@@ -7,16 +7,17 @@
       "Increase digit cap based on base (+${dNotation(game.base.pow(0.6).floor(), 4, 0)})",
       "'Bonus CPU Level' research's effect x2",
       "Each Quantum Lab Boosts CPU by x27 (x${dNotation(D(27).pow(game.quantumLab), 4, 0)})",
-      "Coming Soon!",
+      "Each Qubit boosts Mine Power by x2.4 (x${dNotation(D(2.4).pow(game.qubit), 4, 0)})",
       "Coming Soon!"
     ],
     // 2: Research
     [
       "RP gain x10",
       "Boost RP gain based on Qubit and RP (x${dNotation(D(1.2).pow(game.qubit).pow(D.min(game.researchPoint.add(1).log(10).div(25), 1)), 4, 2)})",
-      "Multiply research upgrade effect by x10 (x${!game.quantumUpgradeBought.includes('23') ? dNotation(calcPerResearchSpeedBase(), 0, 1) : dNotation(calcPerResearchSpeedBase().div(10), 0, 1)} -> x${!game.quantumUpgradeBought.includes('23') ? dNotation(calcPerResearchSpeedBase().mul(10), 0, 1) : dNotation(calcPerResearchSpeedBase(), 0, 1)})",
-      "Boost Research speed based on Time spent on this quantum (x${dNotation(D(2).pow(D(game.tLast-game.quantumTime).pow(0.2)), 4, 2)})",
-      "Coming Soon!",
+      "Multiply research upgrade effect by x10 (x${!game.quantumUpgradeBought.includes('23') ? dNotation(calcPerResearchSpeedBase(), 4, 0) : dNotation(calcPerResearchSpeedBase().div(10), 4, 0)} -> x${!game.quantumUpgradeBought.includes('23') ? dNotation(calcPerResearchSpeedBase().mul(10), 4, 0) : dNotation(calcPerResearchSpeedBase(), 4, 0)})",
+      "Boost Research speed based on Time spent on this quantum and RP (x${dNotation(D(2).pow(D(game.tLast-game.quantumTime).pow(0.2)).pow(D.min(10, D.max(1, game.researchPoint.log(10).div(20)))), 4, 2)})",
+      "Remove money requirement from research",
+      //Each Qubit add Research upgrade before multiply by +10 (${!game.quantumUpgradeBought.includes('25') ? dNotation(calcPerResearchSpeedBaseBeforeMult(), 4, 0) : dNotation(calcPerResearchSpeedBaseBeforeMult().sub(game.qubit.mul(10)), 4, 0) } -> ${!game.quantumUpgradeBought.includes('25') ? dNotation(calcPerResearchSpeedBaseBeforeMult().add(game.qubit.mul(10)), 4, 0) : dNotation(calcPerResearchSpeedBaseBeforeMult(), 4, 0) })
       "Coming Soon!"
     ],
     // 3: Quantum
@@ -25,7 +26,7 @@
       "Pow Quantum requirements based on Base (^${dNotation(D(0.999).pow(D.min(200, game.base)), 4, 5)})",
       "Each Qubit boosts itself Production Speed by x1.3 (x${dNotation(D(1.3).pow(game.qubit), 4, 2)})",
       "Boost Qubit production speed based on Number (x${dNotation(D.min(game.number.add(1).log(10).div(10).sqrt(2), 1).add(1).pow(game.number.add(1).log(10).pow(0.6)), 4, 2)})",
-      "Coming Soon!",
+      "Coming Sooner!",
       "You can bulk buy Quantum Labs"
     ],
     // 4: QoL
@@ -144,7 +145,7 @@ function buyQuantumUpgrade(idx) {
 }
 function getQuantumUpgradeCost(idx) {
   var fixedIdx = [Math.floor(idx/6), idx%6];
-  return Math.floor((fixedIdx[0]*2)**1.7+2)*Math.floor(fixedIdx[1]==5?fixedIdx[1]**1.2+5:1)+fixedIdx[0]*3;
+  return Math.floor((Math.floor((fixedIdx[0]*2)**1.7+2)*Math.floor(fixedIdx[1]==5?fixedIdx[1]**1.2+5:1)+fixedIdx[0]*3)**(fixedIdx[0]==5&&fixedIdx[1]!=5?1.3:1)/(fixedIdx[1]==3||fixedIdx[1]==4?fixedIdx[1]/5+1:1));
 }
 function quantumUpgradeRespec() {
   if (typeof qRespecTimeout != "undefined") clearTimeout(qRespecTimeout);

@@ -283,6 +283,7 @@ function calcProgram() {
     if (game.shopBought[1] >= 1) moneyGain = moneyGain.mul(game.digits);
     if (game.shopBought[1] >= 2) moneyGain = moneyGain.mul(game.researchPoint);
     if (game.shopBought[1] >= 3) moneyGain = moneyGain.mul(getOverclockPower());
+    if (game.quantumUpgradeBought.includes('15')) moneyGain = moneyGain.mul(D(2.4).pow(game.qubit));
     game.money = game.money.plus(moneyGain);
     rainbowEffect("#money");
   } else {

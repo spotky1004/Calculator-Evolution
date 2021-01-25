@@ -9,18 +9,18 @@ function renderResearch() {
     $('#rebootButton').className = "disabled";
   }
   $('#rebootDesc').innerHTML = "If you Reboot now, you'll get " + dNotation(calcRPGain(), 4, 0) + " Research Points<br>";
-  $('#rebootDesc').innerHTML += "You lose Number, Memory, Base, Upgrades, Money on Reboot";
-  if (calcRPGain().lte(1e10)) $('#rebootDesc').innerHTML += "You need to reach " + formatWithBase(calcRPGain().plus(20).pow(6).sub(1).ceil(), game.base) + "(" + game.base + ") to get next RP<br>";
+  $('#rebootDesc').innerHTML += "You lose Number, Memory, Base, Upgrades, Money on Reboot<br>";
+  if (calcRPGain().lte(1e10)) $('#rebootDesc').innerHTML += "You need to reach " + formatWithBase(calcRPGain().plus(20).pow(6).sub(1).ceil(), game.base) + "(" + game.base + ") to get next RP";
   $('#rpDisplay').innerHTML = "You have " + dNotation(game.researchPoint, 4, 0) + " Research Points";
   for (var i = 0; i < 8; i++) {
     $('.research:nth-of-type(' + (i+1) + ') > .researchProgress > .innerBar').style.width = Math.min(1, game.researchProgress[i])*26 + 'vw';
     $('.research:nth-of-type(' + (i+1) + ') > .researchProgress > .researchLevel').innerHTML = 'Lv.' + game.researchLevel[i];
     $('.research:nth-of-type(' + (i+1) + ') > .researchProgress > .researchProgressDisplay').innerHTML = timeNotation(Number(calcResearchDivide(i).div(calcResearchSpeed(game.researchSpeed[i])).valueOf())*(1-game.researchProgress[i])) + ' left';
-    // ${dNotation(game.researchProgress[i]*calcResearchDivide(i), 2)}/${dNotation(calcResearchDivide(i), 2)}
+    // progress number display: ${dNotation(game.researchProgress[i]*calcResearchDivide(i), 2)}/${dNotation(calcResearchDivide(i), 2)}
     $('.research:nth-of-type(' + (i+1) + ') > .researchCost > span:nth-child(1)').innerHTML = dNotation(calcResearchCost()[i][0], 3);
-    $('.research:nth-of-type(' + (i+1) + ') > .researchCost > span:nth-child(2)').innerHTML = dNotation(calcResearchCost()[i][1], 3);
-
+    $('.research:nth-of-type(' + (i+1) + ') > .researchCost > span:nth-child(2) > span').innerHTML = dNotation(calcResearchCost()[i][1], 3);
   }
+  [...document.getElementsByClassName("researchMoneyReq")].forEach(ele => {ele.style.display = (game.quantumUpgradeBought.includes('25') ? 'none' : 'inline');});
   $('.research:nth-of-type(4)').style.display = ((game.researchLevel[0]>=1) ? "inline-block" : "none");
   $('.research:nth-of-type(5)').style.display = ((game.researchLevel[0]>=1) ? "inline-block" : "none");
   $('.research:nth-of-type(6)').style.display = ((game.researchLevel[3]>=1) ? "inline-block" : "none");
@@ -52,9 +52,9 @@ function reboot() {
   }
 }
 function researchBuy(num) {
-  if (game.researchPoint.gte(calcResearchCost()[num][0]) && game.money.gte(calcResearchCost()[num][1])) {
+  if (game.researchPoint.gte(calcResearchCost()[num][0]) && (game.money.gte(calcResearchCost()[num][1]) || game.quantumUpgradeBought.includes('25'))) {
     game.researchPoint = game.researchPoint.sub(calcResearchCost()[num][0]);
-    game.money = game.money.sub(calcResearchCost()[num][1]);
+    if (!game.quantumUpgradeBought.includes('25')) game.money = game.money.sub(calcResearchCost()[num][1]);
     game.researchSpeed[num]++;
     renderAll();
   }
@@ -93,15 +93,19 @@ function calcResearchCost() {
   tempArr[7][0] = D(1e9).mul(D(1+game.researchSpeed[7]/5).pow(game.researchSpeed[7])); tempArr[7][1] = D(1e90).mul(D(1e5).pow(game.researchSpeed[7])).pow(1+(game.researchSpeed[7]/11)**2);
   return tempArr;
 }
+function calcPerResearchSpeedBaseBeforeMult() {
+  var baseP = D(100);
+  return baseP;
+}
 function calcPerResearchSpeedBase() {
-  var base = D(100);
+  var base = calcPerResearchSpeedBaseBeforeMult();
   if (game.quantumUpgradeBought.includes('23')) base = base.mul(10);
   return base;
 }
 function calcResearchSpeed(lv) {
   if (lv != 0) {
     var tempSpeed = calcPerResearchSpeedBase().pow(lv-1);
-    if (game.quantumUpgradeBought.includes('24')) tempSpeed = tempSpeed.mul(D(2).pow(D(game.tLast-game.quantumTime).pow(0.2)));
+    if (game.quantumUpgradeBought.includes('24')) tempSpeed = tempSpeed.mul(D(2).pow(D(game.tLast-game.quantumTime).pow(0.2)).pow(D.min(10, D.max(1, game.researchPoint.log(10).div(20)))));
     return tempSpeed;
   } else {
     return D(0);

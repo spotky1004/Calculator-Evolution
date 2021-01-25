@@ -89,6 +89,7 @@ function romanize (num) {
     return (Array(+digits.join("") + 1).join("M") + roman).toLowerCase();
 }
 function timeNotation(sec) {
+  if (sec > 3600*24*365*100) return "way too long";
   if (sec > 3600*24*365) return `${(sec/3600/24/365).toFixed(3)}y`;
   if (sec > 3600*24) return `${(sec/3600/24).toFixed(2)}d`;
   if (sec > 3600) return `${(sec/3600).toFixed(2)}h`;
