@@ -46,6 +46,11 @@
         "itemName": "Miner_4.0.exe",
         "itemCost": '2.2222e179',
         "itemDesc": "Multiply mine power by Overclock Power",
+      },
+      {
+        "itemName": "Miner_5.0.exe",
+        "itemCost": '4.04e1000',
+        "itemDesc": "Each Qubit multiply Mine Power by x2.4",
       }
     ],
     // Data_Holder.exe
@@ -281,9 +286,9 @@ function calcProgram() {
   if (game.programActive[1]) {
     moneyGain = D.max(0, calcCPU().mul(tGain/3e4).mul(game.number));
     if (game.shopBought[1] >= 1) moneyGain = moneyGain.mul(game.digits);
-    if (game.shopBought[1] >= 2) moneyGain = moneyGain.mul(game.researchPoint);
+    if (game.shopBought[1] >= 2) moneyGain = moneyGain.mul(game.researchPoint.add(1));
     if (game.shopBought[1] >= 3) moneyGain = moneyGain.mul(getOverclockPower());
-    if (game.quantumUpgradeBought.includes('15')) moneyGain = moneyGain.mul(D(2.4).pow(game.qubit));
+    if (game.shopBought[1] >= 4) moneyGain = moneyGain.mul(D(2.4).pow(game.qubit));
     game.money = game.money.plus(moneyGain);
     rainbowEffect("#money");
   } else {

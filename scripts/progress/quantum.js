@@ -7,7 +7,7 @@
       "Increase digit cap based on base (+${dNotation(game.base.pow(0.6).floor(), 4, 0)})",
       "'Bonus CPU Level' research's effect x2",
       "Each Quantum Lab Boosts CPU by x27 (x${dNotation(D(27).pow(game.quantumLab), 4, 0)})",
-      "Each Qubit boosts Mine Power by x2.4 (x${dNotation(D(2.4).pow(game.qubit), 4, 0)})",
+      "Coming Soon!",
       "Coming Soon!"
     ],
     // 2: Research
