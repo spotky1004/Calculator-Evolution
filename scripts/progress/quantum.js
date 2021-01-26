@@ -26,14 +26,14 @@
       "Pow Quantum requirements based on Base (^${dNotation(D(0.999).pow(D.min(200, game.base)), 4, 5)})",
       "Each Qubit boosts itself Production Speed by x1.3 (x${dNotation(D(1.3).pow(game.qubit), 4, 2)})",
       "Boost Qubit production speed based on Number (x${dNotation(D.min(game.number.add(1).log(10).div(10).sqrt(2), 1).add(1).pow(game.number.add(1).log(10).pow(0.6)), 4, 2)})",
-      "Coming Sooner!",
+      "Each bought Quantum Upgrade boosts Qubit gain by x10 (x${dNotation(D(10).pow([...new Set(game.quantumUpgradeBought)].length), 0)})",
       "You can bulk buy Quantum Labs"
     ],
     // 4: QoL
     [
       "Start run with level 2 Multi Process<br><b style=\"opacity: 0.6\">You need to do 'Reset Quantum Run' to get effect!</b>",
-      "Durability decrease speed /100",
       "Reboot cooldown /5",
+      "Gain 10% of RP gain per second",
       "Coming Soon!",
       "Coming Soon!",
       "Coming Soon!"
@@ -211,6 +211,7 @@ function calcQubitSpeed() {
   if (game.quantumUpgradeBought.includes('31')) tempSpd = tempSpd.mul(100);
   if (game.quantumUpgradeBought.includes('33')) tempSpd = tempSpd.mul(D(1.3).pow(game.qubit));
   if (game.quantumUpgradeBought.includes('34')) tempSpd = tempSpd.mul(D.min(game.number.add(1).log(10).div(10).sqrt(2), 1).add(1).pow(game.number.add(1).log(10).pow(0.6)));
+  if (game.quantumUpgradeBought.includes('35')) tempSpd = tempSpd.mul(D(10).pow([...new Set(game.quantumUpgradeBought)].length));
   return tempSpd;
 }
 function calcUsedQubit() {

@@ -316,7 +316,7 @@ function calcProgram() {
     shopBuy(5);
   }
   if (game.programActive[6]) {
-    game.durability = game.durability.sub(getOverclockPower().add(1).log(2).div(D.pow(1.1, game.researchLevel[4])).div(1000).mul(tGain).div(game.quantumUpgradeBought.includes('42') ? 100 : 1));
+    game.durability = game.durability.sub(getOverclockPower().add(1).log(2).div(D.pow(1.1, game.researchLevel[4])).div(1000).mul(tGain));
 
     // minus bug fix
     if (game.durability.lte(0.01)) game.durability = D(0);
