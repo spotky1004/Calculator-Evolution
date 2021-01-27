@@ -50,9 +50,13 @@ function notationSI(num, dim=0) {
   }
 }
 function factorial(num) {
-  var tempNum = D(1);
-  for (var i = 0; i < num; i++) tempNum = tempNum.mul(i+1);
-  return tempNum;
+  if (num >= 30) {
+    return D(2).mul(Math.PI).mul(num).sqrt(2).mul(D(num/Math.E).pow(num)).valueOf();
+  } else {
+    var tempNum = D(1);
+    for (var i = 0; i < num; i++) tempNum = tempNum.mul(i+1);
+    return tempNum;
+  }
 }
 function ordNum(num) {
   num = D(num).floor();
