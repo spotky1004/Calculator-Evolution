@@ -30,4 +30,5 @@ function quantumReset() {
     game.shopBought[i] = 0;
   }
   if (game.quantumUpgradeBought.includes('41') && game.researchLevel[1] < 2) game.researchLevel[1] = 2;
+  game.quantumTime = new Date().getTime();
 }

@@ -346,3 +346,12 @@ function calcProgram() {
     }
   }
 }
+
+function bugFixer() {
+  bugFixerNaN();
+}
+function bugFixerNaN() {
+  if (game.qubit.isNaN() && ) {
+
+  }
+}
