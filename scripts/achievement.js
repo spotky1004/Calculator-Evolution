@@ -18,7 +18,7 @@
     'rebooting', 'game.researchLevel[0]>=3', 'game.researchLevel[1]>=1', 'game.researchLevel[2]>=5', 'game.researchPoint.gte(1e3)',
     'getOverclockPower().gt(1)', 'game.base.gte(62)', 'getOverclockPower().gte(1e10)', 'game.money.gte(1e100)', 'game.researchPoint.gte(1.11e11)',
     'game.quantumLab.gte(1)', 'game.qubit.gte(10)', 'game.quantumUpgradeBought.length>=8', 'game.quantumLab.gte(7)', 'game.qubit.gte(50)',
-    'game.money.gte(1e1000)', 'game.base.gte(250)'
+    'game.money.gte(\'1e1000\')', 'game.base.gte(250)'
   ];
   /* IDEA from Pillow: 'Reach Base ${dNotation(50, 0, 0)} without a RP', 'Get ${dNotation(1e6, 3, 0)} RP without RP',*/
 })();

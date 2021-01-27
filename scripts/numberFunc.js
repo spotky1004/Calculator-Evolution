@@ -51,9 +51,7 @@ function notationSI(num, dim=0) {
 }
 function factorial(num) {
   var tempNum = D(1);
-  for (var i = 0; i < num; i++) {
-    tempNum = tempNum.mul(i+1);
-  }
+  for (var i = 0; i < num; i++) tempNum = tempNum.mul(i+1);
   return tempNum;
 }
 function ordNum(num) {

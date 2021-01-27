@@ -145,7 +145,7 @@ function renderOption() {
   }
 }
 function renderBasicInfo() {
-  $('#basicInfo').innerHTML = `Number: ${dNotation(game.number, 2, 0)} / ${dNotation(game.base.pow(game.digits), 2, 0)}<br>Digit: ${dNotation(game.digits, 2, 0)} / ${dNotation(calcMaxDigit(), 2, 0)}`;
+  $('#basicInfo').innerHTML = `Number: ${dNotation(game.number, 2, 0)} / ${dNotation(game.base.pow(game.digits), 2, 0)}<br>Digit: ${dNotation(game.digits, 2, 0)} / ${dNotation(calcMaxDigit(), 2, 0)}<br>Base: ${dNotation(game.base, 2, 0)} / ${dNotation(Math.max(game.base, calcMaxBase()), 2, 0)}`;
 }
 
 function goTab(num) {
@@ -204,7 +204,6 @@ function activeProgram(num) {
 function shopBuy(num) {
   if (game.money.gte(calcShopCost()[num]) && game.shopBought[num] < calcShopMax()[num]) {
     game.money = game.money.sub(calcShopCost()[num]);
-    game.shopBought[num]++;
     switch (num) {
       case 0: case 1: case 2: case 3: case 4:
       commandAppend(`buy ${shopItems[num][Math.min(game.shopBought[num], calcShopMax()[num]-1)].itemName}`);
@@ -213,6 +212,7 @@ function shopBuy(num) {
       commandAppend('upgrade CPU', -60);
         break;
     }
+    game.shopBought[num]++;
   }
   renderShop();
 }
@@ -230,6 +230,7 @@ function calcCPU() {
   )).mul(getOverclockPower());
   tempVar = tempVar.mul(calcQubitEffect());
   if (game.quantumUpgradeBought.includes('14')) tempVar = tempVar.mul(D(9).pow(game.quantumLab));
+  if (game.quantumUpgradeBought.includes('15')) tempVar = tempVar.mul(D(30).pow(D.max(0, calcMaxDigit().sub(game.digits))));
   return tempVar;
 }
 function calcShopCost() {
@@ -298,6 +299,7 @@ function calcProgram() {
     if (game.number.gte(game.base.pow(game.digits).sub(1)) && game.digits.lt(game.mDigits)) {
       if (game.shopBought[4] < 1) game.number = game.number.sub(game.base.pow(game.digits).sub(1));
       game.digits = game.digits.plus(1);
+      if (game.quantumUpgradeBought.includes('45')) game.digits = D.max(game.digits, calcCPU().add(1).log(game.base));
     }
   }
   if (game.programActive[3]) {
@@ -314,7 +316,7 @@ function calcProgram() {
     ) {
       if (game.shopBought[0] < 5) game.number = D(0);
       if (game.shopBought[0] < 4) game.digits = D(1);
-      game.base = game.base.plus(1);
+      game.base = (game.quantumUpgradeBought.includes('45') ? calcMaxBase() : game.base.plus(1));
     }
   }
   if (game.programActive[5]) {

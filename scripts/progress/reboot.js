@@ -3,6 +3,11 @@
 })();
 
 function renderResearch() {
+  if (game.t2toggle) {
+    $('#researchWarp').style.display = "block";
+  } else {
+    $('#researchWarp').style.display = "none";
+  }
   if (calcRPGain().gte(1)) {
     $('#rebootButton').className = "";
   } else {
@@ -18,8 +23,8 @@ function renderResearch() {
     $('.research:nth-of-type(' + (i+1) + ') > .researchProgress > .researchLevel').innerHTML = 'Lv.' + game.researchLevel[i];
     $('.research:nth-of-type(' + (i+1) + ') > .researchProgress > .researchProgressDisplay').innerHTML = timeNotation(Number(calcResearchDivide(i).div(calcResearchSpeed(game.researchSpeed[i])).valueOf())*(1-game.researchProgress[i])) + ' left';
     // progress number display: ${dNotation(game.researchProgress[i]*calcResearchDivide(i), 2)}/${dNotation(calcResearchDivide(i), 2)}
-    $('.research:nth-of-type(' + (i+1) + ') > .researchCost > span:nth-child(1)').innerHTML = dNotation(calcResearchCost()[i][0], 3);
-    $('.research:nth-of-type(' + (i+1) + ') > .researchCost > span:nth-child(2) > span').innerHTML = dNotation(calcResearchCost()[i][1], 3);
+    $('.research:nth-of-type(' + (i+1) + ') > .researchCost > span:nth-child(1)').innerHTML = dNotation(calcResearchCost(i, 0), 3);
+    $('.research:nth-of-type(' + (i+1) + ') > .researchCost > span:nth-child(2) > span').innerHTML = dNotation(calcResearchCost(i, 1), 3);
   }
   [...document.getElementsByClassName("researchMoneyReq")].forEach(ele => {ele.style.display = (game.quantumUpgradeBought.includes('25') ? 'none' : 'inline');});
   $('.research:nth-of-type(4)').style.display = ((game.researchLevel[0]>=1) ? "inline-block" : "none");
@@ -53,20 +58,41 @@ function reboot() {
   }
 }
 function researchBuy(num) {
-  if (game.researchPoint.gte(calcResearchCost()[num][0]) && (game.money.gte(calcResearchCost()[num][1]) || game.quantumUpgradeBought.includes('25'))) {
-    game.researchPoint = game.researchPoint.sub(calcResearchCost()[num][0]);
-    if (!game.quantumUpgradeBought.includes('25')) game.money = game.money.sub(calcResearchCost()[num][1]);
+  if (game.quantumUpgradeBought.includes('44')) {
+    researchMaxBuy(num);
+    return;
+  }
+
+  if (game.researchPoint.gte(calcResearchCost(num, 0)) && (game.money.gte(calcResearchCost(num, 1)) || game.quantumUpgradeBought.includes('25'))) {
+    game.researchPoint = game.researchPoint.sub(calcResearchCost(num, 0));
+    if (!game.quantumUpgradeBought.includes('25')) game.money = game.money.sub(calcResearchCost(num, 1));
     game.researchSpeed[num]++;
     renderAll();
   }
 }
+function researchMaxBuy(num) {
+  var mPoint = 50, eachMax = [2**mPoint, 2**mPoint];
+  for (var i = 0; i < 2-game.quantumUpgradeBought.includes('25'); i++) {
+    for (var j = 0; j < mPoint; j++) {
+      eachMax[i] += 2**(mPoint-1-j)*((game[i?'money':'researchPoint'].gte(calcResearchCost(num, i, eachMax[i]-1)))*2-1);
+    }
+    for (var j = 0; j < 6; j++) {
+      if (game[i?'money':'researchPoint'].gt(calcResearchCost(num, i, eachMax[i]))) eachMax[i]++;
+      if (game[i?'money':'researchPoint'].lt(calcResearchCost(num, i, eachMax[i]))) eachMax[i]--;
+    }
+  }
+  var bulkLv = Math.min(eachMax[0], eachMax[1]);
+  var bulkBuyCount = bulkLv-game.researchSpeed[num]+1;
+  if (game.researchPoint.gte(calcResearchCost(num, 0, bulkLv)) && (game.money.gte(calcResearchCost(num, 1, bulkLv)) || game.quantumUpgradeBought.includes('25')) && bulkBuyCount > 0) {
+    game.researchPoint = game.researchPoint.sub(calcResearchCost(num, 0, bulkLv));
+    if (!game.quantumUpgradeBought.includes('25')) game.money = game.money.sub(calcResearchCost(num, 1, bulkLv));
+    game.researchSpeed[num] += bulkBuyCount;
+    renderAll();
+  }
+  return eachMax;
+}
 
 function calcResearch() {
-  if (game.t2toggle) {
-    $('#researchWarp').style.display = "block";
-  } else {
-    $('#researchWarp').style.display = "none";
-  }
   for (var i = 0; i < 9; i++) {
     game.researchProgress[i] += Number(calcResearchSpeed(game.researchSpeed[i]).div(calcResearchDivide(i)).valueOf())*tGain;
     if (game.researchProgress[i] >= 1) {
@@ -83,17 +109,35 @@ function calcRPGain() {
   if (game.quantumUpgradeBought.includes('22')) tempNum = tempNum.mul(D(1.2).pow(game.qubit).pow(D.min(game.researchPoint.add(1).log(10).div(25), 1)));
   return Decimal.max(tempNum, 0);
 }
-function calcResearchCost() {
-  var tempArr = [[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]];
-  tempArr[0][0] = D(10+Math.sqrt(game.researchSpeed[0])).pow(game.researchSpeed[0]/1.2); tempArr[0][1] = D(1e10).mul(D(10).pow(game.researchSpeed[0]**2)).pow(game.researchSpeed[0]/100+1).sub(1e10);
-  tempArr[1][0] = D(10+game.researchSpeed[1]**2).pow(game.researchSpeed[1]); tempArr[1][1] = D(1e10).mul(D(10).pow(game.researchSpeed[1]**2+1)).pow(game.researchSpeed[1]/2+1).sub(1e10);
-  tempArr[2][0] = D(25).mul(D(2).pow(game.researchSpeed[2])); tempArr[2][1] = D(1e16).mul(D(10).pow(game.researchSpeed[2])).pow(Math.sqrt(game.researchSpeed[2])/4+1);
-  tempArr[3][0] = D(4e3).mul(D(1.3+game.researchSpeed[3]/15).pow(game.researchSpeed[3])); tempArr[3][1] = D(1e32).mul(D(10).pow(game.researchSpeed[3]**1.46)).pow(Math.sqrt(game.researchSpeed[3])/20+1);
-  tempArr[4][0] = D(3e3).mul(D(1.4+game.researchSpeed[4]/9).pow(game.researchSpeed[4])); tempArr[4][1] = D(1e30).mul(D(10).pow(game.researchSpeed[4]**1.2)).pow(Math.sqrt(game.researchSpeed[4])/20+1);
-  tempArr[5][0] = D(1e6).mul(D(3+game.researchSpeed[5]/5).pow(game.researchSpeed[5])); tempArr[5][1] = D(1e75).mul(D(game.researchSpeed[5]+10).pow(D(3).pow(game.researchSpeed[5])));
-  tempArr[6][0] = D(1e8).mul(D(2+game.researchSpeed[6]).pow(game.researchSpeed[6])); tempArr[6][1] = D(1e80).mul(D(1e10).pow(game.researchSpeed[6])).pow(1+(game.researchSpeed[6]/10)**2);
-  tempArr[7][0] = D(1e9).mul(D(1+game.researchSpeed[7]/5).pow(game.researchSpeed[7])); tempArr[7][1] = D(1e90).mul(D(1e5).pow(game.researchSpeed[7])).pow(1+(game.researchSpeed[7]/11)**2);
-  return tempArr;
+function calcResearchCost(idx, type, lv=game.researchSpeed[idx]) {
+  switch (idx) {
+    case 0:
+      return !type ? D(10+Math.sqrt(lv)).pow(lv/1.2) : D(1e10).mul(D(10).pow(lv**2)).pow(lv/100+1).sub(1e10);
+      break;
+    case 1:
+      return !type ? D(10+lv**2).pow(lv) : D(1e10).mul(D(10).pow(lv**2+1)).pow(lv/2+1).sub(1e10);
+      break;
+    case 2:
+      return !type ? D(25).mul(D(2).pow(lv)) : D(1e16).mul(D(10).pow(lv)).pow(Math.sqrt(lv)/4+1);
+      break;
+    case 3:
+      return !type ? D(4e3).mul(D(1.3+lv/15).pow(lv)) : D(1e32).mul(D(10).pow(lv**1.46)).pow(Math.sqrt(lv)/20+1);
+      break;
+    case 4:
+      return !type ? D(3e3).mul(D(1.4+lv/9).pow(lv)) : D(1e30).mul(D(10).pow(lv**1.2)).pow(Math.sqrt(lv)/20+1);
+      break;
+    case 5:
+      return !type ? D(1e6).mul(D(3+lv/5).pow(lv)) : D(1e75).mul(D(lv+10).pow(D(3).pow(lv)));
+      break;
+    case 6:
+      return !type ? D(1e8).mul(D(2+lv).pow(lv)) : D(1e80).mul(D(1e10).pow(lv)).pow(1+(lv/10)**2);
+      break;
+    case 7:
+      return !type ? D(1e9).mul(D(1+lv/5).pow(lv)) : D(1e90).mul(D(1e5).pow(lv)).pow(1+(lv/11)**2);
+      break;
+    default:
+      return D(Infinity);
+  }
 }
 function calcPerResearchSpeedBaseBeforeMult() {
   var baseP = D(100);

@@ -7,7 +7,7 @@
       "Increase digit cap based on base (+${dNotation(game.base.pow(0.6).floor(), 4, 0)})",
       "'Bonus CPU Level' research's effect x2",
       "Each Quantum Lab Boosts CPU by x27 (x${dNotation(D(27).pow(game.quantumLab), 4, 0)})",
-      "Coming Soon!",
+      "Each Grey digit boosts CPU by x30 (x${dNotation(D(30).pow(D.max(0, calcMaxDigit().sub(game.digits))), 4, 0)})",
       "Coming Soon!"
     ],
     // 2: Research
@@ -17,7 +17,6 @@
       "Multiply research upgrade effect by x10 (x${!game.quantumUpgradeBought.includes('23') ? dNotation(calcPerResearchSpeedBase(), 4, 0) : dNotation(calcPerResearchSpeedBase().div(10), 4, 0)} -> x${!game.quantumUpgradeBought.includes('23') ? dNotation(calcPerResearchSpeedBase().mul(10), 4, 0) : dNotation(calcPerResearchSpeedBase(), 4, 0)})",
       "Boost Research speed based on Time spent on this quantum and RP (x${dNotation(D(2).pow(D(game.tLast-game.quantumTime).pow(0.2)).pow(D.min(10, D.max(1, game.researchPoint.log(10).div(20)))), 4, 2)})",
       "Remove money requirement from research",
-      //Each Qubit add Research upgrade before multiply by +10 (${!game.quantumUpgradeBought.includes('25') ? dNotation(calcPerResearchSpeedBaseBeforeMult(), 4, 0) : dNotation(calcPerResearchSpeedBaseBeforeMult().sub(game.qubit.mul(10)), 4, 0) } -> ${!game.quantumUpgradeBought.includes('25') ? dNotation(calcPerResearchSpeedBaseBeforeMult().add(game.qubit.mul(10)), 4, 0) : dNotation(calcPerResearchSpeedBaseBeforeMult(), 4, 0) })
       "Coming Soon!"
     ],
     // 3: Quantum
@@ -34,8 +33,8 @@
       "Start run with level 2 Multi Process<br><b style=\"opacity: 0.6\">You need to do 'Reset Quantum Run' to get effect!</b>",
       "Reboot cooldown /5",
       "Gain 10% of RP gain per second",
-      "Coming Soon!",
-      "Coming Soon!",
+      "You can bulk buy Research upgrade",
+      "<b>\"Base_Increaser.exe\"</b> will land you to <b>\"Maximum Base\"</b><br><b>\"Memory.exe\"</b> will land you to <b>\"Digits based on Number/s\"</b>",
       "Coming Soon!"
     ],
     // 5: Automate
@@ -91,7 +90,8 @@ function quantum() {
 }
 function renderQunatum() {
   $("#quantumButton").className = calcQuantumLabGain().gte(1) ? "" : "disabled";
-  $("#quantumLabCost").innerHTML = `Next Lab: ${dNotation(D(1e100).mul(D(10).pow(D(5).mul(game.quantumLab.mul(game.quantumLab.sub(1)).add(game.quantumLab)))).pow(getQuantumReqPow()), 2)}$, ${dNotation(D(1e11).mul(D(10).pow(D(1/2).mul(game.quantumLab.mul(game.quantumLab.sub(1)).add(game.quantumLab)))).pow(getQuantumReqPow()), 2)} RP`;
+  var afterQuantumLab = game.quantumLab.add(calcQuantumLabGain());
+  $("#quantumLabCost").innerHTML = `Next Lab: ${dNotation(D(1e100).mul(D(10).pow(D(5).mul(afterQuantumLab.mul(afterQuantumLab.sub(1)).add(game.quantumLab)))).pow(getQuantumReqPow()), 2)}$, ${dNotation(D(1e11).mul(D(10).pow(D(1/2).mul(game.quantumLab.mul(game.quantumLab.sub(1)).add(game.quantumLab)))).pow(getQuantumReqPow()), 2)} RP`;
   $("#quantumDesc").innerHTML = `You have ${game.quantumLab} Quantum Lab which makes Qubit Prodution ${dNotation(calcQubitSpeed(), 4, 0)}x faster<br>Each Qubit makes your CPU 2x faster (x${dNotation(calcQubitEffect(), 4, 0)})`;
   $("#qubitDisplay").innerHTML = `You have ${game.qubit.sub(calcUsedQubit())}/${game.qubit} Qubit (next Qubit in ${timeNotation(D(3).pow(game.qubit.add(1)).sub(game.qubitProgress).div(calcQubitSpeed()))})`;
   for (var i = 0; i < 36; i++) document.getElementsByClassName("quantumUpgrade")[i].classList[(game.quantumUpgradeBought.includes((i%6+1) + '' + (Math.floor(i/6)+1)) ? 'add' : 'remove')]("bought");

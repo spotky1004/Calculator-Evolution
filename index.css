@@ -339,7 +339,7 @@
 }
 #achWarp > tbody > tr > td {
   width: 10vh; height: 10vh;
-  color: #fff; text-shadow: 0 0 1vh #fff;
+  color: #fff; text-shadow: 0 0 1vh #fff; font-size: 1.5vh;
   background-color: green;
 }
 
