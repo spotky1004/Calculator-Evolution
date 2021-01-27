@@ -50,7 +50,7 @@ function notationSI(num, dim=0) {
   }
 }
 function factorial(num) {
-  num = Math.floor(num)
+  num = Math.floor(num);
   if (num >= 30) {
     return D(2).mul(Math.PI).mul(num).sqrt(2).mul(D(num/Math.E).pow(num)).valueOf();
   } else {
