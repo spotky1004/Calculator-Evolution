@@ -90,7 +90,7 @@ function quantum() {
 }
 function renderQunatum() {
   $("#quantumButton").className = calcQuantumLabGain().gte(1) ? "" : "disabled";
-  var afterQuantumLab = D.max(0, game.quantumLab.add(calcQuantumLabGain().floor(0)));
+  var afterQuantumLab = D.max(game.quantumLab, game.quantumLab.add(calcQuantumLabGain().floor(0)));
   $("#quantumLabCost").innerHTML = `Next Lab: ${dNotation(D(1e100).mul(D(10).pow(D(5).mul(afterQuantumLab.mul(afterQuantumLab.sub(1)).add(game.quantumLab)))).pow(getQuantumReqPow()), 2)}$, ${dNotation(D(1e11).mul(D(10).pow(D(1/2).mul(game.quantumLab.mul(game.quantumLab.sub(1)).add(game.quantumLab)))).pow(getQuantumReqPow()), 2)} RP`;
   $("#quantumLabQuantity").innerHTML = (calcQuantumLabGain().floor(0).lte(1)?'a':dNotation(calcQuantumLabGain().floor(0)))
   $("#quantumDesc").innerHTML = `You have ${game.quantumLab} Quantum Lab which makes Qubit Prodution ${dNotation(calcQubitSpeed(), 4, 0)}x faster<br>Each Qubit makes your CPU 2x faster (x${dNotation(calcQubitEffect(), 4, 0)})`;
