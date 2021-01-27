@@ -351,7 +351,7 @@ function bugFixer() {
   bugFixerNaN();
 }
 function bugFixerNaN() {
-  if (game.qubit.isNaN() && ) {
+  if (game.qubit.isNaN()) {
 
   }
 }
