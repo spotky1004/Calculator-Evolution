@@ -106,9 +106,9 @@ function calcQuantum() {
 function calcQuantumAuto() {
   if (game.quantumUpgradeBought.includes('51') && game.quantumAutomateToggle[0]) for (var i = 0; i < 5; i++) shopBuy(i);
   if (game.quantumUpgradeBought.includes('52') && game.quantumAutomateToggle[1]) reboot();
-  if (game.quantumUpgradeBought.includes('53') && game.quantumAutomateToggle[2]) for (var i = 0; i < 3; i++) researchBuy(i);
-  if (game.quantumUpgradeBought.includes('54') && game.quantumAutomateToggle[3]) for (var i = 3; i < 6; i++) researchBuy(i);
-  if (game.quantumUpgradeBought.includes('55') && game.quantumAutomateToggle[4]) for (var i = 6; i < 8; i++) researchBuy(i);
+  if (game.quantumUpgradeBought.includes('53') && game.quantumAutomateToggle[2] && tickDone%10 == 0) for (var i = 0; i < 3; i++) researchBuy(i);
+  if (game.quantumUpgradeBought.includes('54') && game.quantumAutomateToggle[3] && tickDone%10 == 0) for (var i = 3; i < 6; i++) researchBuy(i);
+  if (game.quantumUpgradeBought.includes('55') && game.quantumAutomateToggle[4] && tickDone%10 == 0) for (var i = 6; i < 8; i++) researchBuy(i);
   if (game.quantumUpgradeBought.includes('56') && game.quantumAutomateToggle[5]) quantum();
 }
 

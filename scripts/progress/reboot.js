@@ -89,7 +89,6 @@ function researchMaxBuy(num) {
     game.researchSpeed[num] += bulkBuyCount;
     renderAll();
   }
-  return eachMax;
 }
 
 function calcResearch() {
