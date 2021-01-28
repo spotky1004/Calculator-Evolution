@@ -159,7 +159,24 @@ function goTab(num) {
   }
 }
 function optionBtn(num) {
-  game.optionToggle[num] = !game.optionToggle[num];
+  game.optionToggle[num] ^= 1;
+  switch (num) {
+    case 0:
+    setEffects();
+      break;
+  }
+}
+function setEffects() {
+  // thanks RedMountain! :D
+  $('#rebootButton').style.animation = game.optionToggle[0] ? 'rebootButtonGlow linear 8s infinite' : 'none';
+  $('#rebootButton').style.color = game.optionToggle[0] ? '' : '#49d124';
+  $('#rebootButton').style.textShadow = game.optionToggle[0] ? '' : '0 0 0.4vh #49d124';
+  $('#rebootButton').style.backgroundColor = game.optionToggle[0] ? '' : '#2e8018';
+  $('#rebootButton').style.border = game.optionToggle[0] ? '' : '0.4vh solid #49d124';
+  $('#rebootButton').style.boxShadow = game.optionToggle[0] ? '' : '0 0 0 0 #2e8018 inset';
+  $('body').style.setProperty('--whiteglow', game.optionToggle[0] ? 'whiteGlow ease 5s infinite' : 'none');
+  $('body').style.setProperty('--color', game.optionToggle[0] ? '' : '#fff');
+  $('body').style.setProperty('--shadow', game.optionToggle[0] ? '' : '0 0 2vw #fff');
 }
 function calcToggleTabs() {
   if (calcRPGain().gte(1)) game.t2toggle = 1;
@@ -257,12 +274,12 @@ function calcMaxDigit() {
   var tempNum = D(6);
   tempNum = tempNum.plus(game.researchLevel[2]);
   if (game.quantumUpgradeBought.includes('12')) tempNum = tempNum.plus(game.base.pow(0.6).floor());
-  return tempNum;
+  return tempNum.floor(0);
 }
 function calcMaxBase() {
   var tempNum = D(36);
   if (game.shopBought[0] >= 3) tempNum = tempNum.add(game.digits);
-  return tempNum;
+  return tempNum.floor(0);
 }
 function getBaseIncreaseReq() {
   return game.base.pow(

@@ -5,6 +5,12 @@
   user-select: none;
   overflow: visible;
 }
+body {
+  --whiteglow: whiteGlow ease 5s infinite;
+  --color: #fff;
+  --shadow: 0 0 0.4vh #fff;
+}
+
 #warpAll {
   width: 100vw; height: 100vh;
   background-color: #000;
@@ -25,13 +31,13 @@
 }
 #numberDigits {
   display: inline-block;
-  max-width: 65vw; height: 4.4vh;
+  max-width: 55vw; height: 4.4vh;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 #memoryDigit {
   display: inline-block;
-  max-width: 40vw; height: 4.15vh;
+  max-width: 30vw; height: 4.15vh;
   overflow: hidden;
   text-overflow: ellipsis;
   filter: grayscale(1);
@@ -298,7 +304,9 @@
   position: absolute;
   font-size: 4vh;
   z-index: 5;
-  animation: whiteGlow ease 5s infinite;
+  animation: var(--whiteglow);
+  color: var(--color);
+  text-shadow: var(--shadow);
 }
 .researchProgressDisplay {
   width: 26vw; height: 2vh;
@@ -306,7 +314,9 @@
   position: absolute;
   font-size: 2vh;
   z-index: 5;
-  animation: whiteGlow ease 5s infinite;
+  animation: var(--whiteglow);
+  color: var(--color);
+  text-shadow: var(--shadow);
   filter: brightness(0.7);
 }
 .innerBar {
@@ -475,6 +485,7 @@
 }
 .quantumUpgrade.bought {
   background-color: var(--col);
+  box-shadow: 0 0 0.7vh #222 inset;
 }
 .quantumUpgrade.deactivated {
   opacity: 0.3;

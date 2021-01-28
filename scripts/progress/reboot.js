@@ -54,8 +54,11 @@ function reboot() {
       $('#rebootButton').className = "";
       $('#rebootButton').innerHTML = "Reboot";
       commandAppend('reboot done! (Got ' + dNotation(gotRP, 4, 0) +' RP)', 75, 1);
-    }, 5000*((2/3)**game.researchLevel[7])/(game.quantumUpgradeBought.includes('42')?5:1));
+    }, calcRebootCooldown());
   }
+}
+function calcRebootCooldown() {
+  return 5000*((2/3)**game.researchLevel[7])/(game.quantumUpgradeBought.includes('42')?5:1);
 }
 function researchBuy(num) {
   if (game.quantumUpgradeBought.includes('44')) {
@@ -99,7 +102,7 @@ function calcResearch() {
       game.researchLevel[i]++;
     }
   }
-  if (game.quantumUpgradeBought.includes('43')) game.researchPoint = game.researchPoint.add(calcRPGain().gt(1) ? calcRPGain().div(10).mul(tGain) : 0);
+  if (game.quantumUpgradeBought.includes('43')) game.researchPoint = game.researchPoint.add(calcRPGain().gt(1) ? calcRPGain().mul(0.3*(1/calcRebootCooldown())*1000).mul(tGain) : 0);
 }
 function calcRPGain() {
   var tempNum = game.rebootNum.plus(2).pow(1/6).floor().sub(19);
