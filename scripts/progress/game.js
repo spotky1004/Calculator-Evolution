@@ -102,7 +102,7 @@ function renderBasic() {
   $("#numberBase").innerHTML = game.base;
 
   //tabs
-  $('#mainNav > .tabNav:nth-child(6)').style.display = (game.t3toggle ? 'inline-block' : 'none');
+  $('#mainNav > .tabNav:nth-child(7)').style.display = (game.t3toggle ? 'inline-block' : 'none');
 
   commandFloat();
 }
@@ -146,6 +146,13 @@ function renderOption() {
 }
 function renderBasicInfo() {
   $('#basicInfo').innerHTML = `Number: ${dNotation(game.number, 2, 0)} / ${dNotation(game.base.pow(game.digits), 2, 0)}<br>Digit: ${dNotation(game.digits, 2, 0)} / ${dNotation(calcMaxDigit(), 2, 0)}<br>Base: ${dNotation(game.base, 2, 0)} / ${dNotation(Math.max(game.base, calcMaxBase()), 2, 0)}`;
+}
+function renderStat() {
+  $("#statsText").innerHTML = `You've played this game for ${timeNotation((new Date().getTime()-game.startTime)/1000)}`;
+  if (game.t2toggle) $("#statsText").innerHTML += `<br><br>You've done Reboot ${dNotation(game.t2resets)} times`;
+  if (game.t2toggle) $("#statsText").innerHTML += `<br>You spent ${timeNotation((new Date().getTime()-game.rebootTime)/1000)} in this Reboot`;
+  if (game.t3toggle) $("#statsText").innerHTML += `<br><br>You've done Quantum ${dNotation(game.t3resets)} times`;
+  if (game.t3toggle) $("#statsText").innerHTML += `<br>You spent ${timeNotation((new Date().getTime()-game.quantumTime)/1000)} in this Quantum`;
 }
 
 function goTab(num) {

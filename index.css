@@ -565,6 +565,10 @@ body {
   pointer-events: none;
 }
 
+.tab:nth-of-type(7) {
+  text-align: center;
+}
+
 .normalButton {
 
 }

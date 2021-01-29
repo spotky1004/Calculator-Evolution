@@ -4,6 +4,7 @@
 
 tempGame = {
   gameSpeed: 1,
+  startTime: new Date().getTime(),
   number: D(0),
   rebootNum: D(0),
   base: D(2),
@@ -17,18 +18,21 @@ tempGame = {
   researchSpeed: [0, 0, 0, 0, 0, 0, 0, 0, 0],
   researchLevel: [0, 0, 0, 0, 0, 0, 0, 0, 0],
   researchProgress: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  rebootTime: new Date().getTime(),
   t2toggle: 0,
+  t2resets: D(0),
   optionToggle: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
   achievements: [],
   durability: D(1),
   t3toggle: 0,
+  t3resets: D(0),
   quantumLab: D(0),
   qubit: D(0),
   freeQubit: D(0),
   qubitProgress: D(0),
   quantumUpgradeBought: [],
   quantumAutomateToggle: [1, 1, 1, 1, 1, 1],
-  quantumTime: new Date().getTime()
+  quantumTime: new Date().getTime(),
 };
 game = {};
 

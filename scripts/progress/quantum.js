@@ -85,6 +85,8 @@ function quantum() {
   game.quantumLab = game.quantumLab.add(calcQuantumLabGain());
   commandAppend(`Built your ${ordNum(game.quantumLab)} Quantum Lab!`, 161, 1);
 
+  game.t3resets = game.t3resets.add(1);
+
   // reset func
   quantumReset();
 }

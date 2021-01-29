@@ -29,6 +29,9 @@ function renderAll() {
     case 5:
     renderQunatum();
       break;
+    case 6:
+    renderStat();
+      break;
   }
 }
 function renderInfo() {

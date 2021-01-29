@@ -44,16 +44,17 @@ function reboot() {
     game.researchPoint = game.researchPoint.plus(calcRPGain());
     gotRP = calcRPGain();
     rebootReset();
+    game.t2resets = game.t2resets.add(1);
 
     //animation
-    commandAppend('reboot', 75);
+    if (calcRebootCooldown() > 1000) commandAppend('reboot', 75);
     rebooting = 1;
     $('#rebootButton').innerHTML = "Rebooting";
     setTimeout( function () {
       rebooting = 0;
       $('#rebootButton').className = "";
       $('#rebootButton').innerHTML = "Reboot";
-      commandAppend('reboot done! (Got ' + dNotation(gotRP, 4, 0) +' RP)', 75, 1);
+      if (calcRebootCooldown() > 1000) commandAppend('reboot done! (Got ' + dNotation(gotRP, 4, 0) +' RP)', 75, 1);
     }, calcRebootCooldown());
   }
 }

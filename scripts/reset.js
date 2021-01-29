@@ -11,6 +11,7 @@ function rebootReset() {
   if (!game.programActive[4] || game.shopBought[2] < 2) game.number = D(0);
   if (!game.programActive[4] || game.shopBought[2] < 3) game.money = D(0);
   if (!game.programActive[4] || game.shopBought[2] < 3) game.shopBought[5] = 0;
+  game.rebootTime = new Date().getTime();
 }
 
 function quantumReset() {
@@ -31,4 +32,5 @@ function quantumReset() {
   }
   if (game.quantumUpgradeBought.includes('41') && game.researchLevel[1] < 2) game.researchLevel[1] = 2;
   game.quantumTime = new Date().getTime();
+  game.t2resets = D(0);
 }
