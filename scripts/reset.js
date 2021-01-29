@@ -23,6 +23,7 @@ function quantumReset() {
     if (!game.quantumUpgradeBought.includes('66')) game.researchLevel[i] = (game.quantumUpgradeBought.includes('62') ? Math.min(3, game.researchLevel[i]) : 0);
     game.researchSpeed[i] = 0;
   }
+  game.durability = D(1).mul(game.researchLevel[5]+1);
   for (var i = 0; i < 15; i++) {
     if (i < 5) {
       if (game.quantumUpgradeBought.includes('64')) continue;
