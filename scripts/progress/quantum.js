@@ -31,9 +31,9 @@
     // 4: QoL
     [
       "Start run with level 2 Multi Process<br><b style=\"opacity: 0.6\">You need to do 'Reset Quantum Run' to get effect!</b>",
-      "Reboot cooldown /5",
-      "Generate RP per second based on Reboot cooldown (${Math.floor(30*(1/calcRebootCooldown())*1000)}%)",
       "You can bulk buy Research upgrade",
+      "Generate RP per second based on Reboot cooldown (${Math.floor(30*(1/calcRebootCooldown())*1000)}%)",
+      "Reboot cooldown /5",
       "<b>\"Base_Increaser.exe\"</b> will land you to <b>\"Maximum Base\"</b><br><b>\"Memory.exe\"</b> will land you to <b>\"Digits based on Number/s\"</b>",
       "Coming Soon!"
     ],

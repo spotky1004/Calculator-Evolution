@@ -62,7 +62,7 @@ function calcRebootCooldown() {
   return 5000*((2/3)**game.researchLevel[7])/(game.quantumUpgradeBought.includes('42')?5:1);
 }
 function researchBuy(num) {
-  if (game.quantumUpgradeBought.includes('44')) {
+  if (game.quantumUpgradeBought.includes('42')) {
     researchMaxBuy(num);
     return;
   }
