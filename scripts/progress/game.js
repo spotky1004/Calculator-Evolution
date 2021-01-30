@@ -89,6 +89,9 @@
       },
     ]
   ];
+
+  hardResetTimeout = 0;
+  hardResetConfrim = 100;
 })();
 
 function renderBasic() {
@@ -239,6 +242,23 @@ function shopBuy(num) {
     game.shopBought[num]++;
   }
   renderShop();
+}
+function resetGame() {
+  if (typeof hardResetTimeout != "undefined") clearTimeout(hardResetTimeout);
+  hardResetConfrim--;
+  $("#hardResetBtn").innerHTML = `${hardResetConfrim} more clicks!`;
+  if (hardResetConfrim == 0) {
+    hardResetConfrim = 100;
+    $("#hardResetBtn").innerHTML = `Hard Reset`;
+    clearTimeout(hardResetTimeout);
+    commandAppend("reset all", -90);
+    commandAppend("buy calculator", -60);
+    hardReset();
+  }
+  hardResetTimeout = setTimeout( function () {
+    $("#hardResetBtn").innerHTML = `Hard Reset`;
+    hardResetConfrim = 100;
+  }, 10000);
 }
 
 function calcCpuUpgradeEffect() {
