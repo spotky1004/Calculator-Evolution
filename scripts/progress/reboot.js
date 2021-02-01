@@ -75,7 +75,7 @@ function researchBuy(num) {
   }
 }
 function researchMaxBuy(num) {
-  var mPoint = 10, eachMax = [2**mPoint, 2**mPoint];
+  var mPoint = 20, eachMax = [2**mPoint, 2**mPoint];
   for (var i = 0; i < 2-game.quantumUpgradeBought.includes('25'); i++) {
     for (var j = 0; j < mPoint; j++) {
       eachMax[i] += 2**(mPoint-1-j)*((game[i?'money':'researchPoint'].gte(calcResearchCost(num, i, eachMax[i]-1)))*2-1);
