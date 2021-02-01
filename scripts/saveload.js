@@ -4,6 +4,8 @@
 
 tempGame = {
   gameSpeed: 1,
+  lastRestoreSaved: 0,
+  saveRestorePoint: 0,
   startTime: new Date().getTime(),
   number: D(0),
   rebootNum: D(0),
@@ -32,11 +34,16 @@ tempGame = {
   qubitProgress: D(0),
   quantumUpgradeBought: [],
   quantumAutomateToggle: [1, 1, 1, 1, 1, 1],
-  quantumTime: new Date().getTime(),
+  quantumTime: new Date().getTime()
 };
 game = {};
 
 function save() {
+  if ((new Date().getTime())-game.lastRestoreSaved >= 1000*3600) {
+    localStorage[`CalculatorEvolution2_restore${game.saveRestorePoint%24}`] = JSON.stringify(game);
+    game.saveRestorePoint++;
+    game.lastRestoreSaved = new Date().getTime();
+  }
   localStorage[savePoint] = JSON.stringify(game);
   commandAppend('save', 70);
 }

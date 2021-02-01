@@ -95,13 +95,13 @@
 })();
 
 function renderBasic() {
-  $("#basedNumber").innerHTML = formatWithBase(game.number, game.base, game.digits, 1);
+  $("#basedNumber").innerHTML = formatWithBase(game.number, game.base, game.digits, 1, 80);
   $("#money").innerHTML = dNotation(game.money, 5);
   tempRes = '';
   if (game.t2toggle) tempRes += ` | ${dNotation(game.researchPoint, 4, 0)} RP\n`;
   if (game.t3toggle) tempRes += ` | ${dNotation(game.qubit, 4, 0)} Qubit , ${dNotation(game.quantumLab, 4, 0)} Lab\n`;
   $("#otherRes").innerHTML = tempRes;
-  $("#memoryDigit").innerHTML = ("").padStart(dNum(game.mDigits)-dNum(game.digits), 0);
+  $("#memoryDigit").innerHTML = ("").padStart(Math.min(100, dNum(game.mDigits)-dNum(game.digits)), 0);
   $("#numberBase").innerHTML = game.base;
 
   //tabs
@@ -275,6 +275,7 @@ function calcCPU() {
   tempVar = tempVar.mul(calcQubitEffect());
   if (game.quantumUpgradeBought.includes('14')) tempVar = tempVar.mul(D(9).pow(game.quantumLab));
   if (game.quantumUpgradeBought.includes('15')) tempVar = tempVar.mul(D(30).pow(D.max(0, calcMaxDigit().sub(game.digits))));
+  if (game.quantumUpgradeBought.includes('16')) tempVar = tempVar.mul(game.researchPoint.add(1).pow(0.25));
   return tempVar;
 }
 function calcShopCost() {

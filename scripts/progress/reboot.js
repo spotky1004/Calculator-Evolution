@@ -110,6 +110,7 @@ function calcRPGain() {
   tempNum = tempNum.mul(D(2).pow(game.researchLevel[6]));
   if (game.quantumUpgradeBought.includes('21')) tempNum = tempNum.mul(10);
   if (game.quantumUpgradeBought.includes('22')) tempNum = tempNum.mul(D(1.2).pow(game.qubit).pow(D.min(game.researchPoint.add(1).log(10).div(25), 1)));
+  if (game.quantumUpgradeBought.includes('26')) tempNum = tempNum.mul(game.researchLevel.reduce((a, b) => a.mul(b**2+1), D(1)).pow(3));
   return Decimal.max(tempNum, 0);
 }
 function calcResearchCost(idx, type, lv=game.researchSpeed[idx]) {
