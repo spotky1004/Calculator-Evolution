@@ -30,7 +30,7 @@
     ],
     // 4: QoL
     [
-      "Start run with level 2 Multi Process<br><b style=\"opacity: 0.6\">You need to do 'Reset Quantum Run' to get effect!</b>",
+      "Start run with level 2 Multi Process",
       "You can bulk buy Research upgrade",
       "Generate RP per second based on Reboot cooldown (${Math.floor(30*(1/calcRebootCooldown())*1000)}%)",
       "Reboot cooldown /5",
@@ -139,6 +139,7 @@ function buyQuantumUpgrade(idx) {
     ifStat: if (game.qubit.sub(calcUsedQubit()).gte(getQuantumUpgradeCost(idx)) && !game.quantumUpgradeBought.includes((fixedIdx[1]+1) + '' + (fixedIdx[0]+1)) ) {
       // buy
       game.quantumUpgradeBought.push((fixedIdx[1]+1) + '' + (fixedIdx[0]+1));
+      if (idx == 3) game.researchLevel[1] = Math.max(2, game.researchLevel[1]);
       calcQuantum();
       renderQunatum();
     } else if (fixedIdx[1] == 4) {
