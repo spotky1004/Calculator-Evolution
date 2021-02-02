@@ -8,7 +8,7 @@
       "'Bonus CPU Level' research's effect x2",
       "Each Quantum Lab Boosts CPU by x27 (x${dNotation(D(27).pow(game.quantumLab), 4, 0)})",
       "Each Grey digit boosts CPU by x30 (x${dNotation(D(30).pow(D.max(0, calcMaxDigit().sub(game.digits))), 4, 0)})",
-      "RP boosts CPU (x${dNotation(game.researchPoint.add(1).pow(0.25), 4, 1)})"
+      "RP boosts CPU (x${dNotation(game.researchPoint.add(1).pow(0.25), 4, 1)})<br>And sqrt Quantum Lab RP req"
     ],
     // 2: Research
     [
@@ -22,11 +22,11 @@
     // 3: Quantum
     [
       "Qubit production speed x100",
-      "Pow Quantum requirements based on Base (^${dNotation(D(0.999).pow(D.min(200, game.base)), 4, 5)})",
+      "Pow Quantum requirements based on Base (^${dNotation(D(0.999).pow(D.min(calcQuantum3Cap(), game.base)), 4, 5)})",
       "Each Qubit boosts itself Production Speed by x1.3 (x${dNotation(D(1.3).pow(game.qubit), 4, 2)})",
       "Boost Qubit production speed based on Number (x${dNotation(D.min(game.number.add(1).log(10).div(10).sqrt(2), 1).add(1).pow(game.number.add(1).log(10).pow(0.6)), 4, 2)})",
       "Each bought Quantum Upgrade boosts Qubit gain by x10 (x${dNotation(D(10).pow([...new Set(game.quantumUpgradeBought)].length), 0)})",
-      "You can bulk buy Quantum Labs"
+      "You can bulk buy Quantum Labs<br>And extend the cap of Quantum III (${!game.quantumUpgradeBought.includes('36') ? dNotation(calcQuantum3Cap(), 4, 0) : dNotation(calcQuantum3Cap().div(5), 0, 1)} -> ${!game.quantumUpgradeBought.includes('36') ? dNotation(calcQuantum3Cap().mul(5), 0, 1) : dNotation(calcQuantum3Cap(), 0, 1)})"
     ],
     // 4: QoL
     [
@@ -190,13 +190,19 @@ function quantumRestart() {
 function getMaxQuantumLabGain() {
   return game.quantumUpgradeBought.includes('36') ? D(Infinity) : D(1);
 }
+function calcQuantum3Cap() {
+  var baseCap = D(200);
+  if (game.quantumUpgradeBought.includes('36')) baseCap = baseCap.mul(5);
+  return baseCap;
+}
 function getQuantumReqPow() {
-  var totPow = game.quantumUpgradeBought.includes('32') ? D(0.999).pow(D.min(200, game.base)) : 1;
+  var totPow = game.quantumUpgradeBought.includes('32') ? D(0.999).pow(D.min(calcQuantum3Cap(), game.base)) : 1;
 
   var moneyPow = D(totPow);
   if (game.quantumUpgradeBought.includes('26')) moneyPow = moneyPow.div(2);
 
   var researchPow = D(totPow);
+  if (game.quantumUpgradeBought.includes('16')) researchPow = researchPow.div(2);
 
   return [moneyPow, researchPow];
 }

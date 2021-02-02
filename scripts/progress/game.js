@@ -241,7 +241,6 @@ function shopBuy(num) {
     if (game.quantumUpgradeBought.includes('42') && num > 4) {
       shopMaxBuy(num);
     } else {
-      console.log(num);
       game.money = game.money.sub(calcShopCost(num, game.shopBought[num]));
       game.shopBought[num]++;
     }
@@ -259,7 +258,6 @@ function shopMaxBuy(num) {
   }
   var bulkLv = maxA;
   var bulkBuyCount = bulkLv-game.shopBought[num]+1;
-  console.log(bulkLv);
   if (game.money.gte(calcShopCost(num, maxA)) && bulkBuyCount > 0) {
     game.money = game.money.sub(calcShopCost(num, maxA));
     game.shopBought[num] += bulkBuyCount;
