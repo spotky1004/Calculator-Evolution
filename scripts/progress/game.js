@@ -137,7 +137,7 @@ function renderShop() {
     $(".shopItem:nth-of-type(" + (i+1) + ")").className = ((calcShopMax()[i] == game.shopBought[i]) ? "shopItem bought" : "shopItem");
   }
   for (var i = 0; i < 5; i++) {
-    $(".shopBox:nth-of-type(2) > .shopItem:nth-of-type(" + (i+1) + ") > .itemCost > .itemCostNum").innerHTML = dNotation(calcShopCost()[i+5], 5);
+    $(".shopBox:nth-of-type(2) > .shopItem:nth-of-type(" + (i+1) + ") > .itemCost > .itemCostNum").innerHTML = dNotation(calcShopCost(i+5, game.shopBought[i+5]), 5);
   }
   $("#cpuHz").innerHTML = notationSI(calcCPU(), 0);
   $("#cpuSpeed").innerHTML = dNotation(calcCpuUpgradeEffect(), 4, 1);
@@ -229,8 +229,7 @@ function activeProgram(num) {
   renderProgram();
 }
 function shopBuy(num) {
-  if (game.money.gte(calcShopCost()[num]) && game.shopBought[num] < calcShopMax()[num]) {
-    game.money = game.money.sub(calcShopCost()[num]);
+  if (game.money.gte(calcShopCost(num, game.shopBought[num])) && game.shopBought[num] < calcShopMax()[num]) {
     switch (num) {
       case 0: case 1: case 2: case 3: case 4:
       commandAppend(`buy ${shopItems[num][Math.min(game.shopBought[num], calcShopMax()[num]-1)].itemName}`);
@@ -239,9 +238,31 @@ function shopBuy(num) {
       commandAppend('upgrade CPU', -60);
         break;
     }
-    game.shopBought[num]++;
+    if (game.quantumUpgradeBought.includes('42')) {
+      shopMaxBuy(num);
+    } else {
+      game.money = game.money.sub(calcShopCost(num, game.shopBought[num]));
+      game.shopBought[num]++;
+    }
   }
   renderShop();
+}
+function shopMaxBuy(num) {
+  var mPoint = 20, maxA = 2**mPoint;
+  for (var i = 0; i < mPoint; i++) {
+    maxA += 2**(mPoint-1-i)*((game.money.gte(calcShopCost(num, maxA)))*2-1);
+  }
+  for (var i = 0; i < 6; i++) {
+    if (game.money.gt(calcShopCost(num, maxA))) maxA++;
+    if (game.money.lt(calcShopCost(num, maxA))) maxA--;
+  }
+  var bulkLv = maxA;
+  var bulkBuyCount = bulkLv-game.shopBought[num]+1;
+  console.log(bulkLv);
+  if (game.money.gte(calcShopCost(num, maxA)) && bulkBuyCount > 0) {
+    game.money = game.money.sub(calcShopCost(num, maxA));
+    game.shopBought[num] += bulkBuyCount;
+  }
 }
 function resetGame() {
   if (typeof hardResetTimeout != "undefined") clearTimeout(hardResetTimeout);
@@ -278,17 +299,20 @@ function calcCPU() {
   if (game.quantumUpgradeBought.includes('16')) tempVar = tempVar.mul(game.researchPoint.add(1).pow(0.25));
   return tempVar;
 }
-function calcShopCost() {
-  const tempArr = new Array(15).fill(D(Infinity));
-  for (var i = 0; i < 5; i++) {
-    var tempObj = shopItems[i][Math.min(game.shopBought[i], calcShopMax()[i]-1)];
-    if (typeof tempObj != "undefined") {
-      tempArr[i] = D(tempObj.itemCost);
-    }
+function calcShopCost(idx, lv) {
+  var cost = D(Infinity);
+  switch (idx) {
+    case 0: case 1: case 2: case 3: case 4:
+    tempObj = shopItems[idx][Math.min(lv, calcShopMax()[idx]-1)];
+    if (typeof tempObj != "undefined") cost = D(tempObj.itemCost);
+      break;
+    case 5:
+    cost = D(3+lv/9).pow(lv).div(5);
+      break;
+    default:
+
   }
-  tempArr[5] = D(3+game.shopBought[5]/9).pow(game.shopBought[5]).div(5);
-  tempArr[6] = D(1e32).mul( D(10).pow(game.shopBought[6]).pow(Math.max(1, game.shopBought[6]/10+1-0.5)) );
-  return tempArr;
+  return cost;
 }
 function calcShopMax() {
   const tempArr = new Array(15).fill(Infinity);

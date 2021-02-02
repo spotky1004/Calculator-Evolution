@@ -31,7 +31,7 @@
     // 4: QoL
     [
       "Start run with level 2 Multi Process",
-      "You can bulk buy Research upgrade",
+      "You can bulk buy Research upgrades and Shop upgrades",
       "Generate RP per second based on Reboot cooldown (${Math.floor(30*(1/calcRebootCooldown())*1000)}%)",
       "Reboot cooldown /5",
       "<b>\"Base_Increaser.exe\"</b> will land you to <b>\"Maximum Base\"</b><br><b>\"Memory.exe\"</b> will land you to <b>\"Digits based on Number/s\"</b>",

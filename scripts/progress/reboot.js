@@ -91,7 +91,6 @@ function researchMaxBuy(num) {
     game.researchPoint = game.researchPoint.sub(calcResearchCost(num, 0, bulkLv));
     if (!game.quantumUpgradeBought.includes('25')) game.money = game.money.sub(calcResearchCost(num, 1, bulkLv));
     game.researchSpeed[num] += bulkBuyCount;
-    renderAll();
   }
 }
 
