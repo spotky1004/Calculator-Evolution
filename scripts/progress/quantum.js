@@ -222,7 +222,7 @@ function calcQuantumLabGain() {
     getMaxQuantumLabGain()
   );
 
-  return labGain;
+  return labGain.floor(0);
 }
 
 function calcQubitSpeed() {
