@@ -238,9 +238,10 @@ function shopBuy(num) {
       if (!game.t3toggle) commandAppend('upgrade CPU', -60);
         break;
     }
-    if (game.quantumUpgradeBought.includes('42')) {
+    if (game.quantumUpgradeBought.includes('42') && num > 4) {
       shopMaxBuy(num);
     } else {
+      console.log(num);
       game.money = game.money.sub(calcShopCost(num, game.shopBought[num]));
       game.shopBought[num]++;
     }
