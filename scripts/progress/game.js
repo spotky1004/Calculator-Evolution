@@ -235,7 +235,7 @@ function shopBuy(num) {
       commandAppend(`buy ${shopItems[num][Math.min(game.shopBought[num], calcShopMax()[num]-1)].itemName}`);
         break;
       case 5:
-      commandAppend('upgrade CPU', -60);
+      if (!game.t3toggle) commandAppend('upgrade CPU', -60);
         break;
     }
     if (game.quantumUpgradeBought.includes('42')) {
