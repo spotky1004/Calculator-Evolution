@@ -35,7 +35,7 @@
       "Generate RP per second based on Reboot cooldown (${Math.floor(30*(1/calcRebootCooldown())*1000)}%)",
       "Reboot cooldown /5",
       "<b>\"Base_Increaser.exe\"</b> will land you to <b>\"Maximum Base\"</b><br><b>\"Memory.exe\"</b> will land you to <b>\"Digits based on Number/s\"</b>",
-      "Coming Soon!"
+      "If next qubit making time is less than 7mins instant finish it"
     ],
     // 5: Automate
     [
@@ -101,6 +101,7 @@ function renderQunatum() {
   for (var i = 0; i < 6; i++) document.getElementsByClassName("quantumUpgrade")[4+i*6].classList[(game.quantumUpgradeBought.includes(((4+i*6)%6+1) + '' + Math.floor((4+i*6)/6+1)) && !game.quantumAutomateToggle[i] ? 'add' : 'remove')]("deactivated");
 }
 function calcQuantum() {
+  if (game.quantumUpgradeBought.includes('46') && D(3).pow(game.qubit.add(1)).sub(game.qubitProgress).div(calcQubitSpeed()).lte(60*7)) D(3).pow(game.qubitProgress.add(1).log(3).ceil(0));
   game.qubitProgress = game.qubitProgress.add(calcQubitSpeed().mul(tGain));
   game.qubit = D.max(0, game.qubitProgress.add(1).log(3)).floor(0);
   calcQuantumAuto();
