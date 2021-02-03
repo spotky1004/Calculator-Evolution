@@ -68,6 +68,20 @@
     text-shadow: 0 0 0.8vh #222;
   }
 }
+@keyframes t4Animation {
+  from {
+    color: #ccc;
+    text-shadow: 0 0 2vh #fff;
+  }
+  50% {
+    color: #888;
+    text-shadow: 0 0 0.8vh #fff;
+  }
+  to {
+    color: #ccc;
+    text-shadow: 0 0 2vh #fff;
+  }
+}
 @keyframes quarkGlow {
   from {
     color: #fff; text-shadow: 0 0 0.4vh #d442f5, 0 0 0.4vh #d442f5, 0 0 0.4vh #d442f5;
@@ -128,6 +142,22 @@
   }
   to {
     background-position-x: 20vw;
+  }
+}
+@keyframes singularityButtonOverlapMove {
+  from {
+    background-position-x: 0;
+  }
+  to {
+    background-position-x: 16vw;
+  }
+}
+@keyframes singularityButtonOverlap2Move {
+  from {
+    background-position-y: 0;
+  }
+  to {
+    background-position-y: 5.8vh;
   }
 }
 @keyframes hueRotate {

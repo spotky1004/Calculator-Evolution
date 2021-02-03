@@ -32,6 +32,9 @@ function renderAll() {
     case 6:
     renderStat();
       break;
+    case 7:
+    renderSingularity();
+      break;
   }
 }
 function renderInfo() {

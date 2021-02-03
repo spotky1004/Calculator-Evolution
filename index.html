@@ -4,19 +4,20 @@
     <meta charset="utf-8">
     <meta name="viewport" content="user-scalable=no">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="animation.css?ver=0.21.14">
-    <link rel="stylesheet" href="index.css?ver=0.21.14">
+    <link rel="stylesheet" href="animation.css?ver=0.21.15">
+    <link rel="stylesheet" href="index.css?ver=0.21.15">
     <script src="./scripts/decimalMin.js"></script>
-    <script src="./scripts/index.js?ver=0.21.14" defer></script>
-    <script src="./scripts/numberFunc.js?ver=0.21.14" defer></script>
-    <script src="./scripts/achievement.js?ver=0.21.14" defer></script>
-    <script src="./scripts/progress/game.js?ver=0.21.14" defer></script>
-    <script src="./scripts/progress/reboot.js?ver=0.21.14" defer></script>
-    <script src="./scripts/progress/quantum.js?ver=0.21.14" defer></script>
-    <script src="./scripts/saveload.js?ver=0.21.14" defer></script>
-    <script src="./scripts/loop.js?ver=0.21.14" defer></script>
-    <script src="./scripts/reset.js?ver=0.21.14" defer></script>
-    <title>Calculator Evolution v0.21.14</title>
+    <script src="./scripts/index.js?ver=0.21.15" defer></script>
+    <script src="./scripts/numberFunc.js?ver=0.21.15" defer></script>
+    <script src="./scripts/achievement.js?ver=0.21.15" defer></script>
+    <script src="./scripts/progress/game.js?ver=0.21.15" defer></script>
+    <script src="./scripts/progress/reboot.js?ver=0.21.15" defer></script>
+    <script src="./scripts/progress/quantum.js?ver=0.21.15" defer></script>
+    <script src="./scripts/progress/singularity.js?ver=0.21.15" defer></script>
+    <script src="./scripts/saveload.js?ver=0.21.15" defer></script>
+    <script src="./scripts/loop.js?ver=0.21.15" defer></script>
+    <script src="./scripts/reset.js?ver=0.21.15" defer></script>
+    <title>Calculator Evolution v0.21.15</title>
   </head>
   <body>
     <div id="warpAll">
@@ -34,6 +35,7 @@
         <span class="tabNav t1Nav" onclick="goTab(6)">Stat</span>
         <span class="tabNav t2Nav" onclick="goTab(2)">Research</span>
         <span class="tabNav t3Nav" onclick="goTab(5)" style="display: none;">Quantum</span>
+        <span class="tabNav t4Nav" onclick="goTab(7)" style="display: none;">Singularity</span>
       </div>
       <div id="tabs">
         <!-- Module -->
@@ -439,6 +441,19 @@
         <div class="tab" style="display:none;">
           <div id="statsText" class="normalText" style="margin-top: 2vh;">
             You've played this game for 0ms
+          </div>
+        </div>
+        <!-- Singularity -->
+        <div class="tab" style="display:none;">
+          <div id="singularityButton" class="disabled" onclick="singularity()">
+            <div id="singularityButtonOverlap">
+              <div id="singularityButtonOverlap2">
+                Singularity
+              </div>
+            </div>
+          </div>
+          <div id="singularityDesc">
+            Need 80 Quantum Labs to go Singularity
           </div>
         </div>
       </div>

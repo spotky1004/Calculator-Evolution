@@ -79,6 +79,12 @@ body {
   cursor: pointer;
   animation: t3Animation ease 3s infinite;
 }
+.t4Nav {
+  border: 0.35vh solid #19306b;
+  background-color: rgba(6, 17, 46, 0.5);
+  cursor: pointer;
+  animation: t4Animation ease 3s infinite;
+}
 
 #commandArea {
   margin-left: 1.5vw;
@@ -569,11 +575,75 @@ body {
   text-align: center;
 }
 
+.tab:nth-of-type(8) {
+  text-align: center;
+}
+#singularityButton {
+  margin: 0 auto;
+  width: 16vw; height: 5.8vh;
+  font-size: 2.4vh;
+  border-radius: 1.2vh;
+  cursor: pointer;
+  color: #aaa; text-shadow: 0 0 0.4vh #fff;
+  border: 0.4vh solid #122b6e;
+  background-color: #fff;
+  transition: all 0.4s;
+}
+#singularityButtonOverlap {
+  width: inherit; height: 5.8vh;
+  border-radius: 0.9vh;
+  background: linear-gradient(
+    90deg,
+    #000 0%,
+    #000 10%, rgba(0,0,0,0) 10%, rgba(0,0,0,0) 12%, #000 12%,
+    #000 100%
+  );
+  animation: singularityButtonOverlapMove linear 0.67s infinite;
+}
+#singularityButtonOverlap2 {
+  padding-top: 1.2vh;
+  width: inherit; height: 4.6vh;
+  border-radius: 0.9vh;
+  background: linear-gradient(
+    180deg,
+    #000 0%,
+    #000 10%, rgba(0,0,0,0) 10%, rgba(0,0,0,0) 20%, #000 20%,
+    #000 100%
+  );
+  box-shadow: 0 0 1vh #7b95db inset;
+  animation: singularityButtonOverlap2Move linear 0.37s infinite;
+  transition: box-shadow 0.3s;
+}
+#singularityButton:not(.disabled):hover {
+  transform: scale(1.1);
+  filter: brightness(0.9);
+}
+#singularityButton:not(.disabled) #singularityButtonOverlap2:hover {
+  box-shadow: 0 0 2vh #7b95db inset;
+}
+#singularityButton:not(.disabled):active {
+  transform: scale(1);
+  filter: brightness(2);
+  transition: all 0s;
+}
+#singularityButton.disabled {
+  cursor: auto;
+  filter: grayscale(1);
+  color: #fff; text-shadow: 0 0 0.4vh #666;
+  background-color: rgb(166,52,191);
+  border: 0.4vh solid #c954e3;
+  transition: all 1s;
+  animation: none;
+}
+#singularityDesc {
+  font-size: 1.8vh;
+  color: #0a205c;
+  text-shadow: 0 0 0.8vh #fff, -0.2vh 0 0.2vh #63b88d, 0.2vh 0 0.2vh #f54c8f;
+}
+
 .normalButton {
 
 }
 .normalText {
   color: #49d124; font-size: 1.8vh;
 }
-
-/* animation: animationName ease 5s infinite */

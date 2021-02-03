@@ -35,7 +35,8 @@ tempGame = {
   quantumUpgradeBought: [],
   quantumUpgradePreset: {},
   quantumAutomateToggle: [1, 1, 1, 1, 1, 1],
-  quantumTime: new Date().getTime()
+  quantumTime: new Date().getTime(),
+  t4toggle: 0
 };
 game = {};
 

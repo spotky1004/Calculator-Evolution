@@ -106,6 +106,7 @@ function renderBasic() {
 
   //tabs
   $('#mainNav > .tabNav:nth-child(7)').style.display = (game.t3toggle ? 'inline-block' : 'none');
+  $('#mainNav > .tabNav:nth-child(8)').style.display = (game.t4toggle ? 'inline-block' : 'none');
 
   commandFloat();
 }
@@ -191,6 +192,7 @@ function setEffects() {
 function calcToggleTabs() {
   if (calcRPGain().gte(1)) game.t2toggle = 1;
   if (game.money.gte(1e80)) game.t3toggle = 1;
+  if (game.quantumLab.gte(70)) game.t4toggle = 1;
 }
 function activeProgram(num) {
   if (rebooting) return;

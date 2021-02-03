@@ -27,7 +27,10 @@ function quantumReset() {
   for (var i = 0; i < 15; i++) {
     if (i < 5) {
       if (game.quantumUpgradeBought.includes('64')) continue;
-      if (game.quantumUpgradeBought.includes('61')) game.shopBought[i] = Math.min(1, game.shopBought[i]);
+      if (game.quantumUpgradeBought.includes('61')) {
+        game.shopBought[i] = Math.min(1, game.shopBought[i]);
+        continue;
+      }
     }
     game.shopBought[i] = 0;
   }
