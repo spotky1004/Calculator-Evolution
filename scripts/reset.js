@@ -38,3 +38,12 @@ function quantumReset() {
   game.quantumTime = new Date().getTime();
   game.t2resets = D(0);
 }
+function singularityReset() {
+  game.quantumUpgradeBought = [];
+  quantumReset();
+  game.qubit = D(0);
+  game.qubitProgress = D(0);
+  game.quantumLab = D(0);
+  game.singularityTime = new Date().getTime();
+  game.t3resets = D(0);
+}

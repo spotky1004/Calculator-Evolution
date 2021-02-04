@@ -15,7 +15,7 @@ function renderAll() {
 
   switch (tabNow) {
     case 0:
-    renderProgram();
+    renderModule();
       break;
     case 1:
     renderShop();

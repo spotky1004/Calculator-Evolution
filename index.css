@@ -120,11 +120,23 @@ body {
 }
 
 .tab:nth-of-type(1) {
-
+  display: flex;
+  height: 75vh;
+}
+.moduleContainer {
+  display: inline-block;
+  height: 100%;
+}
+.moduleContainer:nth-of-type(2) {
+  margin-left: 2vh;
+  width: 50vw;
 }
 .sectionTxt {
   margin: 1.4vh 0 0 3.5vw;
   font-size: 2.5vh; color: #369c1a; text-shadow: 0 0 0.4vh #369c1a;
+}
+#singularityGridWarp > .sectionTxt {
+  margin-left: 0;
 }
 #programs {
   margin: 0 0 0 3.5vw;
@@ -176,6 +188,27 @@ body {
 .program.permanent.active {
   border: 0.1vh solid #9224d1;
   background-color: rgba(106, 26, 156, 0.5);
+}
+#singularityGridInnerWarp {
+  display: inline-table;
+  margin: 0 auto;
+  width: 95%; height: calc(100% - 5vh);
+}
+#singularityGridInnerWarp > span {
+  display: inline-block;
+}
+#singularityGridOutWarp {
+  margin-right: calc(0.8% * 2/3);
+  height: 65%; width: calc(99.2% * 2/3);
+  background: rgba(54, 156, 26, 0.2);
+}
+#singularityMachines {
+  height: 65%; width: calc(100% * 1/3);
+  background: rgba(54, 156, 26, 0.2);
+}
+#singularityEffects {
+  height: 35%; width: 100%;
+  background: rgba(54, 156, 26, 0.2);
 }
 
 .tab:nth-of-type(2) {
@@ -638,7 +671,7 @@ body {
 #singularityDesc {
   font-size: 1.8vh;
   color: #0a205c;
-  text-shadow: 0 0 0.8vh #fff, -0.2vh 0 0.2vh #63b88d, 0.2vh 0 0.2vh #f54c8f;
+  text-shadow: 0 0 0.8vh #fff, -0.2vh 0 0.3vh #63b88d, 0.2vh 0 0.3vh #f54c8f;
 }
 
 .normalButton {

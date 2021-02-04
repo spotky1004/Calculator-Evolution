@@ -30,13 +30,18 @@ tempGame = {
   t3resets: D(0),
   quantumLab: D(0),
   qubit: D(0),
-  freeQubit: D(0),
   qubitProgress: D(0),
   quantumUpgradeBought: [],
   quantumUpgradePreset: {},
   quantumAutomateToggle: [1, 1, 1, 1, 1, 1],
   quantumTime: new Date().getTime(),
-  t4toggle: 0
+  t4toggle: 0,
+  t4resets: D(0),
+  singularityTime: new Date().getTime(),
+  singularityMachine: {},
+  singularityGrid: {},
+  singularityGridActivate: 0,
+  singularityPower: D(0),
 };
 game = {};
 
@@ -50,6 +55,8 @@ function save() {
   commandAppend('save', 70);
 }
 function load() {
+  // type fix
+  // Number
   for (const i in tempGame) {
     if (tempGame[i] instanceof Decimal) {
       game[i] = D(tempGame[i]);
@@ -71,7 +78,10 @@ function load() {
       }
     }
   }
-  commandAppend('load', 70);
+  // singularityGrid
+  for (var i in game.singularityGrid) {
+    singularityGrid[i] = new singularityMachine(game.singularityGrid[i]);
+  }
 
   // old version fix
   if (game.researchSpeed.length == 5) {
@@ -81,6 +91,8 @@ function load() {
       game.researchProgress.push(0);
     }
   }
+
+  commandAppend('load', 70);
 }
 function hardReset() {
   for (const i in tempGame) {

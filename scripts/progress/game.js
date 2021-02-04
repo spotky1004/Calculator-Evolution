@@ -110,7 +110,10 @@ function renderBasic() {
 
   commandFloat();
 }
-function renderProgram() {
+function renderModule() {
+  $("#processes").innerHTML = `Process ${calcProcessActive()}/${calcMultiProcess()}`;
+
+  // program
   var programPoint = [-1, 1, 4, 0, 2, 3, -1];
   var defNames = ["", "Miner.exe", "Memory.exe", "Increment.exe", "Data_Holder.exe", "Auto_Upgrader.exe", ""];
   for (var i = 0; i < 7; i++) {
@@ -127,6 +130,12 @@ function renderProgram() {
   $(".program:nth-of-type(5)").style.display = ((game.shopBought[2]) ? "block" : "none");
   $(".program:nth-of-type(6)").style.display = ((game.shopBought[3]) ? "block" : "none");
   $(".program:nth-of-type(7)").style.display = ((game.researchLevel[0]>=1) ? "block" : "none");
+
+  // grid
+  $("#singularityGridWarp").style.display = (game.t4toggle ? "block" : "none");
+  if (game.t4toggle) {
+
+  }
 }
 function renderShop() {
   for (var i = 0; i < 5; i++) {
@@ -157,6 +166,8 @@ function renderStat() {
   if (game.t2toggle) $("#statsText").innerHTML += `<br>You spent ${timeNotation((new Date().getTime()-game.rebootTime)/1000)} in this Reboot`;
   if (game.t3toggle) $("#statsText").innerHTML += `<br><br>You've done Quantum ${dNotation(game.t3resets)} times`;
   if (game.t3toggle) $("#statsText").innerHTML += `<br>You spent ${timeNotation((new Date().getTime()-game.quantumTime)/1000)} in this Quantum`;
+  if (game.t4toggle) $("#statsText").innerHTML += `<br><br>You've done Singularity ${dNotation(game.t4resets)} times`;
+  if (game.t4toggle) $("#statsText").innerHTML += `<br>You spent ${timeNotation((new Date().getTime()-game.singularityTime)/1000)} in this Singularity`;
 }
 
 function goTab(num) {
@@ -164,7 +175,7 @@ function goTab(num) {
     for (var i = 0; i < document.getElementsByClassName('tab').length; i++) {
       $(".tab:nth-of-type(" + (i+1) + ")").style.display = "none";
     }
-    $(".tab:nth-of-type(" + (num+1) + ")").style.display = "block";
+    $(".tab:nth-of-type(" + (num+1) + ")").style.display = num != 0 ? "block" : "flex";
     tabNow = num;
     renderAll();
   }
@@ -200,24 +211,19 @@ function activeProgram(num) {
   if (num == 4 && !game.shopBought[2]) return;
   if (num == 5 && !game.shopBought[3]) return;
   if (num == 6 && (game.programActive[6] || game.researchLevel[0]<1)) return;
-  var programCount = 0;
+  var programCount = calcProcessActive();
   if (game.programActive[num]) {
     programCount--;
   } else {
     programCount++;
   }
-  for (var i = 0; i < game.programActive.length; i++) {
-    if (game.programActive[i]) {
-      programCount++;
-    }
-  }
-  if (programCount >= game.researchLevel[1]+2) {
+  if (programCount >= calcMultiProcess()+1) {
     for (var i = 5; i > -1; i--) {
       if (game.programActive[i] && i != num) {
         game.programActive[i] = 0;
         programCount--;
       }
-      if (programCount < game.researchLevel[1]+2) break;
+      if (programCount < calcMultiProcess()+1) break;
     }
   }
   game.programActive[num] = !game.programActive[num];
@@ -228,7 +234,7 @@ function activeProgram(num) {
   } else {
     commandAppend('kill ' + $('.program:nth-of-type(' + (num+1) + ') > span:nth-child(2)').innerHTML, -110);
   }
-  renderProgram();
+  renderModule();
 }
 function shopBuy(num) {
   if (game.money.gte(calcShopCost(num, game.shopBought[num])) && game.shopBought[num] < calcShopMax()[num]) {
@@ -415,6 +421,20 @@ function calcProgram() {
       game.number = D(0);
     }
   }
+}
+function calcProcessActive() {
+  var activeProcress = 0;
+  for (var i = 0; i < game.programActive.length; i++) {
+    if (game.programActive[i]) {
+      activeProcress++;
+    }
+  }
+  return activeProcress;
+}
+function calcMultiProcess() {
+  var maxProcess = game.researchLevel[1]+1;
+  maxProcess += Math.floor(Math.min(12.5, game.singularityPower.valueOf())*2);
+  return maxProcess;
 }
 
 function bugFixer() {
