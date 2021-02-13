@@ -166,8 +166,8 @@ function quantumUpgradeRespec() {
     clearTimeout(qRespecTimeout);
     commandAppend("respec quantumUpgrades", 161);
     game.quantumUpgradeBought = [];
-    quantumReset();
     dokeepMilestone();
+    quantumReset();
   }
   qRespecTimeout = setTimeout( function () {
     $("#quantumRespec").innerHTML = `Respec <span style="opacity: var(--tempOp); display: var(--tempDis)">& Quantum Reset<span>`;
@@ -185,7 +185,6 @@ function quantumRestart() {
     clearTimeout(qRestartTimeout);
     commandAppend("reset quantumLevel", 161);
     quantumReset();
-    dokeepMilestone();
   }
   qRestartTimeout = setTimeout( function () {
     $("#quantumRestart").innerHTML = `Restart <span style="opacity: var(--tempOp); display: var(--tempDis)">Quantum Run<span>`;
