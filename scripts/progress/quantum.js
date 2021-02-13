@@ -152,6 +152,7 @@ function getQuantumUpgradeCost(idx) {
   var fixedIdx = [Math.floor(idx/6), idx%6];
   var tempCost = Math.floor((Math.floor((fixedIdx[0]*2)**1.7+2)*Math.floor(fixedIdx[1]==5?fixedIdx[1]**1.2+5:1)+fixedIdx[0]*3)**(fixedIdx[0]==5&&fixedIdx[1]!=5?1.2:1)/(fixedIdx[1]==3||fixedIdx[1]==4?fixedIdx[1]/5+1:1));
   if (game.challengeEntered == 3) tempCost *= 2;
+  if (fixedIdx[1] == 5 && fixedIdx[0] <= calcMilestoneDone()) tempCost = 0;
   return tempCost;
 }
 function quantumUpgradeRespec() {

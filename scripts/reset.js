@@ -47,4 +47,5 @@ function singularityReset() {
   game.singularityTime = new Date().getTime();
   singularityMachineChanged();
   game.t3resets = D(0);
+  for (let i = 0, l = calcMilestoneDone(); i < l; i++) game.quantumUpgradeBought.push('6' + (i+1));
 }
