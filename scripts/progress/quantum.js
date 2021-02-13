@@ -167,10 +167,10 @@ function quantumUpgradeRespec() {
     commandAppend("respec quantumUpgrades", 161);
     game.quantumUpgradeBought = [];
     quantumReset();
+    dokeepMilestone();
   }
   qRespecTimeout = setTimeout( function () {
     $("#quantumRespec").innerHTML = `Respec <span style="opacity: var(--tempOp); display: var(--tempDis)">& Quantum Reset<span>`;
-    for (let i = 0, l = calcMilestoneDone(); i < l; i++) game.quantumUpgradeBought.push('6' + (i+1));
     quantumUpgradeRespecConfrim = calcQuantumResetClicks();
   }, 3000);
 }
@@ -185,10 +185,10 @@ function quantumRestart() {
     clearTimeout(qRestartTimeout);
     commandAppend("reset quantumLevel", 161);
     quantumReset();
+    dokeepMilestone();
   }
   qRestartTimeout = setTimeout( function () {
     $("#quantumRestart").innerHTML = `Restart <span style="opacity: var(--tempOp); display: var(--tempDis)">Quantum Run<span>`;
-    for (let i = 0, l = calcMilestoneDone(); i < l; i++) game.quantumUpgradeBought.push('6' + (i+1));
     quantumUpgradeRestartConfrim = calcQuantumResetClicks();
   }, 3000);
 }
@@ -232,6 +232,9 @@ function calcQuantumLabGain() {
   );
 
   return labGain.floor(0);
+}
+function dokeepMilestone() {
+  for (let i = 0, l = calcMilestoneDone(); i < l; i++) game.quantumUpgradeBought.push('6' + (i+1));
 }
 
 function calcQubitSpeed() {
