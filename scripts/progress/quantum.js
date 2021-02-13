@@ -170,6 +170,7 @@ function quantumUpgradeRespec() {
   }
   qRespecTimeout = setTimeout( function () {
     $("#quantumRespec").innerHTML = `Respec <span style="opacity: var(--tempOp); display: var(--tempDis)">& Quantum Reset<span>`;
+    for (let i = 0, l = calcMilestoneDone(); i < l; i++) game.quantumUpgradeBought.push('6' + (i+1));
     quantumUpgradeRespecConfrim = calcQuantumResetClicks();
   }, 3000);
 }
@@ -187,6 +188,7 @@ function quantumRestart() {
   }
   qRestartTimeout = setTimeout( function () {
     $("#quantumRestart").innerHTML = `Restart <span style="opacity: var(--tempOp); display: var(--tempDis)">Quantum Run<span>`;
+    for (let i = 0, l = calcMilestoneDone(); i < l; i++) game.quantumUpgradeBought.push('6' + (i+1));
     quantumUpgradeRestartConfrim = calcQuantumResetClicks();
   }, 3000);
 }
