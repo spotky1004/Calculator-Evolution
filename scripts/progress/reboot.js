@@ -119,7 +119,7 @@ function calcRPGain() {
 function calcResearchCost(idx, type, lv=game.researchSpeed[idx]) {
   switch (idx) {
     case 0:
-      return !type ? D(10+Math.sqrt(lv)).pow(lv/1.2) : D(1e10).mul(D(10).pow(lv**2)).pow(lv/100+1).sub(1e10);
+      return !type ? D(10+Math.sqrt(lv)).pow(lv/1.2).div(lv+1).floor(0) : D(1e10).mul(D(10).pow(lv**2)).pow(lv/100+1).sub(1e10);
       break;
     case 1:
       return !type ? D(10+lv**2).pow(lv) : D(1e10).mul(D(10).pow(lv**2+1)).pow(lv/2+1).sub(1e10);

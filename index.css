@@ -830,7 +830,7 @@ body {
 #wormholeChallengeHeader {
   padding-top: 2vh;
   height: 15%;
-  color: #0c161f; text-shadow: 0 0 0.4vh #fff;
+  color: #0c161f; text-shadow: 0 0 0.4vh #fff, 0 0 0.1vh #fff;
   font-weight: bold;
 }
 #wormholeChallengeInnerWarp {
