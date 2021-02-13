@@ -136,8 +136,10 @@ function hsvToRgb(h, s, v) {
 
 //hotkey
 (function(){
+  keyDowns = {16: 0};
   document.addEventListener('keydown', function(e){
     const keyCode = e.keyCode;
+    keyDowns[keyCode] = true;
     if (keyCode == 49) activeProgram(0); // 1
     if (keyCode == 50) activeProgram(1); // 2
     if (keyCode == 51) activeProgram(2); // 3
@@ -155,5 +157,9 @@ function hsvToRgb(h, s, v) {
     if (keyCode == 70) goTab(2); // f
     if (keyCode == 71) goTab(5); // g
     if (keyCode == 72) goTab(7); // h
+  })
+  document.addEventListener('keyup', function(e){
+    const keyCode = e.keyCode;
+    keyDowns[keyCode] = false;
   })
 })();

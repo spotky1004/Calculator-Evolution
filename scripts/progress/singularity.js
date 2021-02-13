@@ -253,14 +253,16 @@ function singularityGridClick(x, y, side='l') {
   var thisMachine = game.singularityGrid[x + '' + y];
   var thisName = machineIdx[selectedMachine];
   var machineHave = getSingularityMachineHave(thisName);
-  if (side == "l") {
+  f1: if (side == "l") {
     if (typeof thisMachine == "undefined") {
-      if (selectedMachine == -1 || machineHave-clacMachineUsed(thisName) < 1 || calcProcessLeft() < 1) return;
+      if (selectedMachine == -1 || machineHave-clacMachineUsed(thisName) < 1 || calcProcessLeft() < 1) break f1;
       game.singularityGrid[x + '' + y] = new SingularityMachine({position: {x: x, y: y}, rotate: 0, tier: 0, type: thisName, value: D(1)});
       singularityMachineChanged();
     } else if (thisName == thisMachine.type) {
-      if (machineHave-clacMachineUsed(thisName) < 1 || calcProcessLeft() < 1 || thisMachine.tier >= 9) return;
-      game.singularityGrid[x + '' + y].tier++;
+      for (let i = 0; i < 1+keyDowns[16]*8; i++) {
+        if (machineHave-clacMachineUsed(thisName) < 1 || calcProcessLeft() < 1 || thisMachine.tier >= 9) break f1;
+        game.singularityGrid[x + '' + y].tier++;
+      }
     } else {
       thisMachine.rotate = (thisMachine.rotate+1)%4;
       singularityMachineChanged();
@@ -289,7 +291,7 @@ function renderGridSideInfo() {
     if (thisData.hasValue != false) thingToWrite += `<br>> Power: ${dNotation(thisMachine.getPower(), 4, 2)}`;
     if (thisData.hasBoost) thingToWrite += `<br>&nbsp;> Boost: ${thisMachine.getBoostString()}`;
     if (gridEditing) {
-      thingToWrite += selectedMachine != thisData.idx ? `<br><br>LM: rotate` : `<br><br>LM: upgrade`;
+      thingToWrite += selectedMachine != thisData.idx ? `<br><br>LM: rotate` : `<br><br>LM: upgrade<br>Shift+LM: max upgrade`;
       thingToWrite += `<br>RM: remove`;
     }
   } else if (typeof gridOn != "undefined") {
