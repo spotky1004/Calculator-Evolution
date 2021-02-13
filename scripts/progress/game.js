@@ -92,6 +92,10 @@
 
   hardResetTimeout = 0;
   hardResetConfrim = 100;
+
+  tps = [];
+  tpsRecording = 0;
+  lastTpsRecord = new Date().getTime();
 })();
 
 function renderBasic() {
@@ -100,12 +104,14 @@ function renderBasic() {
   tempRes = '';
   if (game.t2toggle) tempRes += ` | ${dNotation(game.researchPoint, 4, 0)} RP\n`;
   if (game.t3toggle) tempRes += ` | ${dNotation(game.qubit, 4, 0)} Qubit , ${dNotation(game.quantumLab, 4, 0)} Lab\n`;
+  if (game.t4toggle) tempRes += ` | ${dNotation(game.singularityPower, 4, 0)} SP\n`;
   $("#otherRes").innerHTML = tempRes;
   $("#memoryDigit").innerHTML = ("").padStart(Math.min(100, dNum(game.mDigits)-dNum(game.digits)), 0);
   $("#numberBase").innerHTML = game.base;
 
   //tabs
   $('#mainNav > .tabNav:nth-child(7)').style.display = (game.t3toggle ? 'inline-block' : 'none');
+  $('#mainNav > .tabNav:nth-child(7)').classList[calcQuantumLabGain().gte(1)?"add":"remove"]("available")
   $('#mainNav > .tabNav:nth-child(8)').style.display = (game.t4toggle ? 'inline-block' : 'none');
 
   commandFloat();
@@ -132,10 +138,7 @@ function renderModule() {
   $(".program:nth-of-type(7)").style.display = ((game.researchLevel[0]>=1) ? "block" : "none");
 
   // grid
-  $("#singularityGridWarp").style.display = (game.t4toggle ? "block" : "none");
-  if (game.t4toggle) {
-
-  }
+  renderGrid();
 }
 function renderShop() {
   for (var i = 0; i < 5; i++) {
@@ -153,7 +156,7 @@ function renderShop() {
   $("#cpuSpeed").innerHTML = dNotation(calcCpuUpgradeEffect(), 4, 1);
 }
 function renderOption() {
-  for (var i = 0; i < 1; i++) {
+  for (var i = 0; i < 2; i++) {
     $('#optionToggle' + i).className = 'optionBtn' + ((game.optionToggle[i]) ? '' : ' disabled');
   }
 }
@@ -169,8 +172,22 @@ function renderStat() {
   if (game.t4toggle) $("#statsText").innerHTML += `<br><br>You've done Singularity ${dNotation(game.t4resets)} times`;
   if (game.t4toggle) $("#statsText").innerHTML += `<br>You spent ${timeNotation((new Date().getTime()-game.singularityTime)/1000)} in this Singularity`;
 }
+function renderCalcDebugInfo() {
+  $("#debugInfoArea").style.display = game.optionToggle[1] ? "block" : "none";
+  if (!game.optionToggle[1]) return;
+  tpsRecording++;
+  if (game.tLast-lastTpsRecord > 1000) {
+    lastTpsRecord = game.tLast;
+    tps.push(tpsRecording);
+    if (tps.length >= 10) tps.splice(0, 1);
+    tpsRecording = 0;
+    $("#debugInfoArea").innerHTML = "TPS: " + tps.reduce((a, b) => (a+b)/2, 0).toFixed(0);
+  }
+}
 
 function goTab(num) {
+  if (!game.t3toggle && num == 5) return;
+  if (!game.t4toggle && num == 7) return;
   if (!rebooting || game.t3toggle) {
     for (var i = 0; i < document.getElementsByClassName('tab').length; i++) {
       $(".tab:nth-of-type(" + (i+1) + ")").style.display = "none";
@@ -292,6 +309,7 @@ function resetGame() {
 function calcCpuUpgradeEffect() {
   var eff = D(2);
   if (game.quantumUpgradeBought.includes('11')) eff = eff.mul(1.1);
+  if (game.challengeEntered == 2) eff = eff.pow(0.75);
   return eff;
 }
 function calcCPU() {
@@ -314,7 +332,7 @@ function calcShopCost(idx, lv) {
     if (typeof tempObj != "undefined") cost = D(tempObj.itemCost);
       break;
     case 5:
-    cost = D(3+lv/9).pow(lv).div(5);
+    cost = D(3+lv/9).pow(lv).div(50);
       break;
     default:
 
@@ -333,12 +351,25 @@ function calcMaxDigit() {
   var tempNum = D(6);
   tempNum = tempNum.plus(game.researchLevel[2]);
   if (game.quantumUpgradeBought.includes('12')) tempNum = tempNum.plus(game.base.pow(0.6).floor());
+  if (game.challengeEntered == 1) tempNum = D.min(tempNum, 20);
+  tempNum = tempNum.add(singularityBoosts.DigitBoost);
   return tempNum.floor(0);
 }
 function calcMaxBase() {
   var tempNum = D(36);
   if (game.shopBought[0] >= 3) tempNum = tempNum.add(game.digits);
+  if (game.challengeEntered == 0) tempNum = D.min(50, tempNum);
+  tempNum = tempNum.add(singularityBoosts.BaseBoost);
   return tempNum.floor(0);
+}
+function calcMoneyGain() {
+  moneyGain = D.max(0, calcCPU().mul(calcRealTgain()/3e4).mul(game.number));
+  if (game.shopBought[1] >= 1) moneyGain = moneyGain.mul(game.digits);
+  if (game.shopBought[1] >= 2) moneyGain = moneyGain.mul(game.researchPoint.add(1));
+  if (game.shopBought[1] >= 3) moneyGain = moneyGain.mul(getOverclockPower());
+  if (game.shopBought[1] >= 4) moneyGain = moneyGain.mul(D(2.4).pow(game.qubit));
+  moneyGain = moneyGain.mul(singularityBoosts.MoneyBoost);
+  return moneyGain;
 }
 function getBaseIncreaseReq() {
   return game.base.pow(
@@ -350,23 +381,18 @@ function getBaseIncreaseReq() {
   ).sub(1);
 }
 function calcProgram() {
-  if (rebooting) {
+  if (rebooting || isProcessExceed()) {
     return;
   }
   if (game.programActive[0]) {
-    game.number = D.min(game.number.plus(calcCPU().mul(tGain)), game.base.pow(game.digits).sub(1));
+    game.number = D.min(game.number.plus(calcCPU().mul(calcRealTgain())), game.base.pow(game.digits).sub(1));
     game.rebootNum = D.max(game.number, game.rebootNum);
     rainbowEffect("#basedNumber");
   } else {
     delRainbowEffect("#basedNumber");
   }
   if (game.programActive[1]) {
-    moneyGain = D.max(0, calcCPU().mul(tGain/3e4).mul(game.number));
-    if (game.shopBought[1] >= 1) moneyGain = moneyGain.mul(game.digits);
-    if (game.shopBought[1] >= 2) moneyGain = moneyGain.mul(game.researchPoint.add(1));
-    if (game.shopBought[1] >= 3) moneyGain = moneyGain.mul(getOverclockPower());
-    if (game.shopBought[1] >= 4) moneyGain = moneyGain.mul(D(2.4).pow(game.qubit));
-    game.money = game.money.plus(moneyGain);
+    game.money = game.money.plus(calcMoneyGain());
     rainbowEffect("#money");
   } else {
     delRainbowEffect("#money");
@@ -399,7 +425,7 @@ function calcProgram() {
     shopBuy(5);
   }
   if (game.programActive[6]) {
-    game.durability = game.durability.sub(getOverclockPower().add(1).log(2).div(D.pow(1.1, game.researchLevel[4])).div(1000).mul(tGain));
+    game.durability = game.durability.sub(getOverclockPower().add(1).log(2).div(D.pow(1.1, game.researchLevel[4])).div(1000).mul(calcRealTgain()));
 
     // minus bug fix
     if (game.durability.lte(0.01)) game.durability = D(0);
@@ -424,17 +450,21 @@ function calcProgram() {
 }
 function calcProcessActive() {
   var activeProcress = 0;
-  for (var i = 0; i < game.programActive.length; i++) {
-    if (game.programActive[i]) {
-      activeProcress++;
-    }
-  }
+  for (var i = 0; i < game.programActive.length; i++) if (game.programActive[i]) activeProcress++;
+  for (var i in game.singularityGrid) activeProcress += game.singularityGrid[i].tier+1;
   return activeProcress;
 }
 function calcMultiProcess() {
   var maxProcess = game.researchLevel[1]+1;
-  maxProcess += Math.floor(Math.min(12.5, game.singularityPower.valueOf())*2);
+  maxProcess += Math.floor(Math.min(25/4, game.singularityPower.valueOf())*4);
+  if (game.challengeEntered == 7) maxProcess = Math.floor(maxProcess/10);
   return maxProcess;
+}
+function calcProcessLeft() {
+  return calcMultiProcess()-calcProcessActive();
+}
+function isProcessExceed() {
+  return calcProcessLeft() < 0;
 }
 
 function bugFixer() {

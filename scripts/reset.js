@@ -45,5 +45,6 @@ function singularityReset() {
   game.qubitProgress = D(0);
   game.quantumLab = D(0);
   game.singularityTime = new Date().getTime();
+  singularityMachineChanged();
   game.t3resets = D(0);
 }

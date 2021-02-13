@@ -15,6 +15,7 @@ function renderResearch() {
   }
   $('#rebootDesc').innerHTML = "If you Reboot now, you'll get " + dNotation(calcRPGain(), 4, 0) + " Research Points<br>";
   $('#rebootDesc').innerHTML += "You lose Number, Memory, Base, Upgrades, Money on Reboot<br>";
+  if (game.shopBought[2] >= 1 && !game.programActive[4]) $('#rebootDesc').innerHTML += "<span style=\"color: red; text-shadow: 0 0 0.4vh #f00;\">WARNING! You didn't activated Data_Holder.exe!</span><br>"
   if (calcRPGain().lte(1e10)) $('#rebootDesc').innerHTML += "You need to reach " + formatWithBase(calcRPGain().plus(20).pow(6).sub(1).ceil(), game.base) + "(" + game.base + ") to get next RP";
   $('#rpDisplay').innerHTML = "You have " + dNotation(game.researchPoint, 4, 0) + " Research Points";
   for (var i = 0; i < 8; i++) {
@@ -59,9 +60,11 @@ function reboot() {
   }
 }
 function calcRebootCooldown() {
-  return 5000*((2/3)**game.researchLevel[7])/(game.quantumUpgradeBought.includes('44')?10:1);
+  return 5000*((2/3)**game.researchLevel[7])/(game.quantumUpgradeBought.includes('44')?10:1)/singularityBoosts.SpeedBoost.toNumber();
 }
 function researchBuy(num) {
+  if (game.challengeEntered == 5 && (num == 4 || num == 5)) return;
+
   if (game.quantumUpgradeBought.includes('42')) {
     researchMaxBuy(num);
     return;
@@ -96,13 +99,13 @@ function researchMaxBuy(num) {
 
 function calcResearch() {
   for (var i = 0; i < 9; i++) {
-    game.researchProgress[i] += Number(calcResearchSpeed(game.researchSpeed[i]).div(calcResearchDivide(i)).valueOf())*tGain;
+    game.researchProgress[i] += Number(calcResearchSpeed(game.researchSpeed[i]).div(calcResearchDivide(i)).valueOf())*calcRealTgain();
     if (game.researchProgress[i] >= 1) {
       game.researchProgress[i] = 0;
       game.researchLevel[i]++;
     }
   }
-  if (game.quantumUpgradeBought.includes('43')) game.researchPoint = game.researchPoint.add(calcRPGain().gt(1) ? calcRPGain().mul(0.3*(1/calcRebootCooldown())*1000).mul(tGain) : 0);
+  if (game.quantumUpgradeBought.includes('43')) game.researchPoint = game.researchPoint.add(calcRPGain().gt(1) ? calcRPGain().mul(0.3*(1/calcRebootCooldown())*1000).mul(calcRealTgain()) : 0);
 }
 function calcRPGain() {
   var tempNum = game.rebootNum.plus(2).pow(1/6).floor().sub(19);
@@ -110,6 +113,7 @@ function calcRPGain() {
   if (game.quantumUpgradeBought.includes('21')) tempNum = tempNum.mul(10);
   if (game.quantumUpgradeBought.includes('22')) tempNum = tempNum.mul(D(1.2).pow(game.qubit).pow(D.min(game.researchPoint.add(1).log(10).div(25), 1)));
   if (game.quantumUpgradeBought.includes('26')) tempNum = tempNum.mul(game.researchLevel.reduce((a, b) => a.mul(b**2+1), D(1)).pow(3));
+  tempNum = tempNum.mul(singularityBoosts.RpBoost);
   return Decimal.max(tempNum, 0);
 }
 function calcResearchCost(idx, type, lv=game.researchSpeed[idx]) {
@@ -149,12 +153,14 @@ function calcPerResearchSpeedBaseBeforeMult() {
 function calcPerResearchSpeedBase() {
   var base = calcPerResearchSpeedBaseBeforeMult();
   if (game.quantumUpgradeBought.includes('23')) base = base.mul(10);
+  if (game.challengeEntered == 4) base = base.div(20);
   return base;
 }
 function calcResearchSpeed(lv) {
   if (lv != 0) {
     var tempSpeed = calcPerResearchSpeedBase().pow(lv-1);
     if (game.quantumUpgradeBought.includes('24')) tempSpeed = tempSpeed.mul(D(2).pow(D(game.tLast-game.quantumTime).pow(0.2)).pow(D.min(10, D.max(1, game.researchPoint.log(10).div(20)))));
+    tempSpeed = tempSpeed.mul(singularityBoosts.ResearchSpeedBoost)
     return tempSpeed;
   } else {
     return D(0);
@@ -163,31 +169,31 @@ function calcResearchSpeed(lv) {
 function calcResearchDivide(num) {
   switch (num) {
     case 0:
-    return D(20).mul(factorial(game.researchLevel[num]+1));
+    return D(10).mul(factorial(game.researchLevel[num]+1));
       break;
     case 1:
-    return D(40).mul(factorial(game.researchLevel[num]*2.5));
+    return D(20).mul(factorial(game.researchLevel[num]*2.5));
       break;
     case 2:
-    return D(80).mul(factorial(game.researchLevel[num]*2+1));
+    return D(40).mul(factorial(game.researchLevel[num]*2+1));
       break;
     case 3:
-    return D(10).mul(factorial(game.researchLevel[num]));
+    return D(5).mul(factorial(game.researchLevel[num]));
       break;
     case 4:
-    return D(100).mul(factorial(game.researchLevel[num]));
+    return D(50).mul(factorial(game.researchLevel[num]));
       break;
     case 5:
-    return D(10).mul(factorial(game.researchLevel[num]*2));
+    return D(5).mul(factorial(game.researchLevel[num]*2));
       break;
     case 6:
-    return D(80).mul(factorial(game.researchLevel[num]**1.4));
+    return D(50).mul(factorial(game.researchLevel[num]**1.4));
       break;
     case 7:
-    return D(300).mul(factorial(game.researchLevel[num]**2/2));
+    return D(150).mul(factorial(game.researchLevel[num]**2/2));
       break;
     default:
-    return D(1e308);
+    return D(Infinity);
   }
 }
 

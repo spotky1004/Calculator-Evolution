@@ -79,16 +79,39 @@ body {
   cursor: pointer;
   animation: t3Animation ease 3s infinite;
 }
+.t3Nav.available {
+  background-color: rgba(153, 31, 180, 0.5);
+  transition: all 0.3s;
+}
+.t3Nav.available > span {
+  background: linear-gradient(
+    90deg,
+    #9000ff 0%,
+    #00f 25%,
+    #00d5ff 37.5%,
+    #0f0 50%,
+    #5eff00 62.5%,
+    #f00 75%,
+    #ffea00 100%
+  );
+  text-shadow: 0 0 1vh #aaa;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: all 0.3s;
+}
 .t4Nav {
   border: 0.35vh solid #19306b;
   background-color: rgba(6, 17, 46, 0.5);
   cursor: pointer;
   animation: t4Animation ease 3s infinite;
 }
+.absoluteElement {
+  position: absolute;
+}
 
 #commandArea {
   margin-left: 1.5vw;
-  position: absolute; top: 97vh;
+  position: absolute; bottom: 3vh;
   width: 98.5vw; height: 1.9vh;
   pointer-events: none;
 }
@@ -118,6 +141,10 @@ body {
 #overclockInfo {
   animation: purpleGlow ease 5s infinite;
 }
+#singularityInfo {
+  color: #0a205c;
+  text-shadow: 0 0 0.8vh #fff, -0.2vh 0 0.3vh #63b88d, 0.2vh 0 0.3vh #f54c8f;
+}
 
 .tab:nth-of-type(1) {
   display: flex;
@@ -134,6 +161,9 @@ body {
 .sectionTxt {
   margin: 1.4vh 0 0 3.5vw;
   font-size: 2.5vh; color: #369c1a; text-shadow: 0 0 0.4vh #369c1a;
+}
+.sectionTxt:nth-of-type(1) {
+  width: 12vw;
 }
 #singularityGridWarp > .sectionTxt {
   margin-left: 0;
@@ -190,26 +220,125 @@ body {
   background-color: rgba(106, 26, 156, 0.5);
 }
 #singularityGridInnerWarp {
-  display: inline-table;
   margin: 0 auto;
   width: 95%; height: calc(100% - 5vh);
 }
 #singularityGridInnerWarp > span {
-  display: inline-block;
+  display: block; float: left;
+  background: rgba(54, 156, 26, 0.2);
 }
+/* container 1 */
 #singularityGridOutWarp {
   margin-right: calc(0.8% * 2/3);
-  height: 65%; width: calc(99.2% * 2/3);
-  background: rgba(54, 156, 26, 0.2);
+  height: 65%; width: calc(99% * 2/3);
+  overflow: hidden;
 }
-#singularityMachines {
-  height: 65%; width: calc(100% * 1/3);
-  background: rgba(54, 156, 26, 0.2);
+#singularityGridOutInnerWarp {
+  width: calc(var(--s) * 1.03); height: var(--s);
+  margin: 0 auto;
+}
+.singularityGridBlock {
+  --col: #0c161f;
+  position: relative;
+  display: block; float: left;
+  width: calc(var(--s)*0.195); height: calc(var(--s)*0.195);
+  border: calc(var(--s)*.0025) solid #1a619c;
+  background-color: #0c161f;
+  box-shadow: 0 0 0.6vh #1a619c;
+  transition: background-color 0.2s;
+  cursor: pointer;
+  z-index: 2;
+}
+.singularityGridBlock.disabled {
+  border-color: #f00;
+  background-color: #111;
+  z-index: 1;
+}
+.singularityGridBlock:not(.disabled):hover {
+  background-color: #1a619c;
+}
+.singularityGridBlock:not(.disabled):active {
+  background-color: #193247;
+  transition: background-color 0s;
+}
+.machineArrow {
+  --arrowState: 1;
+  position: absolute; top: calc(var(--s) * 0.07); left: calc(var(--s) * 0.07);
+  padding: calc(var(--s) * 0.02);
+  border: solid #3297c9;
+  mix-blend-mode: difference;
+  border-width: 0 calc(var(--s) * 0.02) calc(var(--s) * 0.02) 0;
+  display: inline-block;
+  transform: rotate(calc(45deg + 90deg * var(--arrowState))) scale(0.5);
+}
+.machineTier {
+  width: calc(var(--s)*0.195);
+  position: absolute; top: calc(var(--s) * 0.03);
+  text-align: center;
+  font-size: calc(var(--s) * 0.1);
+  color: #fff; text-shadow: 0 0 0.4vh #fff;
+  opacity: 0.3;
+}
+.machineName {
+  width: calc(var(--s)*0.195);
+  position: absolute; top: calc(var(--s) * 0.14);
+  text-align: center;
+  font-size: calc(var(--s) * 0.027);
+  color: #1d8a13; text-shadow: 0 0 0.4vh #1d8a13;
+}
+.machineValue {
+  width: calc(var(--s)*0.19);
+  position: absolute;
+  text-align: right;
+  font-size: calc(var(--s) * 0.04);
+  color: #fff;
+}
+/* container 2 */
+#singularityEffectsWarp {
+  height: 65%; width: calc(99% * 1/3);
 }
 #singularityEffects {
-  height: 35%; width: 100%;
-  background: rgba(54, 156, 26, 0.2);
+  padding: 1vh;
+  font-size: 1.5vh;
+  animation: greenGlow ease 5s infinite;
+  line-height: 200%;
 }
+/* container 3 */ 
+#singularityMachines {
+  --h: 23.5vh;
+  margin-top: 0.6vh;
+  width: calc(99% - 1vw + 0.8% * 2/3); height: var(--h);
+  padding: 0.5vh 0.5vw;
+}
+.singularityGridMachines {
+  display: block; float: left;
+  --bh: calc(var(--h) / 4 - 0.2vh);
+  --col: #097505;
+  width: 30%; height: calc(var(--bh) * 0.9);
+  margin: calc(var(--bh) * 0.05) 1.4%;
+  background-color: var(--col);
+  box-shadow: 0 0 0.6vh #fff;
+  border: 0.1vh solid #fff;
+  transition: border-color 1s, filter 0.4s, transform 0.4s;
+}
+.singularityGridMachines.selected, .singularityGridMachines:not(.selected):hover {
+  box-shadow: 0 0 0.6vh #fff, 0 0 0.8vh #fff inset;
+  transform: scale(1.07);
+  filter: brightness(1.4);
+}
+.singularityGridMachines:not(.selected):active {
+  box-shadow: 0 0 0.6vh #fff, 0 0 1.4vh #fff inset;
+  transform: scale(1);
+  filter: brightness(0.8);
+  transition: border-color 0s, filter 0s, transform 0s;
+}
+.singularityGridMachineTxt {
+  padding-left: 1vh;
+  font-size: 2vh;
+  color: #fff;
+  text-shadow: var(--whiteglow);
+}
+
 
 .tab:nth-of-type(2) {
   margin: 5vh 0 0 10vw;
@@ -299,7 +428,7 @@ body {
   height: 6vh;
 }
 #rpDisplay {
-  margin-top: 1vh;
+  margin-top: 3vh;
   font-size: 3.6vh;
   animation: greenGlow ease 2.5s infinite;
 }
@@ -389,7 +518,26 @@ body {
 #achWarp > tbody > tr > td {
   width: 10vh; height: 10vh;
   color: #fff; text-shadow: 0 0 1vh #fff; font-size: 1.5vh;
-  background-color: green;
+  background-color: #080;
+  transition: background-color 0.3s;
+}
+#achWarp > tbody > tr > td:hover {
+  background-color: #050;
+}
+#achDesc {
+  position: absolute;
+  padding: 0.3vh 0.5vw;
+  font-size: 1.8vh;
+  text-align: center;
+  background-color: rgba(20, 20, 20, 0.5);
+  border: 0.3vh solid #fff;
+  box-shadow: 0 0 0.3vh #fff inset, 0 0 0.5vh #fff;
+  backdrop-filter: blur(0.5vh) brightness(1.4);
+  opacity: 0;
+  animation: var(--whiteglow);
+  border-radius: 0.6vh;
+  pointer-events: none;
+  transition: opacity 0.3s, top 0.2s, left 0.2s;
 }
 
 .tab:nth-of-type(5) {
@@ -673,10 +821,105 @@ body {
   color: #0a205c;
   text-shadow: 0 0 0.8vh #fff, -0.2vh 0 0.3vh #63b88d, 0.2vh 0 0.3vh #f54c8f;
 }
-
-.normalButton {
-
+#wormholeChallengeWarp {
+  position: absolute;
+  top: 37vh; left: 2vw;
+  width: 96vw; height: 55vh;
 }
+#wormholeChallengeHeader {
+  padding-top: 2vh;
+  height: 15%;
+  color: #0c161f; text-shadow: 0 0 0.4vh #fff;
+  font-weight: bold;
+}
+#wormholeChallengeInnerWarp {
+  height: 80%;
+}
+#gridReq {
+  font-size: 2vh; 
+}
+#challengeReq {
+  font-size: 1.6vh; 
+}
+#challengeDesc {
+  font-size: 1.4vh;
+}
+.wormholeChallenge {
+  --col: rgb(39, 204, 141); --progress: 10%;
+  position: relative;
+  display: block; float: left;
+  margin: 0.5vh calc(1% - 0.4vh);
+  width: 23%; height: 40%;
+  font-size: 1.7vh;
+  border: 0.4vh solid #fff; border-radius: 2vh;
+  background: linear-gradient(140deg, #040404 0%, #040404 calc(85% - var(--progress)), var(--col) 100%);
+  box-shadow: -0.15vw -0.3vh 0.8vh #444, 0.3vw 0.6vh 0.8vh var(--col), 0.3vw 0.6vh 1.2vh var(--col), 0.3vw 0.6vh 1.6vh var(--col);
+  filter: brightness(1.4);
+  overflow: hidden;
+  cursor: pointer;
+  transition: filter 0.4s, transform cubic-bezier(0.76, 0, 0.24, 1) 0.3s, box-shadow cubic-bezier(0.76, 0, 0.24, 1) 0.3s;
+}
+.wormholeChallenge:hover {
+  transform: translate(-0.15vw, -0.3vh);
+  box-shadow: 0 0 0.8vh #444, 0.45vw 0.9vh 0.8vh var(--col), 0.45vw 0.9vh 1.2vh var(--col), 0.45vw 0.9vh 1.6vh var(--col);
+  filter: brightness(1.8);
+}
+.wormholeChallenge:active {
+  transition: all 0s;
+  transform: translate(0.3vw, 0.6vh);
+  box-shadow: 0vw -0vh 0.8vh #444, 0 0 0.8vh var(--col), 0 0 1.2vh var(--col), 0 0 1.6vh var(--col);
+  filter: brightness(2);
+}
+.wormholeChallengeName {
+  margin-top: 0.4vh;
+  color: var(--col); text-shadow: 0 0 0.7vh var(--col);
+  font-size: 2.2vh;
+  filter: brightness(6);
+}
+.wormholeChallengeEffect {
+  color: var(--col);
+  font-size: 1.7vh;
+  filter: brightness(3);
+}
+.wormholeChallengeGoal {
+  position: absolute;
+  width: 100%;
+  top: 14vh;
+  color: var(--col); text-shadow: 0 0 0.6vh var(--col);
+  font-size: 1.9vh;
+  filter: brightness(5);
+}
+#exitChallenge {
+  width: 16vh;
+  margin: 0 auto; padding: 0.2vw 0.15vh;
+  font-size: 1.2vh; color: #fff; text-shadow: 0 0 0.4vh #fff;
+  border: 0.2vh solid #fff;
+  background-color: #0c161f;
+  cursor: pointer;
+  border-radius: 1vh;
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+#exitChallenge:hover {
+  transform: scale(1.07);
+  box-shadow: 0 0 0.5vh #fff;
+}
+#exitChallenge:active {
+  transform: scale(1);
+  transition: all 0s;
+}
+
+#debugInfoArea {
+  position: absolute;
+  pointer-events: none;
+  bottom: 1vh; left: 0.5vw;
+  opacity: 0.4;
+  transition: opacity 0.4s;
+  animation: greenGlow ease 5s infinite;
+}
+#debugInfoArea:hover {
+  opacity: 1;
+}
+
 .normalText {
   color: #49d124; font-size: 1.8vh;
 }

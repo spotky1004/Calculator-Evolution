@@ -35,7 +35,7 @@
       "Generate RP per second based on Reboot cooldown (${dNotation(Math.floor(30*(1/calcRebootCooldown())*1000), 2, 0)}%)",
       "Reboot cooldown /10",
       "<b>\"Base_Increaser.exe\"</b> will land you to <b>\"Maximum Base\"</b><br><b>\"Memory.exe\"</b> will land you to <b>\"Digits based on Number/s\"</b>",
-      "If next qubit making time is less than 7mins instant finish it"
+      "Instant finish Qubit make if pending time is less than 7 mins"
     ],
     // 5: Automate
     [
@@ -71,10 +71,8 @@
       upNode.onmouseout = new Function(`hideQuantumUpgradeDesc()`);
       upNode.onclick = new Function(`buyQuantumUpgrade.bind(this)(${i})`);
       $('#quantumUpgrades').append(upNode);
-      //if (i%6 >= 4 || Math.floor(i/6) >= 4) upNode.style.opacity = 0.3;
     }
   })();
-
 })();
 
 function quantum() {
@@ -96,14 +94,14 @@ function renderQunatum() {
   $("#quantumLabCost").innerHTML = `Next Lab: ${dNotation(D(1e100).mul(D(10).pow(D(5).mul(afterQuantumLab.mul(afterQuantumLab.sub(1)).add(game.quantumLab)))).pow(getQuantumReqPow()[0]), 2)}$, ${dNotation(D(1e11).mul(D(10).pow(D(1/2).mul(game.quantumLab.mul(game.quantumLab.sub(1)).add(game.quantumLab)))).pow(getQuantumReqPow()[1]), 2)} RP`;
   $("#quantumLabQuantity").innerHTML = (calcQuantumLabGain().floor(0).lte(1)?'a':dNotation(calcQuantumLabGain().floor(0)));
   $("#quantumDesc").innerHTML = `You have ${game.quantumLab} Quantum Lab which makes Qubit Prodution ${dNotation(calcQubitSpeed(), 4, 0)}x faster<br>Each Qubit makes your CPU 2x faster (x${dNotation(calcQubitEffect(), 4, 0)})`;
-  $("#qubitDisplay").innerHTML = `You have ${game.qubit.sub(calcUsedQubit())}/${game.qubit} Qubit (next Qubit in ${timeNotation(D(3).pow(game.qubit.add(1)).sub(game.qubitProgress).div(calcQubitSpeed()))})`;
+  $("#qubitDisplay").innerHTML = `You have ${game.qubit.sub(calcUsedQubit())}/${game.qubit} Qubit (next Qubit in ${timeNotation(D(3).pow(game.qubit.sub(calcChallengeDone()).add(1)).sub(game.qubitProgress).div(calcQubitSpeed()))})`;
   for (var i = 0; i < 36; i++) document.getElementsByClassName("quantumUpgrade")[i].classList[(game.quantumUpgradeBought.includes((i%6+1) + '' + (Math.floor(i/6)+1)) ? 'add' : 'remove')]("bought");
   for (var i = 0; i < 6; i++) document.getElementsByClassName("quantumUpgrade")[4+i*6].classList[(game.quantumUpgradeBought.includes(((4+i*6)%6+1) + '' + Math.floor((4+i*6)/6+1)) && !game.quantumAutomateToggle[i] ? 'add' : 'remove')]("deactivated");
 }
 function calcQuantum() {
   if (game.quantumUpgradeBought.includes('46') && D(3).pow(game.qubit.add(1)).sub(game.qubitProgress).div(calcQubitSpeed()).lte(60*7)) game.qubitProgress = D(3).pow(game.qubitProgress.add(1).log(3).ceil(0));
-  game.qubitProgress = game.qubitProgress.add(calcQubitSpeed().mul(tGain));
-  game.qubit = D.max(0, game.qubitProgress.add(1).log(3)).floor(0);
+  game.qubitProgress = game.qubitProgress.add(calcQubitSpeed().mul(calcRealTgain()));
+  game.qubit = D.max(0, game.qubitProgress.add(1).log(3)).floor(0).add(calcChallengeDone());
   calcQuantumAuto();
 }
 function calcQuantumAuto() {
@@ -152,14 +150,17 @@ function buyQuantumUpgrade(idx) {
 }
 function getQuantumUpgradeCost(idx) {
   var fixedIdx = [Math.floor(idx/6), idx%6];
-  return Math.floor((Math.floor((fixedIdx[0]*2)**1.7+2)*Math.floor(fixedIdx[1]==5?fixedIdx[1]**1.2+5:1)+fixedIdx[0]*3)**(fixedIdx[0]==5&&fixedIdx[1]!=5?1.2:1)/(fixedIdx[1]==3||fixedIdx[1]==4?fixedIdx[1]/5+1:1));
+  var tempCost = Math.floor((Math.floor((fixedIdx[0]*2)**1.7+2)*Math.floor(fixedIdx[1]==5?fixedIdx[1]**1.2+5:1)+fixedIdx[0]*3)**(fixedIdx[0]==5&&fixedIdx[1]!=5?1.2:1)/(fixedIdx[1]==3||fixedIdx[1]==4?fixedIdx[1]/5+1:1));
+  if (game.challengeEntered == 3) tempCost *= 2;
+  return tempCost;
 }
 function quantumUpgradeRespec() {
   if (typeof qRespecTimeout != "undefined") clearTimeout(qRespecTimeout);
+  if (quantumUpgradeRespecConfrim > calcQuantumResetClicks()) quantumUpgradeRespecConfrim = calcQuantumResetClicks();
   quantumUpgradeRespecConfrim--;
   $("#quantumRespec").innerHTML = `${quantumUpgradeRespecConfrim} more clicks!`;
   if (quantumUpgradeRespecConfrim == 0) {
-    quantumUpgradeRespecConfrim = 10;
+    quantumUpgradeRespecConfrim = calcQuantumResetClicks();
     $("#quantumRespec").innerHTML = `Respec <span style="opacity: var(--tempOp); display: var(--tempDis)">& Quantum Reset<span>`;
     clearTimeout(qRespecTimeout);
     commandAppend("respec quantumUpgrades", 161);
@@ -168,15 +169,16 @@ function quantumUpgradeRespec() {
   }
   qRespecTimeout = setTimeout( function () {
     $("#quantumRespec").innerHTML = `Respec <span style="opacity: var(--tempOp); display: var(--tempDis)">& Quantum Reset<span>`;
-    quantumUpgradeRespecConfrim = 10;
+    quantumUpgradeRespecConfrim = calcQuantumResetClicks();
   }, 3000);
 }
 function quantumRestart() {
   if (typeof qRestartTimeout != "undefined") clearTimeout(qRestartTimeout);
+  if (quantumUpgradeRestartConfrim > calcQuantumResetClicks()) quantumUpgradeRestartConfrim = calcQuantumResetClicks();
   quantumUpgradeRestartConfrim--;
   $("#quantumRestart").innerHTML = `${quantumUpgradeRestartConfrim} more clicks!`;
   if (quantumUpgradeRestartConfrim == 0) {
-    quantumUpgradeRestartConfrim = 10;
+    quantumUpgradeRestartConfrim = calcQuantumResetClicks();
     $("#quantumRestart").innerHTML = `Restart <span style="opacity: var(--tempOp); display: var(--tempDis)">Quantum Run<span>`;
     clearTimeout(qRestartTimeout);
     commandAppend("reset quantumLevel", 161);
@@ -184,8 +186,11 @@ function quantumRestart() {
   }
   qRestartTimeout = setTimeout( function () {
     $("#quantumRestart").innerHTML = `Restart <span style="opacity: var(--tempOp); display: var(--tempDis)">Quantum Run<span>`;
-    quantumUpgradeRestartConfrim = 10;
+    quantumUpgradeRestartConfrim = calcQuantumResetClicks();
   }, 3000);
+}
+function calcQuantumResetClicks() {
+  return 10-game.t4resets.toNumber();
 }
 
 function getMaxQuantumLabGain() {
@@ -205,7 +210,7 @@ function getQuantumReqPow() {
   var researchPow = D(totPow);
   if (game.quantumUpgradeBought.includes('16')) researchPow = researchPow.div(2);
 
-  return [moneyPow, researchPow];
+  return (game.challengeEntered != 6 ? [moneyPow, researchPow] : [D(1), D(1)]);
 }
 function calcQuantumLabGain() {
   // Money: start from e100, +e5, +e15, +e25, +e35  ... -> (n*(n-1)+n)*5
@@ -230,8 +235,10 @@ function calcQubitSpeed() {
   var tempSpd = game.quantumLab.pow(game.quantumLab.sqrt(2)).mul(D(10).add(game.quantumLab.pow(2)).pow(game.quantumLab.sub(1))).sub(0.1);
   if (game.quantumUpgradeBought.includes('31')) tempSpd = tempSpd.mul(100);
   if (game.quantumUpgradeBought.includes('33')) tempSpd = tempSpd.mul(D(1.3).pow(game.qubit));
-  if (game.quantumUpgradeBought.includes('34')) tempSpd = tempSpd.mul(D.min(game.number.add(1).log(10).div(10).sqrt(2), 1).add(1).pow(game.number.add(1).log(10).pow(0.6)));
+  if (game.quantumUpgradeBought.includes('34')) tempSpd = tempSpd.mul(D.min(D.max(game.number, 0).add(1).log(10).div(10).pow(0.5), 1).add(1).pow(D.max(game.number, 0).add(1).log(10).pow(0.6)));
   if (game.quantumUpgradeBought.includes('35')) tempSpd = tempSpd.mul(D(10).pow([...new Set(game.quantumUpgradeBought)].length));
+  tempSpd = tempSpd.mul(27); // boost
+  tempSpd = tempSpd.mul(singularityBoosts.QubitBoost);
   return tempSpd;
 }
 function calcUsedQubit() {

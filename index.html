@@ -4,20 +4,20 @@
     <meta charset="utf-8">
     <meta name="viewport" content="user-scalable=no">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="animation.css?ver=0.22">
-    <link rel="stylesheet" href="index.css?ver=0.22">
+    <link rel="stylesheet" href="animation.css?ver=1.0">
+    <link rel="stylesheet" href="index.css?ver=1.0">
     <script src="./scripts/decimalMin.js"></script>
-    <script src="./scripts/index.js?ver=0.22" defer></script>
-    <script src="./scripts/numberFunc.js?ver=0.22" defer></script>
-    <script src="./scripts/achievement.js?ver=0.22" defer></script>
-    <script src="./scripts/progress/game.js?ver=0.22" defer></script>
-    <script src="./scripts/progress/reboot.js?ver=0.22" defer></script>
-    <script src="./scripts/progress/quantum.js?ver=0.22" defer></script>
-    <script src="./scripts/progress/singularity.js?ver=0.22" defer></script>
-    <script src="./scripts/saveload.js?ver=0.22" defer></script>
-    <script src="./scripts/loop.js?ver=0.22" defer></script>
-    <script src="./scripts/reset.js?ver=0.22" defer></script>
-    <title>Calculator Evolution v0.22</title>
+    <script src="./scripts/index.js?ver=1.0" defer></script>
+    <script src="./scripts/numberFunc.js?ver=1.0" defer></script>
+    <script src="./scripts/achievement.js?ver=1.0" defer></script>
+    <script src="./scripts/progress/game.js?ver=1.0" defer></script>
+    <script src="./scripts/progress/reboot.js?ver=1.0" defer></script>
+    <script src="./scripts/progress/quantum.js?ver=1.0" defer></script>
+    <script src="./scripts/progress/singularity.js?ver=1.0" defer></script>
+    <script src="./scripts/saveload.js?ver=1.0" defer></script>
+    <script src="./scripts/loop.js?ver=1.0" defer></script>
+    <script src="./scripts/reset.js?ver=1.0" defer></script>
+    <title>Calculator Evolution v1.0</title>
   </head>
   <body>
     <div id="warpAll">
@@ -34,7 +34,7 @@
         <span class="tabNav t1Nav" onclick="goTab(4)">Option</span>
         <span class="tabNav t1Nav" onclick="goTab(6)">Stat</span>
         <span class="tabNav t2Nav" onclick="goTab(2)">Research</span>
-        <span class="tabNav t3Nav" onclick="goTab(5)" style="display: none;">Quantum</span>
+        <span class="tabNav t3Nav" onclick="goTab(5)" style="display: none;"><span>Quantum</span></span>
         <span class="tabNav t4Nav" onclick="goTab(7)" style="display: none;">Singularity</span>
       </div>
       <div id="tabs">
@@ -71,13 +71,17 @@
             <p class="sectionTxt">Grid</p>
             <div id="singularityGridInnerWarp">
               <span id="singularityGridOutWarp">
+                <div id="singularityGridOutInnerWarp">
 
+                </div>
+              </span>
+              <span id="singularityEffectsWarp">
+                <div class="absoluteElement" id="singularityEffects">
+                  Base +0<br>Digit +0<br>Money x1<br>RP x1<br>R.Speed x1<br>Speed x1
+                </div>
               </span>
               <span id="singularityMachines">
-
-              </span>
-              <span id="singularityEffects">
-
+                
               </span>
             </div>
           </span>
@@ -390,14 +394,12 @@
         </div>
         <!-- Achievements -->
         <div class="tab" style="display:none">
-          <!-- <div id="achPageNav" class="normalText">
-            <span><</span>
-            <span>Page 1/1</span>
-            <span>></span>
-          </div> -->
           <table id="achWarp">
 
           </table>
+          <div id="achDesc">
+            test desc
+          </div>
         </div>
         <!-- Option -->
         <div class="tab" style="display:none">
@@ -407,6 +409,9 @@
           <br>
           <div id="optionToggle0" class="optionBtn" onclick="optionBtn(0)">
             Effects
+          </div>
+          <div id="optionToggle1" class="optionBtn" onclick="optionBtn(1)">
+            Info
           </div>
           <br>
           <div class="optionBtn" onclick="exportGame()">
@@ -470,7 +475,26 @@
             </div>
           </div>
           <div id="singularityDesc">
-            Need 80 Quantum Labs to go Singularity<br>You have 0 Singularity Power<br>Each SP increases Multi Process by 2 (tot 0, cap at 25)
+            Need 80 Quantum Labs to go Singularity<br>You have 0 Singularity Power<br>Each SP increases Multi Process by 4 (tot 0, cap at 25)
+          </div>
+          <div id="wormholeChallengeWarp" style="display: none">
+            <div id="wormholeChallengeHeader">
+              <div id="gridReq">
+                Complete 4 more challenges to unlock 5th Grid space
+              </div>
+              <div id="challengeReq">
+                Go singularity 0/2 times to enter Challenge (Increases per challenge complete)
+              </div>
+              <div id="challengeDesc">
+                Reward of challenges are one of it's Machine, a Incrementer, a SP and a Extra Qubit
+              </div>
+            </div>
+            <div id="wormholeChallengeInnerWarp">
+              
+            </div>
+            <div id="exitChallenge" onclick="if(confirm('Are you sure to exit the challenge?')){game.challengeEntered = -1; singularityReset();}">
+              Exit challenge
+            </div>
           </div>
         </div>
       </div>
@@ -484,6 +508,12 @@
         <div id="overclockInfo" style="display:none;">
           Overclock Mult: x1<br>Durability: 1
         </div>
+        <div id="singularityInfo" style="display:none;">
+          Challene Fail: 10 mins
+        </div>
+      </div>
+      <div id="debugInfoArea">
+        TPS: 0
       </div>
     </div>
   </body>

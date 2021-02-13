@@ -7,6 +7,15 @@ String.prototype.replaceAt=function(index, char) {
     a[index] = char;
     return a.join("");
 }
+function copyText(str) {
+  var tempElem = document.createElement('textarea');
+  tempElem.value = str;  
+  document.body.appendChild(tempElem);
+
+  tempElem.select();
+  document.execCommand("copy");
+  document.body.removeChild(tempElem);
+}
 
 // all
 function renderAll() {
@@ -22,6 +31,9 @@ function renderAll() {
       break;
     case 2:
     renderResearch();
+      break;
+    case 3:
+    renderAchievements()
       break;
     case 4:
     renderOption();
@@ -41,12 +53,14 @@ function renderInfo() {
   $('#infoArea').style.display = (game.t2toggle ? 'block' : 'none')
   renderBasicInfo();
   renderOverclockInfo();
+  renderSingularityInfo();
 }
 function calcAll() {
   calcToggleTabs();
 
   game.mDigits = calcMaxDigit();
 
+  calcSingularity();
   calcQuantum();
   calcProgram();
   calcResearch();
@@ -73,10 +87,11 @@ function commandAppend(str, hue=0, out=0) {
   if (!game.optionToggle[0]) {
     return;
   }
-  commandFloat(10);
+  commandFloat(14);
   commandTxt = document.createElement('span');
   commandTxt.className += 'commandTxt';
-  commandTxt.innerHTML = ((!out) ? '> ' : '') + str;
+  commandTxt.innerHTML = ((!out) ? '> ' : '') + `_<span style="opacity:0">${str}</span>`;
+  commandTxt.ticks = 0;
   commandTxt.style.bottom = '0vh';
   commandTxt.style.opacity = 1;
   commandTxt.style.filter = 'hue-rotate(' + hue + 'deg)';
@@ -85,13 +100,18 @@ function commandAppend(str, hue=0, out=0) {
 function commandFloat(speed=0.8) {
   eleArr = document.getElementsByClassName("commandTxt");
   for (var i = 0; i < eleArr.length; i++) {
-    eleArr[i].style.bottom = (Number(eleArr[i].style.bottom.replace('vh', ''))+tSpeed*5*speed) + 'vh';
-    eleArr[i].style.opacity = eleArr[i].style.opacity-tSpeed/3*speed;
-    if (eleArr[i].style.opacity < 0) {
+    if (speed != 0.8) {
+      eleArr[i].style.bottom = (Number(eleArr[i].style.bottom.replace('vh', ''))+tSpeed*5*speed) + 'vh';
+      eleArr[i].ticks += speed;
+    }
+    eleArr[i].style.opacity = (eleArr[i].style.opacity-tSpeed/8*speed)*0.995;
+    eleArr[i].innerHTML = eleArr[i].innerHTML.replace(/(_<span style="opacity:0">([^<\/>]+)<\/span>)/, function(match, p1, p2){return `${p2[0]}_<span style="opacity:0">${p2.substring(1, 9999)}</span>`});
+    if (eleArr[i].style.opacity < 0 || commandTxt.ticks > 100) {
       eleArr[i].remove();
     }
   }
 }
+//$('body').style.backgroundColor = '#' + Math.floor((16**6-1)*Math.random()).toString(16).padStart(0, 6); what
 
 // etc
 function hsvToRgb(h, s, v) {
@@ -118,29 +138,20 @@ function hsvToRgb(h, s, v) {
 (function(){
   document.addEventListener('keydown', function(e){
     const keyCode = e.keyCode;
-    if (keyCode == 49) {
-      activeProgram(0);
-    }
-    if (keyCode == 50) {
-      activeProgram(1);
-    }
-    if (keyCode == 51) {
-      activeProgram(2);
-    }
-    if (keyCode == 52) {
-      activeProgram(3);
-    }
-    if (keyCode == 53) {
-      activeProgram(4);
-    }
-    if (keyCode == 54) {
-      activeProgram(5);
-    }
-    if (keyCode == 55) {
-      activeProgram(6);
-    }
-    if (keyCode == 82) {
-      reboot();
-    }
+    if (keyCode == 49) activeProgram(0); // 1
+    if (keyCode == 50) activeProgram(1); // 2
+    if (keyCode == 51) activeProgram(2); // 3
+    if (keyCode == 52) activeProgram(3); // 4
+    if (keyCode == 53) activeProgram(4); // 5
+    if (keyCode == 54) activeProgram(5); // 6
+    if (keyCode == 55) activeProgram(6); // 7
+    if (keyCode == 82) reboot(); // r
+
+    if (keyCode == 65) goTab(0); // a
+    if (keyCode == 83) goTab(1); // s
+    if (keyCode == 68) goTab(3); // d
+    if (keyCode == 70) goTab(2); // f
+    if (keyCode == 71) goTab(5); // g
+    if (keyCode == 72) goTab(7); // h
   })
 })();
