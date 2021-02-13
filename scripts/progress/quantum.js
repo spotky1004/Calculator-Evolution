@@ -190,7 +190,7 @@ function quantumRestart() {
   }, 3000);
 }
 function calcQuantumResetClicks() {
-  return 10-game.t4resets.toNumber();
+  return Math.max(1, 10-game.t4resets.toNumber());
 }
 
 function getMaxQuantumLabGain() {
