@@ -99,7 +99,7 @@ function renderQunatum() {
   for (var i = 0; i < 6; i++) document.getElementsByClassName("quantumUpgrade")[4+i*6].classList[(game.quantumUpgradeBought.includes(((4+i*6)%6+1) + '' + Math.floor((4+i*6)/6+1)) && !game.quantumAutomateToggle[i] ? 'add' : 'remove')]("deactivated");
 }
 function calcQuantum() {
-  if (game.quantumUpgradeBought.includes('46') && D(3).pow(game.qubit.add(1)).sub(game.qubitProgress).div(calcQubitSpeed()).lte(60*7)) game.qubitProgress = D(3).pow(game.qubitProgress.add(1).log(3).ceil(0));
+  if (game.quantumUpgradeBought.includes('46') && D(3).pow(game.qubit.sub(calcChallengeDone()).add(1)).sub(game.qubitProgress).div(calcQubitSpeed()).lte(60*7)) game.qubitProgress = D(3).pow(game.qubitProgress.add(1).log(3).ceil(0));
   game.qubitProgress = game.qubitProgress.add(calcQubitSpeed().mul(calcRealTgain()));
   game.qubit = D.max(0, game.qubitProgress.add(1).log(3)).floor(0).add(calcChallengeDone());
   calcQuantumAuto();
