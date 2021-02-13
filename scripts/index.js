@@ -145,7 +145,9 @@ function hsvToRgb(h, s, v) {
     if (keyCode == 53) activeProgram(4); // 5
     if (keyCode == 54) activeProgram(5); // 6
     if (keyCode == 55) activeProgram(6); // 7
+
     if (keyCode == 82) reboot(); // r
+    if (keyCode == 81) quantum(); // q
 
     if (keyCode == 65) goTab(0); // a
     if (keyCode == 83) goTab(1); // s
