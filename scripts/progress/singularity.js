@@ -243,7 +243,7 @@ function wormholeChallengeEnter(idx) {
 }
 function renderSingularityInfo() {
   $("#singularityInfo").style.display = game.challengeEntered != -1 ? "block" : "none";
-  $("#singularityInfo").innerHTML = `In Challenge ${game.challengeEntered+1}`;
+  $("#singularityInfo").innerHTML = `In Challenge ${game.challengeEntered+1} (QL ${dNotation(game.quantumLab, 4, 0)}/${dNotation(calcChallengeGoal(game.challengeEntered), 4, 0)})`;
 }
 
 // dom
