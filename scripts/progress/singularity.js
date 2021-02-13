@@ -19,9 +19,9 @@
     "Digit is capped at 20 (can extend with only grid)",
     "CPU upgrade effect ^0.75",
     "All quantum upgrade cost x2",
-    "Divied research upgrade effect by 20",
+    "Divide research upgrade effect by 20",
     "Lock Durability and Max durability research",
-    "Reduce Quantum Lab requment isn't allowed",
+    "Reduce Quantum Lab requirement isn't allowed",
     "Divide max process by 10"
   ]
 
