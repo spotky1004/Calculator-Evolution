@@ -35,7 +35,7 @@ function renderResearch() {
   $('.research:nth-of-type(8)').style.display = ((game.researchLevel[6]>=1) ? "inline-block" : "none");
 }
 function renderOverclockInfo() {
-  document.getElementById('overclockInfo').style.display = ((game.researchLevel[0]>=1)?"block":"none");
+  document.getElementById('overclockInfo').style.display = ((game.researchLevel[1]>=1)?"block":"none");
   document.getElementById('overclockInfo').innerHTML = `Overclock Mult: x${dNotation(getOverclockPower(), 2)}<br>Durability: ${dNotation(game.durability.mul(100), 2)}%`;
 }
 

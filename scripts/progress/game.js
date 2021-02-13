@@ -135,7 +135,7 @@ function renderModule() {
   $(".program:nth-of-type(4)").style.display = ((game.shopBought[0]) ? "block" : "none");
   $(".program:nth-of-type(5)").style.display = ((game.shopBought[2]) ? "block" : "none");
   $(".program:nth-of-type(6)").style.display = ((game.shopBought[3]) ? "block" : "none");
-  $(".program:nth-of-type(7)").style.display = ((game.researchLevel[0]>=1) ? "block" : "none");
+  $(".program:nth-of-type(7)").style.display = ((game.researchLevel[1]>=1) ? "block" : "none");
 
   // grid
   renderGrid();
@@ -161,7 +161,10 @@ function renderOption() {
   }
 }
 function renderBasicInfo() {
-  $('#basicInfo').innerHTML = `Number: ${dNotation(game.number, 2, 0)} / ${dNotation(game.base.pow(game.digits), 2, 0)}<br>Digit: ${dNotation(game.digits, 2, 0)} / ${dNotation(calcMaxDigit(), 2, 0)}<br>Base: ${dNotation(game.base, 2, 0)} / ${dNotation(Math.max(game.base, calcMaxBase()), 2, 0)}`;
+  $('#basicInfo').innerHTML = `Number: ${dNotation(game.number, 2, 0)} / ${dNotation(game.base.pow(game.digits), 2, 0)}`;
+  $('#basicInfo').innerHTML += `<br>Digit: ${dNotation(game.digits, 2, 0)} / ${dNotation(calcMaxDigit(), 2, 0)} ${!singularityBoosts.DigitBoost.eq(0)?`(+${dNotation(singularityBoosts.DigitBoost.floor(0), 2, 0)})`:""}`;
+  $('#basicInfo').innerHTML += `<br>Base: ${dNotation(game.base, 2, 0)} / ${dNotation(Math.max(game.base, calcMaxBase()), 2, 0)} ${!singularityBoosts.BaseBoost.eq(0)?`(+${dNotation(singularityBoosts.BaseBoost.floor(0), 2, 0)})`:""}`
+
 }
 function renderStat() {
   $("#statsText").innerHTML = `You've played this game for ${timeNotation((new Date().getTime()-game.startTime)/1000)}`;
@@ -227,7 +230,7 @@ function activeProgram(num) {
   if (num == 3 && !game.shopBought[0]) return;
   if (num == 4 && !game.shopBought[2]) return;
   if (num == 5 && !game.shopBought[3]) return;
-  if (num == 6 && (game.programActive[6] || game.researchLevel[0]<1)) return;
+  if (num == 6 && (game.programActive[6] || game.researchLevel[1]<1)) return;
   var programCount = calcProcessActive();
   if (game.programActive[num]) {
     programCount--;
