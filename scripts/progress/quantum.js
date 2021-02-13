@@ -159,7 +159,7 @@ function quantumUpgradeRespec() {
   if (quantumUpgradeRespecConfrim > calcQuantumResetClicks()) quantumUpgradeRespecConfrim = calcQuantumResetClicks();
   quantumUpgradeRespecConfrim--;
   $("#quantumRespec").innerHTML = `${quantumUpgradeRespecConfrim} more clicks!`;
-  if (quantumUpgradeRespecConfrim == 0) {
+  if (quantumUpgradeRespecConfrim <= 0) {
     quantumUpgradeRespecConfrim = calcQuantumResetClicks();
     $("#quantumRespec").innerHTML = `Respec <span style="opacity: var(--tempOp); display: var(--tempDis)">& Quantum Reset<span>`;
     clearTimeout(qRespecTimeout);
@@ -177,7 +177,7 @@ function quantumRestart() {
   if (quantumUpgradeRestartConfrim > calcQuantumResetClicks()) quantumUpgradeRestartConfrim = calcQuantumResetClicks();
   quantumUpgradeRestartConfrim--;
   $("#quantumRestart").innerHTML = `${quantumUpgradeRestartConfrim} more clicks!`;
-  if (quantumUpgradeRestartConfrim == 0) {
+  if (quantumUpgradeRestartConfrim <= 0) {
     quantumUpgradeRestartConfrim = calcQuantumResetClicks();
     $("#quantumRestart").innerHTML = `Restart <span style="opacity: var(--tempOp); display: var(--tempDis)">Quantum Run<span>`;
     clearTimeout(qRestartTimeout);
