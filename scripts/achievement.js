@@ -13,7 +13,7 @@
     'Perform Reboot', 'Reach Bonus CPU Level ${dNotation(3, 0, 0)}', 'Reach Multi Process Level ${dNotation(1, 0, 0)}', 'Reach Extra Digit Level ${dNotation(5, 0, 0)}', 'Have ${dNotation(1e3, 4, 0)} RP',
     'Perform Overclock', 'Reach base ${dNotation(62, 4, 0)}', 'Perform Overclock with Power ${dNotation(1e10, 4, 0)}', 'Have ${dNotation(1e100)} $', 'Have ${dNotation(1.11e11, 4, 0)} RP',
     'Perform Quantum', 'Have ${dNotation(10, 4, 0)} Qubits', 'Have ${dNotation(8, 4, 0)} Quantum Upgrades', "Have ${dNotation(7, 0, 0)} Quantum Labs", 'Have ${dNotation(50, 4, 0)} Qubits',
-    'Have ${dNotation(1e1000, 4, 0)} $', 'Reach base ${dNotation(250, 4, 0)}', 'Have ${dNotation(D(2).pow(1024), 6, 0)}', 'Have ${dNotation(1024, 4, 0)} Qubits', 'Have ${dNotation(82, 0, 0)} Labs',
+    'Have ${dNotation("1e1000", 4, 0)} $', 'Reach base ${dNotation(250, 4, 0)}', 'Have ${dNotation(D(2).pow(1024), 6, 0)} RP', 'Have ${dNotation(1024, 4, 0)} Qubits', 'Have ${dNotation(82, 0, 0)} Labs',
     'Go singularity', 'Go singularity one more time', 'Complete a challenge', 'Reach bulk ${dNotation(20, 0, 0)} Quantum Labs', 'Complete ${dNotation(10, 0, 0)} Challenges',
     'Go singularity ${dNotation(100, 0, 0)} times', 'Coming soon', 'Coming soon', 'Coming soon', 'Reach Infinity$'
   ];

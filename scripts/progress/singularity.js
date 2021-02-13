@@ -154,7 +154,7 @@ function singularity() {
 function renderSingularity() {
   $("#singularityButton").className = game.quantumLab.gte(80) ? "" : "disabled";
   $("#singularityDesc").innerHTML = game.quantumLab.gte(80) ? `If you go singularity now, you'll get <b>${dNotation(calcSingularityPowerGain())} SP</b> ${game.quantumLab.lt(500) ? `(next SP at ${calcSingularityPowerGain(1)} QL)`: ''}` : 'You need 80 Quantum Labs to go Singularity';
-  $("#singularityDesc").innerHTML += `<br>You have ${dNotation(game.singularityPower, 4, 0)} Singularity Power`;
+  $("#singularityDesc").innerHTML += `<br>You have <b><span style="color: #fff;">${dNotation(game.singularityPower, 4, 0)} Singularity Power</span></b>`;
   $("#singularityDesc").innerHTML += `<br>Each SP increases Multi Process by 4 (tot ${Math.floor(Math.min(25/4, game.singularityPower.valueOf())*4)}, cap at 25)`
   $("#singularityDesc").innerHTML += `<br>And boosts grid machine Power by x${dNotation(game.singularityPower.pow(4), 4, 0)}`;
   $("#wormholeChallengeWarp").style.display = game.t4resets.gte(2) ? "block" : "none";

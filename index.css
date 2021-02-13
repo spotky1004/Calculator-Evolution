@@ -817,6 +817,7 @@ body {
   animation: none;
 }
 #singularityDesc {
+  font-weight: bold;
   font-size: 1.8vh;
   color: #0a205c;
   text-shadow: 0 0 0.8vh #fff, -0.2vh 0 0.3vh #63b88d, 0.2vh 0 0.3vh #f54c8f;
