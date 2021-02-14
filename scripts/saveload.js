@@ -22,6 +22,7 @@ tempGame = {
   researchProgress: new Array(9).fill(0),
   rebootTime: new Date().getTime(),
   t2toggle: 0,
+  t2time: 0,
   t2resets: D(0),
   optionToggle: new Array(9).fill(1),
   achievements: [],

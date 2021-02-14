@@ -51,12 +51,7 @@ function reboot() {
     if (calcRebootCooldown() > 1000) commandAppend('reboot', 75);
     rebooting = 1;
     $('#rebootButton').innerHTML = "Rebooting";
-    setTimeout( function () {
-      rebooting = 0;
-      $('#rebootButton').className = "";
-      $('#rebootButton').innerHTML = "Reboot";
-      if (calcRebootCooldown() > 1000) commandAppend('reboot done! (Got ' + dNotation(gotRP, 4, 0) +' RP)', 75, 1);
-    }, calcRebootCooldown());
+    game.t2time = new Date().getTime();
   }
 }
 function calcRebootCooldown() {
@@ -106,6 +101,12 @@ function calcResearch() {
     }
   }
   if (game.quantumUpgradeBought.includes('43')) game.researchPoint = game.researchPoint.add(calcRPGain().gt(1) ? calcRPGain().mul(0.3*(1/calcRebootCooldown())*1000).mul(calcRealTgain()) : 0);
+  if (rebooting && game.t2time < new Date().getTime()-calcRebootCooldown()) {
+    rebooting = 0;
+    $('#rebootButton').className = "";
+    $('#rebootButton').innerHTML = "Reboot";
+    if (calcRebootCooldown() > 1000) commandAppend('reboot done! (Got ' + dNotation(gotRP, 4, 0) +' RP)', 75, 1);
+  }
 }
 function calcRPGain() {
   var tempNum = game.rebootNum.plus(2).pow(1/6).floor().sub(19);
