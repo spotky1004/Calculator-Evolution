@@ -384,8 +384,8 @@ function getBaseIncreaseReq() {
   ).sub(1);
 }
 function calcProgram() {
-  if (rebooting || isProcessExceed()) {
-    game.programActive = [...new Array(15).fill(0)];
+  if (rebooting) {
+    if (isProcessExceed()) game.programActive = [...new Array(15).fill(0)];
     return;
   }
   if (game.programActive[0]) {
