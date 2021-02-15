@@ -5,7 +5,7 @@
     'Sacrifice', 'A to z', 'Sacrifice II', 'Rich', 'Ultimate Science',
     'New Age', '2^10', 'Skilled', 'Lab Town', '2^50',
     'Richer', 'A to Œ', 'Infinity Research', 'Infinity Boost', '2 more?<br>*',
-    'Singularity<br>*', 'Second Singularity', 'Challenge', 'Bulk QL Challenge', 'More Challenges<br>*',
+    'Singularity<br>*', 'Second Singularity', 'Challenge', 'Bulk QL Challenge<br>*', 'More Challenges<br>*',
     'Singularit<br>ies<br>*', 'none', 'Bugged Reality<br>*', 'none', 'none'
   ];
   achievementGoal = [
@@ -14,7 +14,7 @@
     'Perform Overclock', 'Reach base ${dNotation(62, 4, 0)}', 'Perform Overclock with Power ${dNotation(1e10, 4, 0)}', 'Have ${dNotation(1e100)} $', 'Have ${dNotation(1.11e11, 4, 0)} RP',
     'Perform Quantum', 'Have ${dNotation(10, 4, 0)} Qubits', 'Have ${dNotation(8, 4, 0)} Quantum Upgrades', "Have ${dNotation(7, 0, 0)} Quantum Labs", 'Have ${dNotation(50, 4, 0)} Qubits',
     'Have ${dNotation("1e1000", 4, 0)} $', 'Reach base ${dNotation(250, 4, 0)}', 'Have ${dNotation(D(2).pow(1024), 6, 0)} RP', 'Have ${dNotation(1024, 4, 0)} Qubits', 'Have ${dNotation(82, 0, 0)} Labs<br>Reward: Shift Qubit production by +2QL',
-    'Go singularity<br>Reward: CPU speed x25', 'Go singularity one more time', 'Complete a challenge', 'Reach bulk ${dNotation(20, 0, 0)} Quantum Labs', 'Complete ${dNotation(10, 0, 0)} Challenges<br>Reward: All Challenge requirement -2',
+    'Go singularity<br>Reward: CPU speed x25', 'Go singularity one more time', 'Complete a challenge', 'Reach bulk ${dNotation(20, 0, 0)} Quantum Labs<br>Reward: Pow Quantum requirements by ^0.9', 'Complete ${dNotation(10, 0, 0)} Challenges<br>Reward: All Challenge requirement -2',
     'Go singularity ${dNotation(100, 0, 0)} times<br>Reward: SP gain x4', 'Coming soon', 'Reach Infinity$<br>Reward: Game speed x2', 'Coming soon', 'Coming soon'
   ];
   achievementGoalFunc = [
