@@ -2,20 +2,20 @@
   achievementName = [
     'Memory exceed', 'A Dollar<br>*', 'Upgrade!', 'Let\'s count to ten', 'A to Z',
     'Tech lab?', 'Boost!', 'Multi Process', 'Larger Memory', 'Power of Science<br>*',
-    'Sacrifice', 'A to z', 'Sacrifice II', 'Rich', 'Ultimate Science',
-    'New Age', '2^10', 'Skilled', 'Lab Town', '2^50',
-    'Richer', 'A to Œ', 'Infinity Research', 'Infinity Boost', '2 more?<br>*',
+    'Sacrifice', 'A to z', 'Sacrifice II<br>*', 'Rich<br>*', 'Ultimate Science',
+    'New Age', '2^10', 'Skilled', 'Lab Town<br>*', '2^50',
+    'Richer<br>*', 'A to Œ', 'Infinity Research', 'Infinity Boost', '2 more?<br>*',
     'Singularity<br>*', 'Second Singularity', 'Challenge', 'Bulk QL Challenge<br>*', 'More Challenges<br>*',
-    'Singularit<br>ies<br>*', 'none', 'Bugged Reality<br>*', 'none', 'none'
+    'Singularit<br>ies<br>*', 'Broken Machine', 'Bugged Reality<br>*', 'Inf..', 'GG'
   ];
   achievementGoal = [
     'Reach ${formatWithBase(63, game.base)}(${dNotation(game.base, 4, 0)})', 'Have a ${dNotation(1, 0, 0)} $<br>Reward: Multiply mine power by x1.25', 'Buy ${dNotation(3, 0, 0)} CPU upgrade', 'Reach base ${dNotation(10, 0, 0)}', 'Reach base ${dNotation(36, 0, 0)}',
-    'Perform Reboot', 'Reach Bonus CPU Level ${dNotation(3, 0, 0)}', 'Reach Multi Process Level ${dNotation(1, 0, 0)}', 'Reach Extra Digit Level ${dNotation(5, 0, 0)}', 'Have ${dNotation(1e3, 4, 0)} RP<br>Reward: RP gain x${dNotation(D.max(D.max(game.researchPoint, 2).log(3).log(10),1), 4, 2)}',
-    'Perform Overclock', 'Reach base ${dNotation(62, 4, 0)}', 'Perform Overclock with Power ${dNotation(1e10, 4, 0)}', 'Have ${dNotation(1e100)} $', 'Have ${dNotation(1.11e11, 4, 0)} RP',
-    'Perform Quantum', 'Have ${dNotation(10, 4, 0)} Qubits', 'Have ${dNotation(8, 4, 0)} Quantum Upgrades', "Have ${dNotation(7, 0, 0)} Quantum Labs", 'Have ${dNotation(50, 4, 0)} Qubits',
-    'Have ${dNotation("1e1000", 4, 0)} $', 'Reach base ${dNotation(250, 4, 0)}', 'Have ${dNotation(D(2).pow(1024), 6, 0)} RP', 'Have ${dNotation(1024, 4, 0)} Qubits', 'Have ${dNotation(82, 0, 0)} Labs<br>Reward: Shift Qubit production by +2QL',
+    'Perform Reboot', 'Reach Bonus CPU Level ${dNotation(3, 0, 0)}', 'Reach Multi Process Level ${dNotation(1, 0, 0)}', 'Reach Extra Digit Level ${dNotation(5, 0, 0)}', 'Have ${dNotation(1e3, 4, 0)} RP<br>Reward: Multiply RP gain based on itself x${dNotation(D.max(D.max(game.researchPoint, 2).log(3).log(10),1), 4, 2)}',
+    'Perform Overclock', 'Reach base ${dNotation(62, 4, 0)}', 'Perform Overclock with Power ${dNotation(1e10, 4, 0)}<br>Reward: Research Speed x2', 'Have ${dNotation(1e100)} $<br>Reward: Multiply mine power by x5', 'Have ${dNotation(1.11e11, 4, 0)} RP',
+    'Perform Quantum', 'Have ${dNotation(10, 4, 0)} Qubits', 'Have ${dNotation(8, 4, 0)} Quantum Upgrades', "Have ${dNotation(7, 0, 0)} Quantum Labs<br>Reward: Qubit production speed x3", 'Have ${dNotation(50, 4, 0)} Qubits',
+    'Have ${dNotation("1e1000", 4, 0)} $<br>Reward: Multiply mine power by x10', 'Reach base ${dNotation(250, 4, 0)}', 'Have ${dNotation(D(2).pow(1024), 6, 0)} RP', 'Have ${dNotation(1024, 4, 0)} Qubits', 'Have ${dNotation(82, 0, 0)} Labs<br>Reward: Shift Qubit production by +2QL',
     'Go singularity<br>Reward: CPU speed x25', 'Go singularity one more time', 'Complete a challenge', 'Reach bulk ${dNotation(20, 0, 0)} Quantum Labs<br>Reward: Pow Quantum requirements by ^0.9', 'Complete ${dNotation(10, 0, 0)} Challenges<br>Reward: All Challenge requirement -2',
-    'Go singularity ${dNotation(100, 0, 0)} times<br>Reward: SP gain x4', 'Coming soon', 'Reach Infinity$<br>Reward: Game speed x2', 'Coming soon', 'Coming soon'
+    'Go singularity ${dNotation(100, 0, 0)} times<br>Reward: SP gain x4', 'Complete Boost Challenge once', 'Reach Infinity$<br>Reward: Game speed x2', 'Go Infinity in 5 hours', 'Go Infinity in 10 seconds'
   ];
   achievementGoalFunc = [
     'game.number.gte(63)', 'game.money.gte(1)', 'game.shopBought[5] >= 3', 'game.base.gte(10)', 'game.base.gte(36)',
@@ -24,7 +24,7 @@
     'game.quantumLab.gte(1)', 'game.qubit.gte(10)', 'game.quantumUpgradeBought.length>=8', 'game.quantumLab.gte(7)', 'game.qubit.gte(50)',
     'game.money.gte(\'1e1000\')', 'game.base.gte(250)', 'game.researchPoint.gte(D(2).pow(1024))', 'game.qubit.gte(1024)', 'game.quantumLab.gte(82)',
     'game.t4resets.gte(1)', 'game.t4resets.gte(2)', 'calcChallengeDone() >= 1', 'calcQuantumLabGain().gte(20)', 'calcChallengeDone() >= 10',
-    'game.t4resets.gte(100)', '0', 'game.money.gte("1e9000000000000")', '0', '0'
+    'game.t4resets.gte(100)', 'game.wormholeChallengeProgress[7]>=1', 'game.money.gte("1e9000000000000")', '0', '0'
   ];
 })();
 
@@ -41,7 +41,7 @@ function initAchievements() {
       trNode = document.querySelector('#achWarp > tbody > tr:last-child');
     }
     var cNode = document.createElement('td');
-    cNode.innerHTML = achievementName[i];
+    cNode.innerHTML = achievementName[i].replace("*", "<span style=\"color: #ddff00;\">*</span>");
     cNode.onmouseover = new Function(`achivenementHover.bind(this)(${i})`);
     cNode.onmouseout = new Function(`achivenementUnhover()`);
     cNode.classList.add("achievementNode");
@@ -69,7 +69,7 @@ function renderAchievements() {
 
 function achivenementHover(idx) {
   $("#achDesc").style.opacity = 1;
-  $("#achDesc").innerHTML = new Function("return `" + achievementGoal[idx] + "`")();
+  $("#achDesc").innerHTML = new Function("return `" + achievementGoal[idx] + "`")().replace(/(Reward: +)/, "<span style=\"color: #ddff00;\">$1<span>");
   $("#achDesc").style.top = (this.getBoundingClientRect().top - innerHeight/100 - $("#achDesc").offsetHeight) + 'px';
   $("#achDesc").style.left = (this.getBoundingClientRect().left - $("#achDesc").offsetWidth/4) + 'px';
 }

@@ -174,6 +174,7 @@ function calcResearchSpeed(lv) {
   if (lv != 0) {
     var tempSpeed = calcPerResearchSpeedBase().pow(lv-1);
     if (game.quantumUpgradeBought.includes('24')) tempSpeed = tempSpeed.mul(D(2).pow(D(game.tLast-game.quantumTime).pow(0.2)).pow(D.min(10, D.max(1, game.researchPoint.log(10).div(20)))));
+    if (game.achievements.includes(12)) tempSpeed = tempSpeed.mul(2);
     tempSpeed = tempSpeed.mul(singularityBoosts.ResearchSpeedBoost)
     return tempSpeed;
   } else {

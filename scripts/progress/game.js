@@ -369,6 +369,8 @@ function calcMaxBase() {
 function calcMoneyGain() {
   moneyGain = D.max(0, calcCPU().mul(calcRealTgain()/3e4).mul(game.number));
   if (game.achievements.includes(1)) moneyGain = moneyGain.mul(1.25);
+  if (game.achievements.includes(13)) moneyGain = moneyGain.mul(5);
+  if (game.achievements.includes(20)) moneyGain = moneyGain.mul(10);
   if (game.shopBought[1] >= 1) moneyGain = moneyGain.mul(game.digits);
   if (game.shopBought[1] >= 2) moneyGain = moneyGain.mul(game.researchPoint.add(1));
   if (game.shopBought[1] >= 3) moneyGain = moneyGain.mul(getOverclockPower());
