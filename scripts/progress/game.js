@@ -325,6 +325,7 @@ function calcCPU() {
   if (game.quantumUpgradeBought.includes('14')) tempVar = tempVar.mul(D(9).pow(game.quantumLab));
   if (game.quantumUpgradeBought.includes('15')) tempVar = tempVar.mul(D(30).pow(D.max(0, calcMaxDigit().sub(game.digits))));
   if (game.quantumUpgradeBought.includes('16')) tempVar = tempVar.mul(game.researchPoint.add(1).pow(0.25));
+  if (game.achievements.includes(25)) tempVar = tempVar.mul(25);
   return tempVar;
 }
 function calcShopCost(idx, lv) {

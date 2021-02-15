@@ -312,7 +312,10 @@ function calcSingularityPowerGain(calcNext=0, baseRes=game.quantumLab) {
   var tempSpGain = baseRes.sub(60).div(20); // div
   var tempSpGain2 = tempSpGain.floor(0).add(1).mul(tempSpGain.floor(0)).div(2).floor(0); // sum
   var tempSpGain3 = tempSpGain2.add(tempSpGain.mod(1).mul(tempSpGain.add(1)).floor(0)); // offset
-  return (!calcNext ? D.max(0, tempSpGain3) : D.max(80, baseRes.div(20).floor(0).mul(20).add(D(20).div(tempSpGain.floor(0).add(1)).mul(tempSpGain3.sub(tempSpGain2).add(1)).ceil(0))));
+  if (calcNext) return D.max(80, baseRes.div(20).floor(0).mul(20).add(D(20).div(tempSpGain.floor(0).add(1)).mul(tempSpGain3.sub(tempSpGain2).add(1)).ceil(0)));
+  var tempSpGain4 = D.max(0, tempSpGain3).floor(0);
+  if (game.achievements.includes(30)) tempSpGain4 = tempSpGain4.mul(4);
+  return tempSpGain4;
 }
 function calcGridOpened() {
   return Math.min(25, 4+Math.floor((calcChallengeDone()+3)/4));
@@ -338,7 +341,7 @@ function canEnterWoemholeChallenge() {
   return game.t4resets.gte(calcWormholeChallengeReq());
 }
 function calcRealTgain() {
-  return tGain*singularityBoosts.SpeedBoost.toNumber();
+  return tGain*singularityBoosts.SpeedBoost.toNumber()*(game.achievements.includes(31)?2:1);
 }
 function calcChallengeDone() {
   return game.wormholeChallengeProgress.reduce((a, b) => a + b, 0);
@@ -372,7 +375,8 @@ function calcChallengeGoal(idx, lv=game.wormholeChallengeProgress[idx]) {
       break;
   }
   if (lv >= 5) goal = goal.pow(lv/25+0.8);
-  return goal.floor(0);
+  if (game.achievements.includes(29)) goal = goal.sub(2);
+  return D.max(1, goal.floor(0));
 }
 function calcChallengeTimeLeft() {
   return (game.challengeTime - new Date().getTime())/1000 + 60*30;
