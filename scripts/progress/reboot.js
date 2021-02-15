@@ -126,6 +126,7 @@ function calcRPGain() {
   if (game.quantumUpgradeBought.includes('21')) tempNum = tempNum.mul(10);
   if (game.quantumUpgradeBought.includes('22')) tempNum = tempNum.mul(D(1.2).pow(game.qubit).pow(D.min(game.researchPoint.add(1).log(10).div(25), 1)));
   if (game.quantumUpgradeBought.includes('26')) tempNum = tempNum.mul(game.researchLevel.reduce((a, b) => a.mul(b**2+1), D(1)).pow(3));
+  if (game.achievements.includes(9)) tempNum = tempNum.mul(D.max(D.max(game.researchPoint, 2).log(3).log(10),1));
   tempNum = tempNum.mul(singularityBoosts.RpBoost);
   return Decimal.max(tempNum, 0);
 }
