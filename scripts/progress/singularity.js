@@ -186,7 +186,7 @@ function calcSingularity() {
 }
 function renderGrid() {
   $("#singularityGridWarp").style.display = (game.t4toggle ? "block" : "none");
-  if (game.t4toggle) {
+  if (game.singularityPower.gte(1)) {
     $("#singularityGridOutInnerWarp").style.setProperty("--s", Math.min($("#singularityGridOutWarp").offsetWidth, $("#singularityGridOutWarp").offsetHeight) + 'px');
     $("#singularityGridOutInnerWarp").style.marginTop = Math.max(0, ($("#singularityGridOutWarp").offsetHeight-$("#singularityGridOutInnerWarp").offsetHeight)/2) + 'px';
     [...document.getElementsByClassName("singularityGridBlock")].forEach((ele, idx) => {ele.classList[singularityGridIdx[idx]>calcGridOpened()?"add":"remove"]("disabled")});
@@ -309,13 +309,16 @@ function singularityMachineSelect(idx) {
 
 // calc
 function calcSingularityPowerGain(calcNext=0, baseRes=game.quantumLab) {
-  var tempSpGain = baseRes.sub(60).div(20); // div
+  var tempSpGain = baseRes.sub(60).div(10); // div
   var tempSpGain2 = tempSpGain.floor(0).add(1).mul(tempSpGain.floor(0)).div(2).floor(0); // sum
   var tempSpGain3 = tempSpGain2.add(tempSpGain.mod(1).mul(tempSpGain.add(1)).floor(0)); // offset
-  if (calcNext) return D.max(80, baseRes.div(20).floor(0).mul(20).add(D(20).div(tempSpGain.floor(0).add(1)).mul(tempSpGain3.sub(tempSpGain2).add(1)).ceil(0)));
-  var tempSpGain4 = D.max(0, tempSpGain3).floor(0);
+  if (calcNext) return D.max(80, baseRes.div(10).floor(0).mul(10).add(D(10).div(tempSpGain.floor(0).add(1)).mul(tempSpGain3.sub(tempSpGain2).add(1)).ceil(0))); // retuen calc next
+  var tempSpGain4 = D.max(0, tempSpGain3).floor(0); // floor, fix before mul
+
+  // multiplies
   if (game.achievements.includes(30)) tempSpGain4 = tempSpGain4.mul(4);
-  return tempSpGain4;
+
+  return tempSpGain4; // return SP gain
 }
 function calcGridOpened() {
   return Math.min(25, 4+Math.floor((calcChallengeDone()+3)/4));
@@ -382,7 +385,7 @@ function calcChallengeTimeLeft() {
   return (game.challengeTime - new Date().getTime())/1000 + 60*30;
 }
 function calcMilestoneDone() {
-  return D.max(D(game.singularityPower).mul(2).log(3), 0).floor(0).toNumber();
+  return D.max(D(game.singularityPower).div(2).log(3).add(1), 0).floor(0).toNumber();
 }
 
 // SingularityMachine

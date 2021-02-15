@@ -1,6 +1,6 @@
 (function(){
   achievementName = [
-    'Memory exceed', 'A Dollar', 'Upgrade!', 'Let\'s count to ten', 'A to Z',
+    'Memory exceed', 'A Dollar<br>*', 'Upgrade!', 'Let\'s count to ten', 'A to Z',
     'Tech lab?', 'Boost!', 'Multi Process', 'Larger Memory', 'Power of Science',
     'Sacrifice', 'A to z', 'Sacrifice II', 'Rich', 'Ultimate Science',
     'New Age', '2^10', 'Skilled', 'Lab Town', '2^50',
@@ -9,7 +9,7 @@
     'Singularit<br>ies<br>*', 'none', 'Bugged Reality<br>*', 'none', 'none'
   ];
   achievementGoal = [
-    'Reach ${formatWithBase(63, game.base)}(${dNotation(game.base, 4, 0)})', 'Have a ${dNotation(1, 0, 0)} $', 'Buy ${dNotation(3, 0, 0)} CPU upgrade', 'Reach base ${dNotation(10, 0, 0)}', 'Reach base ${dNotation(36, 0, 0)}',
+    'Reach ${formatWithBase(63, game.base)}(${dNotation(game.base, 4, 0)})<br>Reward: Multiply mine power by x1.25', 'Have a ${dNotation(1, 0, 0)} $', 'Buy ${dNotation(3, 0, 0)} CPU upgrade', 'Reach base ${dNotation(10, 0, 0)}', 'Reach base ${dNotation(36, 0, 0)}',
     'Perform Reboot', 'Reach Bonus CPU Level ${dNotation(3, 0, 0)}', 'Reach Multi Process Level ${dNotation(1, 0, 0)}', 'Reach Extra Digit Level ${dNotation(5, 0, 0)}', 'Have ${dNotation(1e3, 4, 0)} RP',
     'Perform Overclock', 'Reach base ${dNotation(62, 4, 0)}', 'Perform Overclock with Power ${dNotation(1e10, 4, 0)}', 'Have ${dNotation(1e100)} $', 'Have ${dNotation(1.11e11, 4, 0)} RP',
     'Perform Quantum', 'Have ${dNotation(10, 4, 0)} Qubits', 'Have ${dNotation(8, 4, 0)} Quantum Upgrades', "Have ${dNotation(7, 0, 0)} Quantum Labs", 'Have ${dNotation(50, 4, 0)} Qubits',
