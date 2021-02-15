@@ -185,7 +185,7 @@ function calcSingularity() {
   }
 }
 function renderGrid() {
-  $("#singularityGridWarp").style.display = (game.t4toggle ? "block" : "none");
+  $("#singularityGridWarp").style.display = (game.singularityPower.gte(1) ? "block" : "none");
   if (game.singularityPower.gte(1)) {
     $("#singularityGridOutInnerWarp").style.setProperty("--s", Math.min($("#singularityGridOutWarp").offsetWidth, $("#singularityGridOutWarp").offsetHeight) + 'px');
     $("#singularityGridOutInnerWarp").style.marginTop = Math.max(0, ($("#singularityGridOutWarp").offsetHeight-$("#singularityGridOutInnerWarp").offsetHeight)/2) + 'px';
