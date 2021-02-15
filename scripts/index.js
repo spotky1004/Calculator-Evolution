@@ -140,13 +140,16 @@ function hsvToRgb(h, s, v) {
   document.addEventListener('keydown', function(e){
     const keyCode = e.keyCode;
     keyDowns[keyCode] = true;
-    if (keyCode == 49) activeProgram(0); // 1
-    if (keyCode == 50) activeProgram(1); // 2
-    if (keyCode == 51) activeProgram(2); // 3
-    if (keyCode == 52) activeProgram(3); // 4
-    if (keyCode == 53) activeProgram(4); // 5
-    if (keyCode == 54) activeProgram(5); // 6
-    if (keyCode == 55) activeProgram(6); // 7
+    if (!keyDowns[16]) {
+      if (keyCode == 49) activeProgram(0); // 1
+      if (keyCode == 50) activeProgram(1); // 2
+      if (keyCode == 51) activeProgram(2); // 3
+      if (keyCode == 52) activeProgram(3); // 4
+      if (keyCode == 53) activeProgram(4); // 5
+      if (keyCode == 54) activeProgram(5); // 6
+      if (keyCode == 55) activeProgram(6); // 7
+      if (keyCode == 56) for (var i = 0; i < 7; i++) activeProgram(i);
+    }
 
     if (keyCode == 82) reboot(); // r
     if (keyCode == 81) quantum(); // q
@@ -163,3 +166,16 @@ function hsvToRgb(h, s, v) {
     keyDowns[keyCode] = false;
   })
 })();
+function calcExtraHotkeys() {
+  if (keyDowns[16]) {
+    // shift + 1 ~ 8
+    if (keyDowns[49]) researchBuy(0);
+    if (keyDowns[50]) researchBuy(1);
+    if (keyDowns[51]) researchBuy(2);
+    if (keyDowns[52]) researchBuy(3);
+    if (keyDowns[53]) researchBuy(4);
+    if (keyDowns[54]) researchBuy(5);
+    if (keyDowns[55]) researchBuy(6);
+    if (keyDowns[56]) researchBuy(7);
+  }
+}

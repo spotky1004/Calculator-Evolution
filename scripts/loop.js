@@ -6,6 +6,7 @@ setInterval( function () {
   }
   game.tLast = new Date().getTime();
   calcAll();
+  calcExtraHotkeys();
   renderAll();
   renderCalcDebugInfo();
   tickDone++;
