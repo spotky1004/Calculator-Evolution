@@ -14,7 +14,14 @@ function renderResearch() {
     $('#rebootButton').className = "disabled";
   }
   $('#rebootDesc').innerHTML = "If you Reboot now, you'll get " + dNotation(calcRPGain(), 4, 0) + " Research Points<br>";
-  $('#rebootDesc').innerHTML += "You lose Number, Memory, Base, Upgrades, Money on Reboot<br>";
+  //$('#rebootDesc').innerHTML += "You lose Number, Digit, Base, Upgrades, Money on Reboot<br>";
+  if (!game.programActive[4] || game.shopBought[2] < 3) {
+    $('#rebootDesc').innerHTML += "You lose";
+    $('#rebootDesc').innerHTML += " Money, Upgrades";
+    if (!game.programActive[4] || game.shopBought[2] < 2) $('#rebootDesc').innerHTML += ", Digit, Number";
+    if (!game.programActive[4] || game.shopBought[2] < 1) $('#rebootDesc').innerHTML += ", Base";
+    $('#rebootDesc').innerHTML += " on Reboot<br>";
+  }
   if (game.shopBought[2] >= 1 && !game.programActive[4]) $('#rebootDesc').innerHTML += "<span style=\"color: red; text-shadow: 0 0 0.4vh #f00;\">WARNING! You didn't activated Data_Holder.exe!</span><br>"
   if (calcRPGain().lte(1e10)) $('#rebootDesc').innerHTML += "You need to reach " + formatWithBase(calcRPGain().plus(20).pow(6).sub(1).ceil(), game.base) + "(" + game.base + ") to get next RP";
   $('#rpDisplay').innerHTML = "You have " + dNotation(game.researchPoint, 4, 0) + " Research Points";

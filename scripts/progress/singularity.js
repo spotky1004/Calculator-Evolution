@@ -157,7 +157,7 @@ function renderSingularity() {
   $("#singularityDesc").innerHTML += `<br>You have <b><span style="color: #fff;">${dNotation(game.singularityPower, 4, 0)} Singularity Power</span></b>`;
   $("#singularityDesc").innerHTML += `<br>Each SP increases Multi Process by 4 (tot ${Math.floor(Math.min(25/4, game.singularityPower.valueOf())*4)}, cap at 25)`
   $("#singularityDesc").innerHTML += `<br>And boosts grid machine Power by x${dNotation(game.singularityPower.pow(4), 4, 0)}`;
-  $("#singularityDesc").innerHTML += `<br>Have ${4**calcMilestoneDone()*2} SP to retain Keep ${romanize(calcMilestoneDone()+1).toUpperCase()}`;
+  $("#singularityDesc").innerHTML += `<br>Have ${3**calcMilestoneDone()*2} SP to retain Keep ${romanize(calcMilestoneDone()+1).toUpperCase()}`;
   $("#wormholeChallengeWarp").style.display = game.t4resets.gte(2) ? "block" : "none";
   $("#gridReq").innerHTML = `Complete ${4-(calcChallengeDone()+3)%4} more challenge to unlock ${ordNum(calcGridOpened()+1)} Grid space`;
   //$("#challengeReq").innerHTML = `Go singularity ${dNotation(game.t4resets.toNumber(), 4, 0)}/${calcWormholeChallengeReq()} times to enter Challenge (Increases per challenge complete)`;
@@ -172,7 +172,7 @@ function calcSingularity() {
   for (var i in game.singularityGrid) game.singularityGrid[i].update();
   if (game.challengeEntered != -1) {
     if (game.quantumLab.gte(calcChallengeGoal(game.challengeEntered))) {
-      game.wormholeChallengeProgress[game.challengeEntered]++;
+      if (game.wormholeChallengeProgress[game.challengeEntered] < 10) game.wormholeChallengeProgress[game.challengeEntered]++;
       game.singularityPower = game.singularityPower.add(1);
       game.challengeEntered = -1;
       singularityReset();
@@ -371,14 +371,14 @@ function calcChallengeGoal(idx, lv=game.wormholeChallengeProgress[idx]) {
       goal = D(Infinity).add((7+lv**2)*lv);
       break;
   }
-  if (lv >= 5) goal = goal.mul(lv/2);
+  if (lv >= 5) goal = goal.pow(lv/25+0.8);
   return goal.floor(0);
 }
 function calcChallengeTimeLeft() {
   return (game.challengeTime - new Date().getTime())/1000 + 60*30;
 }
 function calcMilestoneDone() {
-  return D.max(D(game.singularityPower).mul(2).log(4), 0).floor(0).toNumber();
+  return D.max(D(game.singularityPower).mul(2).log(3), 0).floor(0).toNumber();
 }
 
 // SingularityMachine
