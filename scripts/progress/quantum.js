@@ -204,7 +204,7 @@ function calcQuantum2Cap() {
   return baseCap;
 }
 function getQuantumReqPow() {
-  var totPow = game.quantumUpgradeBought.includes('32') ? D(0.999).pow(D.min(calcQuantum2Cap(), game.base)) : 1;
+  var totPow = game.quantumUpgradeBought.includes('32') ? D(0.999).pow(D.min(calcQuantum2Cap(), game.base)) : D(1);
   if (game.achievements.includes(28)) totPow = totPow.mul(0.9);
 
   var moneyPow = D(totPow);
