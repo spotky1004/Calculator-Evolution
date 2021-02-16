@@ -9,6 +9,7 @@ setInterval( function () {
   calcExtraHotkeys();
   renderAll();
   renderCalcDebugInfo();
+  bugFixer();
   tickDone++;
 }, 33);
 setInterval( function () {

@@ -96,6 +96,8 @@
   tps = [];
   tpsRecording = 0;
   lastTpsRecord = new Date().getTime();
+
+  bugfixerConfirm = 1;
 })();
 
 function renderBasic() {
@@ -478,6 +480,17 @@ function bugFixer() {
 }
 function bugFixerNaN() {
   if (game.qubit.isNaN()) {
-
+    if (bugfixerConfirm && confirm("NaN bug detected!\nConfirm will reset your money, number, qubit, RP, research progress\n* You will see this prompt for every refresh")) {
+      bugfixerConfirm = 0;
+      return;
+    }
+    game.money = D(0);
+    game.number = D(0);
+    game.qubit = D(0);
+    game.qubitProgress = D(0);
+    game.rebootNum = D(0);
+    game.researchPoint = D(0);
+    game.researchProgress = new Array(9).fill(0);
+    commandAppend("run Bug_Fixer.exe");
   }
 }
