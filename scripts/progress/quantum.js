@@ -39,7 +39,7 @@
     ],
     // 5: Automate
     [
-      "Automate Program buy<br><b style=\"opacity: 0.6\">You can click again Automates after buy to toggle!</b>",
+      "Automate Program buy<br><b style=\"opacity: 0.6\">You can click Automate upgrades again to toggle them!</b>",
       "Automate Reboot",
       "Automate research buy first row",
       "Automate research buy second row",
