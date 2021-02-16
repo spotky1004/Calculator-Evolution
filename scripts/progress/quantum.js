@@ -217,10 +217,10 @@ function getQuantumReqPow() {
 }
 function calcQuantumLabGain() {
   // Money: start from e100, +e5, +e15, +e25, +e35  ... -> (n*(n-1)+n)*5
-  var fromMoneyGain = game.money.pow(D(1).div(getQuantumReqPow()[0])).div(1e100).log(10).div(5).sqrt(2).add(1);
+  var fromMoneyGain = game.money.pow(D(1).div(getQuantumReqPow()[0])).div(1e100).log(10).div(5).pow(0.5).add(1);
   if (fromMoneyGain.isNaN()) fromMoneyGain = D(0);
   // RP   : start from e11, +10^0.5, +10^1.5, +10^2.5 ... -> (n*(n-1)+n)/2
-  var fromRpGain = game.researchPoint.pow(D(1).div(getQuantumReqPow()[1])).div(1e11).log(10).mul(2).sqrt(2).add(1.000004); // <- .000004 is for floting point fix
+  var fromRpGain = game.researchPoint.pow(D(1).div(getQuantumReqPow()[1])).div(1e11).log(10).mul(2).pow(0.5).add(1.000004); // <- .000004 is for floting point fix
   if (fromRpGain.isNaN()) fromRpGain = D(0);
 
   var labGain = D.min(
@@ -239,13 +239,13 @@ function dokeepMilestone() {
 
 function calcQubitSpeed() {
   var tempLab = game.quantumLab.add(game.achievements.includes(24)?2:0);
-  var tempSpd = tempLab.pow(tempLab.sqrt(2)).mul(D(10).add(tempLab.pow(2)).pow(tempLab.sub(1))).sub(0.1);
+  var tempSpd = tempLab.pow(tempLab.pow(0.5)).mul(D(10).add(tempLab.pow(2)).pow(tempLab.sub(1))).sub(0.1);
   if (game.achievements.includes(18)) tempSpd = tempSpd.mul(3);
   if (game.quantumUpgradeBought.includes('31')) tempSpd = tempSpd.mul(100);
   if (game.quantumUpgradeBought.includes('33')) tempSpd = tempSpd.mul(D(1.3).pow(game.qubit));
   if (game.quantumUpgradeBought.includes('34')) tempSpd = tempSpd.mul(D.min(D.max(game.number, 0).add(1).log(10).div(10).pow(0.5), 1).add(1).pow(D.max(game.number, 0).add(1).log(10).pow(0.6)));
   if (game.quantumUpgradeBought.includes('35')) tempSpd = tempSpd.mul(D(10).pow([...new Set(game.quantumUpgradeBought)].length));
-  tempSpd = tempSpd.mul(27); // boost
+  //tempSpd = tempSpd.mul(27); // boost
   tempSpd = tempSpd.mul(singularityBoosts.QubitBoost);
   return tempSpd;
 }
