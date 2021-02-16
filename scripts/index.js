@@ -148,7 +148,7 @@ function hsvToRgb(h, s, v) {
       if (keyCode == 53) activeProgram(4); // 5
       if (keyCode == 54) activeProgram(5); // 6
       if (keyCode == 55) activeProgram(6); // 7
-      if (keyCode == 56) for (var i = 0; i < 7; i++) activeProgram(i);
+      if (keyCode == 56) for (var i = 0; i < 7; i++) if (calcProcessLeft() > 0) activeProgram(i);
     }
 
     if (keyCode == 82) reboot(); // r
