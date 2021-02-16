@@ -7,7 +7,7 @@
       "Increase digit cap based on base (+${dNotation(game.base.pow(0.6).floor(), 4, 0)})",
       "'Bonus CPU Level' research's effect x2",
       "Each Quantum Lab Boosts CPU by x27 (x${dNotation(D(27).pow(game.quantumLab), 4, 0)})",
-      "Each Grey digit boosts CPU by x30 (x${dNotation(D(30).pow(D.max(0, calcMaxDigit().sub(game.digits))), 4, 0)})",
+      "Each Grey digit boosts CPU by x30 (x${dNotation(D(30).pow(D.max(0, calcMaxDigit().sub(calcMaxDigit().lt(1000)?game.digits:0))), 4, 0)})<br><b style=\"opacity: 0.6\">If max base is bigger than 1000, this bonus will based on max Digit</b>",
       "RP boosts CPU (x${dNotation(game.researchPoint.add(1).pow(0.25), 4, 1)})<br>And sqrt Quantum Lab RP req"
     ],
     // 2: Research
