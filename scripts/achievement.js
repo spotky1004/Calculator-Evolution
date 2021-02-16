@@ -69,7 +69,7 @@ function renderAchievements() {
 
 function achivenementHover(idx) {
   $("#achDesc").style.opacity = 1;
-  $("#achDesc").innerHTML = new Function("return `" + achievementGoal[idx] + "`")().replace(/(Reward: +)/, "<span style=\"color: #ddff00;\">$1<span>");
+  $("#achDesc").innerHTML = new Function("return `" + achievementGoal[idx] + "`")().replace(/(Reward: +)/, `<span style=\"color: ${game.achievements.includes(idx)?"#ddff00;":"#ccd1a3;"}">$1<span>`);
   $("#achDesc").style.top = (this.getBoundingClientRect().top - innerHeight/100 - $("#achDesc").offsetHeight) + 'px';
   $("#achDesc").style.left = (this.getBoundingClientRect().left - $("#achDesc").offsetWidth/4) + 'px';
 }
