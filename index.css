@@ -880,7 +880,8 @@ body {
 .wormholeChallengeEffect {
   color: var(--col);
   font-size: 1.7vh;
-  filter: brightness(3);
+  font-weight: bold;
+  filter: brightness(3) contrast(400%);
 }
 .wormholeChallengeGoal {
   position: absolute;
