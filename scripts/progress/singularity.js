@@ -309,7 +309,7 @@ function singularityMachineSelect(idx) {
 
 // calc
 function calcSingularityPowerGain(calcNext=0, baseRes=game.quantumLab) {
-  var tempSpGain = baseRes.sub(60).div(10); // div
+  var tempSpGain = baseRes.sub(70).div(10); // div
   var tempSpGain2 = tempSpGain.floor(0).add(1).mul(tempSpGain.floor(0)).div(2).floor(0); // sum
   var tempSpGain3 = tempSpGain2.add(tempSpGain.mod(1).mul(tempSpGain.add(1)).floor(0)); // offset
   if (calcNext) return D.max(80, baseRes.div(10).floor(0).mul(10).add(D(10).div(tempSpGain.floor(0).add(1)).mul(tempSpGain3.sub(tempSpGain2).add(1)).ceil(0))); // retuen calc next
