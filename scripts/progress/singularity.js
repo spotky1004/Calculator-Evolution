@@ -217,6 +217,8 @@ function renderGrid() {
       ele.innerHTML = machineHave-clacMachineUsed(machineIdx[idx]);
     });
     renderGridSideInfo();
+  } else {
+    game.singularityGrid = {};
   }
 }
 function singularityMachineChanged() {

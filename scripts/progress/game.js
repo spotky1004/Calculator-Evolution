@@ -103,7 +103,7 @@
 function renderBasic() {
   $("#basedNumber").innerHTML = formatWithBase(game.number, game.base, game.digits, 1, 80);
   $("#money").innerHTML = dNotation(game.money, 5);
-  tempRes = '';
+  tempRes = ` <span style="filter: grayscale(${!game.programActive[1]*1})">(+${dNotation(calcMoneyGain(), 2, 2).padEnd(7, 'B').replace(/B/g, "&nbsp;")}$/s)</span>`;
   if (game.t2toggle) tempRes += ` | ${dNotation(game.researchPoint, 4, 0)} RP\n`;
   if (game.t3toggle) tempRes += ` | ${dNotation(game.qubit, 4, 0)} Qubit , ${dNotation(game.quantumLab, 4, 0)} Lab\n`;
   if (game.t4toggle) tempRes += ` | ${dNotation(game.singularityPower, 4, 0)} SP\n`;
@@ -371,7 +371,7 @@ function calcMaxBase() {
   return tempNum.floor(0);
 }
 function calcMoneyGain() {
-  moneyGain = D.max(0, calcCPU().mul(calcRealTgain()/3e4).mul(game.number));
+  moneyGain = D.max(0, calcCPU().mul(game.number));
   if (game.achievements.includes(1)) moneyGain = moneyGain.mul(1.25);
   if (game.achievements.includes(13)) moneyGain = moneyGain.mul(5);
   if (game.achievements.includes(13)) moneyGain = moneyGain.mul(10);
@@ -403,7 +403,7 @@ function calcProgram() {
     delRainbowEffect("#basedNumber");
   }
   if (game.programActive[1]) {
-    game.money = game.money.plus(calcMoneyGain());
+    game.money = game.money.plus(calcMoneyGain().mul(calcRealTgain()/3e4));
     rainbowEffect("#money");
   } else {
     delRainbowEffect("#money");
