@@ -371,7 +371,7 @@ function calcMaxBase() {
   return tempNum.floor(0);
 }
 function calcMoneyGain() {
-  moneyGain = D.max(0, calcCPU().mul(game.number));
+  moneyGain = D.max(0, calcCPU().mul(game.number)).div(3e4);
   if (game.achievements.includes(1)) moneyGain = moneyGain.mul(1.25);
   if (game.achievements.includes(13)) moneyGain = moneyGain.mul(5);
   if (game.achievements.includes(13)) moneyGain = moneyGain.mul(10);
@@ -403,7 +403,7 @@ function calcProgram() {
     delRainbowEffect("#basedNumber");
   }
   if (game.programActive[1]) {
-    game.money = game.money.plus(calcMoneyGain().mul(calcRealTgain()/3e4));
+    game.money = game.money.plus(calcMoneyGain().mul(calcRealTgain()));
     rainbowEffect("#money");
   } else {
     delRainbowEffect("#money");
