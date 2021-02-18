@@ -141,14 +141,14 @@ function hsvToRgb(h, s, v) {
     const keyCode = e.keyCode;
     keyDowns[keyCode] = true;
     if (!keyDowns[16]) {
-      if (keyCode == 49) activeProgram(0); // 1
-      if (keyCode == 50) activeProgram(1); // 2
-      if (keyCode == 51) activeProgram(2); // 3
-      if (keyCode == 52) activeProgram(3); // 4
-      if (keyCode == 53) activeProgram(4); // 5
-      if (keyCode == 54) activeProgram(5); // 6
-      if (keyCode == 55) activeProgram(6); // 7
-      if (keyCode == 56) for (var i = 0; i < 7; i++) if (calcProcessLeft() > 0) activeProgram(i);
+      if (keyCode == 49 || keyCode == 35) activeProgram(0); // 1
+      if (keyCode == 50 || keyCode == 40) activeProgram(1); // 2
+      if (keyCode == 51 || keyCode == 34) activeProgram(2); // 3
+      if (keyCode == 52 || keyCode == 37) activeProgram(3); // 4
+      if (keyCode == 53 || keyCode == 12) activeProgram(4); // 5
+      if (keyCode == 54 || keyCode == 39) activeProgram(5); // 6
+      if (keyCode == 55 || keyCode == 36) activeProgram(6); // 7
+      if (keyCode == 56 || keyCode == 38) for (var i = 0; i < 7; i++) if (calcProcessLeft() > 0) activeProgram(i); // 8
     }
 
     if (keyCode == 82) reboot(); // r
@@ -169,13 +169,13 @@ function hsvToRgb(h, s, v) {
 function calcExtraHotkeys() {
   if (keyDowns[16]) {
     // shift + 1 ~ 8
-    if (keyDowns[49]) researchBuy(0);
-    if (keyDowns[50]) researchBuy(1);
-    if (keyDowns[51]) researchBuy(2);
-    if (keyDowns[52]) researchBuy(3);
-    if (keyDowns[53]) researchBuy(4);
-    if (keyDowns[54]) researchBuy(5);
-    if (keyDowns[55]) researchBuy(6);
-    if (keyDowns[56]) researchBuy(7);
+    if (keyDowns[49] || keyDowns[35]) researchBuy(0);
+    if (keyDowns[50] || keyDowns[40]) researchBuy(1);
+    if (keyDowns[51] || keyDowns[34]) researchBuy(2);
+    if (keyDowns[52] || keyDowns[37]) researchBuy(3);
+    if (keyDowns[53] || keyDowns[12]) researchBuy(4);
+    if (keyDowns[54] || keyDowns[39]) researchBuy(5);
+    if (keyDowns[55] || keyDowns[36]) researchBuy(6);
+    if (keyDowns[56] || keyDowns[38]) researchBuy(7);
   }
 }
