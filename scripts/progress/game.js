@@ -288,7 +288,7 @@ function calcToggleTabs() {
   if (calcRPGain().gte(1)) game.t2toggle = 1;
   if (game.money.gte(1e80)) game.t3toggle = 1;
   if (game.quantumLab.gte(70)) game.t4toggle = 1;
-  if (!game.money.isFinite()) game.t5toggle = 1;
+  if (!game.money.isFinite() || game.t5resets.gte(1)) game.t5toggle = 1;
 }
 function activeProgram(num) {
   if (rebooting) return;
