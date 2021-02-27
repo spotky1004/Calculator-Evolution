@@ -6,6 +6,9 @@
   overflow: visible;
 }
 body {
+  --baseCol: #49d124;
+  --baseCol2: #369c1a;
+  --baseCol3: rgba(54, 156, 26, 0.5);
   --whiteglow: whiteGlow ease 5s infinite;
   --color: #fff;
   --shadow: 0 0 0.4vh #fff;
@@ -62,8 +65,8 @@ body {
   transition: 0s;
 }
 .t1Nav {
-  border: 0.35vh solid #49d124;
-  background-color: rgba(54, 156, 26, 0.5);
+  border: 0.35vh solid var(--baseCol);
+  background-color: var(--baseCol3);
   cursor: pointer;
   animation: greenGlow ease 5s infinite;
 }
@@ -108,6 +111,13 @@ body {
 .absoluteElement {
   position: absolute;
 }
+.t5Nav {
+  border: 0.35vh solid rgb(216, 89, 89);
+  background-color: #fff;
+  color: rgb(216, 89, 89);
+  cursor: pointer;
+  animation: hueRotate ease 8s infinite;
+}
 
 #commandArea {
   margin-left: 1.5vw;
@@ -120,6 +130,25 @@ body {
   opacity: 0.7;
   font-size: 1.9vh;
   animation: greenGlow ease 5s infinite;
+}
+
+#programStatusArea {
+  position: absolute;
+  top: 0.4vh; left: 0.2vw;
+}
+#programStatusArea > span {
+  display: block; float: left;
+  margin-right: 0.3vh;
+}
+#programStatusArea > span:not(:first-child) {
+  width: 1.3vh; height: 1.3vh;
+  border: 0.2vh solid var(--baseCol3);
+  background-color: rgba(0, 0, 0, 0);
+  transition: background-color cubic-bezier(.19,1.82,.96,-0.89) 0.4s, box-shadow cubic-bezier(.19,1.82,.96,-0.89) 0.4s;
+}
+#programStatusArea > span:not(:first-child).activated {
+  background-color: var(--baseCol3);
+  box-shadow: 0 0 0.6vh var(--baseCol);
 }
 
 #infoArea {
@@ -160,7 +189,7 @@ body {
 }
 .sectionTxt {
   margin: 1.4vh 0 0 3.5vw;
-  font-size: 2.5vh; color: #369c1a; text-shadow: 0 0 0.4vh #369c1a;
+  font-size: 2.5vh; color: var(--baseCol2); text-shadow: 0 0 0.4vh var(--baseCol2);
 }
 .sectionTxt:nth-of-type(1) {
   width: 12vw;
@@ -188,19 +217,19 @@ body {
   filter: blur(0);
 }
 .program:active {
-  border: 0.1vh solid #49d124;
-  background-color: rgba(54, 156, 26, 0.5);
+  border: 0.1vh solid var(--baseCol);
+  background-color: var(--baseCol3);
   filter: blur(0);
   transition: all 0s;
 }
 .program.active {
-  border: 0.1vh solid #49d124;
-  background-color: rgba(54, 156, 26, 0.5);
+  border: 0.1vh solid var(--baseCol);
+  background-color: var(--baseCol3);
   filter: blur(0);
   transition: all 0.3s;
 }
 .program.active:hover {
-  border: 0.1vh solid #49d124;
+  border: 0.1vh solid var(--baseCol);
   background-color: rgba(54, 156, 26, 0.8);
   filter: blur(0.1vh);
 }
@@ -262,11 +291,11 @@ body {
   transition: background-color 0s;
 }
 .machineArrow {
-  --arrowState: 1;
+  --arrowState: 1; --cCol: #3297c9;
   position: absolute; top: calc(var(--s) * 0.07); left: calc(var(--s) * 0.07);
   padding: calc(var(--s) * 0.02);
-  border: solid #3297c9;
-  mix-blend-mode: difference;
+  border: solid var(--cCol);
+  filter: brightness(2.6) drop-shadow(0 0 calc(var(--s) * 0.05) var(--cCol));
   border-width: 0 calc(var(--s) * 0.02) calc(var(--s) * 0.02) 0;
   display: inline-block;
   transform: rotate(calc(45deg + 90deg * var(--arrowState))) scale(0.5);
@@ -416,15 +445,15 @@ body {
 #rebootButton.disabled {
   cursor: auto;
   filter: grayscale(1);
-  color: #49d124; text-shadow: 0 0 0.4vh #49d124;
+  color: var(--baseCol); text-shadow: 0 0 0.4vh var(--baseCol);
   background-color: #2e8018;
-  border: 0.4vh solid #49d124;
+  border: 0.4vh solid var(--baseCol);
   box-shadow: 0 0 0 0 #2e8018 inset;
   transition: all 1s;
   animation: none;
 }
 #rebootDesc {
-  color: #49d124; font-size: 1.8vh;
+  color: var(--baseCol); font-size: 1.8vh;
   height: 6vh;
 }
 #rpDisplay {
@@ -516,8 +545,8 @@ body {
   border-spacing: 0.5vh;
 }
 #achWarp > tbody > tr > td {
-  width: 10vh; height: 10vh;
-  color: #fff; text-shadow: 0 0 1vh #fff; font-size: 1.5vh;
+  width: 9vh; height: 9vh;
+  color: #fff; text-shadow: 0 0 1vh #fff; font-size: 1.4vh;
   background-color: #080;
   transition: background-color 0.3s;
 }
@@ -546,8 +575,8 @@ body {
 .optionBtn {
   margin: 1vh 0 0 0; padding: 0.25vh 1vw;
   display: inline-block;
-  border: 0.35vh solid #49d124; border-radius: 0.5vh;
-  background-color: rgba(54, 156, 26, 0.5);
+  border: 0.35vh solid var(--baseCol); border-radius: 0.5vh;
+  background-color: var(--baseCol3);
   font-size: 3vh;
   cursor: pointer;
   transition: all ease 0.3s;
@@ -650,19 +679,20 @@ body {
   animation: quarkGlow ease 10s infinite;
 }
 #quantumUpgrades {
-  --s: min(50vw, 50vh); --n: 6; --s2: calc(var(--s) / var(--n) * 8 / 10 - 0.4vh); --m: calc(var(--s) / var(--n) / 10);
+  --s: min(50vw, 50vh); --n: 7; --s2: calc(var(--s) / var(--n) * 8 / 10 - 0.4vh); --m: calc(var(--s) / var(--n) / 10);
   margin: 1vh auto;
   width: var(--s); height: var(--s);
 }
 .quantumUpgrade {
   --col: #000; --col2: #000;
+  margin-right: var(--m);
   display: inline-block;
   margin-bottom: var(--m);
   width: var(--s2); height: var(--s2);
   border: 0.4vh solid var(--col); border-radius: var(--s2);
   background-color: #000;
   cursor: pointer;
-  transition: background-color 3s, transform 5s, opacity 2s;
+  transition: background-color 1s, transform 1.2s, opacity 0.4s;
   animation: quarkGlow ease 7.3s infinite;
 }
 .quantumUpgrade:not(.bought):hover {
@@ -676,9 +706,6 @@ body {
 }
 .quantumUpgrade.deactivated {
   opacity: 0.3;
-}
-.quantumUpgrade:not(:nth-child(6n)) {
-  margin-right: var(--m);
 }
 #quantumRespec {
   --tempOp: 0; --tempDis: none;
@@ -910,6 +937,21 @@ body {
   transition: all 0s;
 }
 
+.tab:nth-of-type(9) {
+  text-align: center;
+}
+#ipDisplay {
+  margin-top: 1vh;
+  font-size: 3.6vh;
+  text-shadow: 0 0 1vh rgb(233, 163, 163), 0 0 0.5vh rgb(233, 163, 163);
+  animation: hueRotate ease 12s infinite;
+}
+#ipDesc {
+  font-weight: bold;
+  font-size: 1.8vh;
+  color: #fff;
+}
+
 #debugInfoArea {
   position: absolute;
   pointer-events: none;
@@ -923,5 +965,5 @@ body {
 }
 
 .normalText {
-  color: #49d124; font-size: 1.8vh;
+  color: var(--baseCol); font-size: 1.8vh;
 }

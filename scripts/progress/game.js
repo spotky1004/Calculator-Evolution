@@ -98,25 +98,63 @@
   lastTpsRecord = new Date().getTime();
 
   bugfixerConfirm = 1;
+
+  for (let i = 0; i < 7; i++) {
+    var programStatusNode = document.createElement("span");
+    programStatusNode.classList.add("programStatusNode");
+    $("#programStatusArea").append(programStatusNode);
+  }
+
+  documentHold = 0;
+  document.onmousedown = function() {documentHold = 1};
+  document.onmouseup = function() {documentHold = 0; gridHold = undefined;};
+
+  // theme init
+  themeUrls = ['./themes/none.css', './themes/compact.css', './themes/aqua.css', './themes/magenta.css'];
+  themeName = ["Default", "Compact", "Aqua", "Magenta (by RedMountain)"];
+  var link = document.createElement( "link" );
+  link.id = "compactCssElement";
+  link.href = `./themes/none.css`;
+  link.type = "text/css";
+  link.rel = "stylesheet";
+  link.media = "screen,print";
+  document.getElementsByTagName( "head" )[0].appendChild( link );
+
+  // notation init
+  notationNames = ["Default", "Logarithm"];
+
 })();
 
 function renderBasic() {
-  $("#basedNumber").innerHTML = formatWithBase(game.number, game.base, game.digits, 1, 80);
+  $("#basedNumber").innerHTML = formatWithBase(game.number, game.base, game.digits, 1, 60);
   $("#money").innerHTML = dNotation(game.money, 5);
   tempRes = ` <span style="filter: grayscale(${!game.programActive[1]*1})">(+${dNotation(calcMoneyGain(), 2, 2).padEnd(7, 'B').replace(/B/g, "&nbsp;")}$/s)</span>`;
   if (game.t2toggle) tempRes += ` | ${dNotation(game.researchPoint, 4, 0)} RP\n`;
-  if (game.t3toggle) tempRes += ` | ${dNotation(game.qubit, 4, 0)} Qubit , ${dNotation(game.quantumLab, 4, 0)} Lab\n`;
+  if (game.t3toggle) tempRes += `
+   | ${(!keyDowns[17] ?
+     dNotation(game.qubit, 4, 0) + " Qubit":
+     `${game.qubit.sub(calcUsedQubit())}/${game.qubit} Qubit (next Qubit in ${timeNotation(D(3).pow(game.qubit.sub(calcChallengeDone()).add(1)).sub(game.qubitProgress).div(calcQubitSpeed()))})`
+     )} , 
+   ${dNotation(game.quantumLab, 4, 0)} Lab\n`;
+  // I'm lazy (just copied that from quantum.js, will fix) :v
   if (game.t4toggle) tempRes += ` | ${dNotation(game.singularityPower, 4, 0)} SP\n`;
   $("#otherRes").innerHTML = tempRes;
-  $("#memoryDigit").innerHTML = ("").padStart(Math.min(100, dNum(game.mDigits)-dNum(game.digits)), 0);
+  $("#memoryDigit").innerHTML = ("").padStart(Math.min(80, dNum(game.mDigits)-dNum(game.digits)), 0);
   $("#numberBase").innerHTML = game.base;
 
-  //tabs
+  // tabs
   $('#mainNav > .tabNav:nth-child(7)').style.display = (game.t3toggle ? 'inline-block' : 'none');
   $('#mainNav > .tabNav:nth-child(7)').classList[calcQuantumLabGain().gte(1)?"add":"remove"]("available")
   $('#mainNav > .tabNav:nth-child(8)').style.display = (game.t4toggle ? 'inline-block' : 'none');
+  $('#mainNav > .tabNav:nth-child(9)').style.display = (game.t5toggle ? 'inline-block' : 'none');
 
   commandFloat();
+
+  // programStatusArea
+  $("#programStatusArea").style.display = game.t3toggle ? "block" : "none";
+  [...document.getElementsByClassName("programStatusNode")].forEach((ele, idx) => {ele.classList[game.programActive[idx]?"add":"remove"]("activated")});
+  $("#programStatusProcess").innerHTML = `${calcMultiProcess()-calcProcessLeft()}/${calcMultiProcess()}`;
+
 }
 function renderModule() {
   $("#processes").innerHTML = `Process ${calcProcessActive()}/${calcMultiProcess()}`;
@@ -158,7 +196,7 @@ function renderShop() {
   $("#cpuSpeed").innerHTML = dNotation(calcCpuUpgradeEffect(), 4, 1);
 }
 function renderOption() {
-  for (var i = 0; i < 2; i++) {
+  for (var i = 0; i < 3; i++) {
     $('#optionToggle' + i).className = 'optionBtn' + ((game.optionToggle[i]) ? '' : ' disabled');
   }
 }
@@ -170,11 +208,11 @@ function renderBasicInfo() {
 }
 function renderStat() {
   $("#statsText").innerHTML = `You've played this game for ${timeNotation((new Date().getTime()-game.startTime)/1000)}`;
-  if (game.t2toggle) $("#statsText").innerHTML += `<br><br>You've done Reboot ${dNotation(game.t2resets)} times`;
+  if (game.t2toggle) $("#statsText").innerHTML += `<br><br>You've done Reboot ${dNotation(game.t2resets, 4, 0)} times`;
   if (game.t2toggle) $("#statsText").innerHTML += `<br>You spent ${timeNotation((new Date().getTime()-game.rebootTime)/1000)} in this Reboot`;
-  if (game.t3toggle) $("#statsText").innerHTML += `<br><br>You've done Quantum ${dNotation(game.t3resets)} times`;
+  if (game.t3toggle) $("#statsText").innerHTML += `<br><br>You've done Quantum ${dNotation(game.t3resets, 4, 0)} times`;
   if (game.t3toggle) $("#statsText").innerHTML += `<br>You spent ${timeNotation((new Date().getTime()-game.quantumTime)/1000)} in this Quantum`;
-  if (game.t4toggle) $("#statsText").innerHTML += `<br><br>You've done Singularity ${dNotation(game.t4resets)} times`;
+  if (game.t4toggle) $("#statsText").innerHTML += `<br><br>You've done Singularity ${dNotation(game.t4resets, 4, 0)} times`;
   if (game.t4toggle) $("#statsText").innerHTML += `<br>You spent ${timeNotation((new Date().getTime()-game.singularityTime)/1000)} in this Singularity`;
 }
 function renderCalcDebugInfo() {
@@ -191,8 +229,15 @@ function renderCalcDebugInfo() {
 }
 
 function goTab(num) {
+  // block locked tabs
   if (!game.t3toggle && num == 5) return;
   if (!game.t4toggle && num == 7) return;
+
+  // make, delete events
+  deleteEvents(tabNow);
+  makeEvents(num);
+
+  // go to tab
   if (!rebooting || game.t3toggle) {
     for (var i = 0; i < document.getElementsByClassName('tab').length; i++) {
       $(".tab:nth-of-type(" + (i+1) + ")").style.display = "none";
@@ -201,6 +246,12 @@ function goTab(num) {
     tabNow = num;
     renderAll();
   }
+}
+function deleteEvents(tab) {
+  // TODO
+}
+function makeEvents(tab) {
+  // TODO
 }
 function optionBtn(num) {
   game.optionToggle[num] ^= 1;
@@ -222,10 +273,22 @@ function setEffects() {
   $('body').style.setProperty('--color', game.optionToggle[0] ? '' : '#fff');
   $('body').style.setProperty('--shadow', game.optionToggle[0] ? '' : '0 0 2vw #fff');
 }
+function setTheme() {
+  document.getElementById("compactCssElement").href = themeUrls[game.theme];
+  document.getElementById("themeBtn").innerHTML = `Theme: ${themeName[game.theme]}`;
+}
+function setNotation() {
+  document.getElementById("notationBtn").innerHTML = `Notation: ${notationNames[game.notation]}`;
+}
+function basicInits() {
+  setTheme();
+  setNotation();
+}
 function calcToggleTabs() {
   if (calcRPGain().gte(1)) game.t2toggle = 1;
   if (game.money.gte(1e80)) game.t3toggle = 1;
   if (game.quantumLab.gte(70)) game.t4toggle = 1;
+  if (!game.money.isFinite()) game.t5toggle = 1;
 }
 function activeProgram(num) {
   if (rebooting) return;
@@ -278,7 +341,7 @@ function shopBuy(num) {
   renderShop();
 }
 function shopMaxBuy(num) {
-  var mPoint = 20, maxA = 2**mPoint;
+  var mPoint = 30, maxA = 2**mPoint;
   for (var i = 0; i < mPoint; i++) {
     maxA += 2**(mPoint-1-i)*((game.money.gte(calcShopCost(num, maxA)))*2-1);
   }
@@ -314,7 +377,7 @@ function resetGame() {
 function calcCpuUpgradeEffect() {
   var eff = D(2);
   if (game.quantumUpgradeBought.includes('11')) eff = eff.mul(1.1);
-  if (game.challengeEntered == 2) eff = eff.pow(0.75);
+  if (game.challengeEntered == 2 || game.challengeEntered == 7) eff = eff.pow(0.75);
   return eff;
 }
 function calcCPU() {
@@ -325,8 +388,9 @@ function calcCPU() {
   )).mul(getOverclockPower());
   tempVar = tempVar.mul(calcQubitEffect());
   if (game.quantumUpgradeBought.includes('14')) tempVar = tempVar.mul(D(9).pow(game.quantumLab));
-  if (game.quantumUpgradeBought.includes('15')) tempVar = tempVar.mul(D(30).pow(D.max(0, calcMaxDigit().sub(calcMaxDigit().lt(2000)?game.digits:0))));
+  if (game.quantumUpgradeBought.includes('15')) tempVar = tempVar.mul(D.max(1, D(30).pow(D.max(0, calcMaxDigit().sub(calcMaxDigit().lt(2000)?game.digits:0)))));
   if (game.quantumUpgradeBought.includes('16')) tempVar = tempVar.mul(game.researchPoint.add(1).pow(0.25));
+  if (game.quantumUpgradeBought.includes('17')) tempVar = tempVar.mul(D(10).pow(game.singularityPower.pow(0.5)));
   if (game.achievements.includes(25)) tempVar = tempVar.mul(25);
   return tempVar;
 }
@@ -359,14 +423,14 @@ function calcMaxDigit() {
   var tempNum = D(6);
   tempNum = tempNum.plus(game.researchLevel[2]);
   if (game.quantumUpgradeBought.includes('12')) tempNum = tempNum.plus(game.base.pow(0.6).floor());
-  if (game.challengeEntered == 1) tempNum = D.min(tempNum, 20);
+  if (game.challengeEntered == 1 || game.challengeEntered == 7) tempNum = D.min(tempNum, 20);
   tempNum = tempNum.add(singularityBoosts.DigitBoost);
   return tempNum.floor(0);
 }
 function calcMaxBase() {
   var tempNum = D(36);
   if (game.shopBought[0] >= 3) tempNum = tempNum.add(game.digits);
-  if (game.challengeEntered == 0) tempNum = D.min(50, tempNum);
+  if (game.challengeEntered == 0 || game.challengeEntered == 7) tempNum = D.min(50, tempNum);
   tempNum = tempNum.add(singularityBoosts.BaseBoost);
   return tempNum.floor(0);
 }
@@ -392,18 +456,18 @@ function getBaseIncreaseReq() {
     )
   ).sub(1);
 }
-function calcProgram() {
-  if (isProcessExceed()) game.programActive = [...new Array(15).fill(0)];
+function calcProgram(dt=0) {
+  if (isProcessExceed() && !game.quantumUpgradeBought.includes('47')) game.programActive = [...new Array(15).fill(0)];
   if (rebooting) return;
   if (game.programActive[0]) {
-    game.number = D.min(game.number.plus(calcCPU().mul(calcRealTgain())), game.base.pow(game.digits).sub(1));
+    game.number = D.min(game.number.plus(calcCPU().mul(calcRealDt(dt))), game.base.pow(game.digits).sub(1));
     game.rebootNum = D.max(game.number, game.rebootNum);
     rainbowEffect("#basedNumber");
   } else {
     delRainbowEffect("#basedNumber");
   }
   if (game.programActive[1]) {
-    game.money = game.money.plus(calcMoneyGain().mul(calcRealTgain()));
+    game.money = game.money.plus(calcMoneyGain().mul(calcRealDt(dt)));
     rainbowEffect("#money");
   } else {
     delRainbowEffect("#money");
@@ -412,7 +476,7 @@ function calcProgram() {
     if (game.number.gte(game.base.pow(game.digits).sub(1)) && game.digits.lt(game.mDigits)) {
       if (game.shopBought[4] < 1) game.number = game.number.sub(game.base.pow(game.digits).sub(1));
       game.digits = game.digits.plus(1);
-      if (game.quantumUpgradeBought.includes('45')) game.digits = D.min(D.max(game.digits, calcCPU().add(1).log(game.base)), calcMaxDigit());
+      if (game.quantumUpgradeBought.includes('45') && calcMaxDigit().gte(2000)) game.digits = D.min(D.max(game.digits, calcCPU().add(1).log(game.base)), calcMaxDigit());
     }
   }
   if (game.programActive[3]) {
@@ -436,7 +500,7 @@ function calcProgram() {
     shopBuy(5);
   }
   if (game.programActive[6]) {
-    game.durability = game.durability.sub(getOverclockPower().add(1).log(2).div(D.pow(1.1, game.researchLevel[4])).div(1000).mul(calcRealTgain()));
+    game.durability = game.durability.sub(getOverclockPower().add(1).log(2).div(D.pow(1.1, game.researchLevel[4])).div(1000).mul(calcRealDt(dt)));
 
     // minus bug fix
     if (game.durability.lte(0.01)) game.durability = D(0);
@@ -467,11 +531,9 @@ function calcProcessActive() {
 }
 function calcMultiProcess() {
   var maxProcess = game.researchLevel[1]+1;
-  maxProcess += Math.floor(Math.min(25/4, game.singularityPower.valueOf())*4);
+  maxProcess += Math.floor(Math.min(25, game.singularityPower.toNumber()*4)+Math.max(0, game.singularityPower.toNumber()*4-25)**0.5);
   if (game.achievements.includes(7)) maxProcess += 1;
-  if (game.achievements.includes(30)) maxProcess += 10;
-
-  if (game.challengeEntered == 7) maxProcess = Math.floor(maxProcess/10);
+  if (game.achievements.includes(34)) maxProcess += 10;
 
   return maxProcess;
 }

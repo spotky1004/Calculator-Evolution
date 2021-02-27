@@ -25,29 +25,39 @@ tempGame = {
   t2time: 0,
   t2resets: D(0),
   optionToggle: new Array(9).fill(1),
+  theme: 0,
+  notation: 0,
+  hyperMode: false,
   achievements: [],
   durability: D(1),
   t3toggle: 0,
   t3resets: D(0),
   quantumLab: D(0),
+  maxQuantumLab: D(0),
   qubit: D(0),
   qubitProgress: D(0),
   quantumUpgradeBought: [],
   quantumUpgradePreset: {},
-  quantumAutomateToggle: new Array(5).fill(1),
+  quantumAutomateToggle: new Array(7).fill(1),
   quantumTime: new Date().getTime(),
   t4toggle: 0,
   t4resets: D(0),
+  t4resetTime: 1e110,
   singularityTime: new Date().getTime(),
   singularityGrid: {},
-  singularityGridActivate: 0,
   singularityPower: D(0),
   wormholeChallengeProgress: new Array(8).fill(0),
+  challengeRecord: new Array(8).fill(D(0)),
   challengeEntered: -1,
-  challengeTime: new Date().getTime()
+  b: 0,
+  infinityPoint: D(0),
+  t5toggle: 0,
+  t5resets: D(0),
+  t5resetTime: 0
 };
 game = {};
 
+//            vvv    commandAppear=1
 function save(c=1) {
   if ((new Date().getTime())-game.lastRestoreSaved >= 1000*3600) {
     localStorage[`CalculatorEvolution2_restore${game.saveRestorePoint%24}`] = JSON.stringify(game);
@@ -59,7 +69,7 @@ function save(c=1) {
 }
 function load(c=1) {
   // type fix
-  // Number -> Deciamal
+  // Number(string) -> Deciamal
   for (const i in tempGame) {
     if (tempGame[i] instanceof Decimal) {
       game[i] = D(tempGame[i]);
@@ -81,7 +91,10 @@ function load(c=1) {
       }
     }
   }
-  // singularityGrid
+  for (var i = 0, l = game.challengeRecord.length; i < l; i++) {
+    game.challengeRecord[i] = D(game.challengeRecord[i]);
+  }
+  // Obj -> SingularityMachine
   for (var i in game.singularityGrid) {
     game.singularityGrid[i] = new SingularityMachine(game.singularityGrid[i]);
     game.singularityGrid[i].value = D(game.singularityGrid[i].value);
@@ -95,6 +108,17 @@ function load(c=1) {
       game.researchProgress.push(0);
     }
   }
+  if (game.b == 0) {
+    game.quantumUpgradeBought = [];
+    dokeepMilestone();
+    game.b++;
+  }
+
+  // offline progress delete
+  if (!game.optionToggle[2]) game.tLast = new Date().getTime();
+
+  // bug fix
+  game.quantumUpgradeBought = [...new Set(game.quantumUpgradeBought)];
 
   if (c) commandAppend('load', 70);
 }
@@ -119,4 +143,22 @@ function importGame() {
   } catch (e) {
     commandAppend('invaild savefile!', -110, 1);
   }
+  basicInits();
+}
+function undoGame() {
+  var uSave = JSON.parse(localStorage[`CalculatorEvolution2_restore${(game.saveRestorePoint-1)%24}`]);
+  if (game.saveRestorePoint-uSave.saveRestorePoint == 1) {
+    if (!confirm(`Are you sure to load ${timeNotation((new Date().getTime() - uSave.lastRestoreSaved)/1000)} ago save?`)) return;
+    game = uSave;
+    save(0);
+    load(0);
+    commandAppend("load backup #" + uSave.saveRestorePoint)
+  } else {
+    alert("no backup found!");
+  }
+  setTheme();
+}
+
+function openSavefileList() {
+  
 }

@@ -1,11 +1,11 @@
 var tickDone = 0, tSpeed = 0.033;
 setInterval( function () {
-  tGain = (new Date().getTime()-game.tLast)/1000*game.gameSpeed;
-  if (tGain >= 60) {
-    commandAppend(`${timeNotation(tGain)} of progress done!`, 0, 1);
+  var dt = (new Date().getTime()-game.tLast)/1000*game.gameSpeed;
+  if (dt >= 60*game.gameSpeed) {
+    commandAppend(`${timeNotation(dt/game.gameSpeed)} of progress done!`, 0, 1);
   }
   game.tLast = new Date().getTime();
-  calcAll();
+  calcAll(dt);
   calcExtraHotkeys();
   renderAll();
   renderCalcDebugInfo();
@@ -18,3 +18,4 @@ setInterval( function () {
 
 load();
 initAchievements();
+basicInits();

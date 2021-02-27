@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=B612+Mono&display=swap');
+* {
+    font-family: 'B612 Mono', monospace;
+}
+
+body {
+    --baseCol: #3eb8dd;
+    --baseCol2: #257ac0;
+    --baseCol3: #2b7bbd88;
+}
+
+.tabNav {
+    display: inline-block;
+    padding: 0.3vh 0.2vw 0.1vh 0.2vw;
+    border-radius: 0.3vh;
+}
+#warpAll {
+    background-color: rgb(0, 8, 15);
+}
+
+.shopBox {
+    filter: hue-rotate(50deg);
+}
+
+.research {
+    filter: hue-rotate(50deg);
+}
+.research:hover {
+    filter: brightness(1.05) hue-rotate(50deg);;
+    transform: scale(1.02);
+}
+.research:active {
+    filter: brightness(1.2) hue-rotate(50deg);;
+    transform: scale(1);
+    transition: all 0s;
+}
+
+#achWarp {
+    filter: hue-rotate(50deg);
+}

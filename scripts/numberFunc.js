@@ -1,31 +1,37 @@
 function dNum(infNum) {
-  return Number(infNum.valueOf());
+  return infNum.toNumber();
 }
-function dNotation(infNum, dim=0, preDim=dim) {
+function dNotation(infNum, dim=0, preDim=dim, notation=game.notation) {
   infNum = D(infNum);
-  if (infNum.gte(1e5)) {
-    return infNum.toExponential(Math.min(4, dim)).replace('+', '');
-  } else {
-    return infNum.toFixed(Math.max(0, preDim-infNum.toFixed(0).length+1));
+  if (infNum.lte(1e5)) return infNum.toFixed(Math.max(0, preDim-infNum.toFixed(0).length+1));
+  switch (notation) {
+    case 0:
+      return infNum.toExponential(Math.min(4, dim)).replace('+', '');
+    case 1:
+      return 'e' + dNotation(infNum.log(10), 6, 4, 0);
   }
 }
-function formatWithBase(infNum, base=2, len=D(1e300), padStart=0, maxLength=Infinity) {
+function formatWithBase(infNum, base=2, len=D(1e300), padStart=0, maxLength=Infinity, hy=game.hyperMode&&game.optionToggle[0]) {
   // ty Yahtzee Master#0168 to make this function for me :D
-  base = D(base);
-  infNum = D(infNum);
+  var base = D(base);
+  var infNum = D(infNum);
   if (infNum.eq(0)) return ("0").repeat(padStart?Number(len.valueOf()):1);
   let outputString = "";
   const logThing = Math.floor(infNum.log(base));
   if (infNum.gte(base.pow(len).sub(1))) return String.fromCharCode(getModifiedCharcode(base.sub(1).valueOf())).repeat(Math.min(maxLength, len.valueOf()));
   for (let index = 0; index <= Math.min(maxLength, logThing); index++) {
-    var strIdx = Number(infNum.div(base.pow(logThing-index)).mod(base).floor());
+    var tempCharcode = infNum.div(base.pow(logThing-index)).mod(base).floor();
+    var strIdx = +tempCharcode;
     infNum = infNum.sub(base.pow(logThing-index).mul(strIdx));
-    outputString += String.fromCharCode(getModifiedCharcode(strIdx));
+    outputString += (hy?`<span style="opacity: ${0.3+(tempCharcode.toNumber()+1)/base.toNumber()*0.7};">`:"") + String.fromCharCode(getModifiedCharcode(strIdx)) + (hy?"</span>":"");
   }
-  if (padStart && outputString.length <= maxLength) {
-    outputString = outputString.padStart(Number(len.valueOf()), '0');
+  if (padStart && hy) {
+    var needToPush = maxLength - outputString.replace(/(<([^<>]+)>)/g, '$1').length;
+    outputString = `<span style="opacity: 0.3">${'0'.repeat(Math.max(0, needToPush))}</span>` + outputString;
+  } else if (padStart && outputString.length <= maxLength) {
+    outputString = outputString.padStart(+(len.valueOf()), '0');
   }
-  if (outputString.length > maxLength) {
+  if (outputString.replace(/(<[^<>]+>)/g, '').length > maxLength) {
     outputString += "...";
   }
   return outputString;
@@ -38,7 +44,7 @@ function getModifiedCharcode(charCode) {
   if (charCode >= 66) p = p+34;
   if (charCode >= 78) p = p+1;
   charCode = charCode+48+p;
-  return charCode;
+  return charCode%0xFFFF;
 }
 function notationSI(num, dim=0) {
   if (num.eq(0)) return '0k';
@@ -62,19 +68,26 @@ function factorial(num) {
     return tempNum;
   }
 }
-function ordNum(num) {
-  num = D(num).floor();
-  var ordStr = "";
-  if (num.eq(1) || (num.gt(20) && num.mod(10).eq(1))) {
-    ordStr = "st";
-  } else if (num.eq(2) || (num.gt(20) && num.mod(10).eq(2))) {
-    ordStr = "nd";
-  } else if (num.eq(3) || (num.gt(20) && num.mod(10).eq(3))) {
-    ordStr = "rd";
-  } else {
-    ordStr = "th";
+function ordNum(num){
+  let numMod100 = num % 100
+  let ord = ""
+  if (Math.floor(numMod100 / 10) == 1) ord = "th"
+  else {
+    switch(numMod100 % 10) {
+    case 1:
+      ord = "st"
+      break;
+    case 2:
+      ord = "nd"
+      break;
+    case 3:
+      ord = "rd"
+      break;
+    default:
+      ord = "th"
+    }
   }
-  return num.valueOf() + ordStr;
+  return num + ord
 }
 function romanize (num) {
   if (num == 0) {

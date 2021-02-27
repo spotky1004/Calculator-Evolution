@@ -38,8 +38,8 @@ function renderResearch() {
   $('.research:nth-of-type(4)').style.display = ((game.researchLevel[0]>=1) ? "inline-block" : "none");
   $('.research:nth-of-type(5)').style.display = ((game.researchLevel[0]>=1) ? "inline-block" : "none");
   $('.research:nth-of-type(6)').style.display = ((game.researchLevel[3]>=1) ? "inline-block" : "none");
-  $('.research:nth-of-type(7)').style.display = ((game.researchLevel[5]>=1||(game.challengeEntered==5&&game.researchLevel[3]>=1)) ? "inline-block" : "none");
-  $('.research:nth-of-type(8)').style.display = ((game.researchLevel[6]>=1||(game.challengeEntered==5&&game.researchLevel[3]>=1)) ? "inline-block" : "none");
+  $('.research:nth-of-type(7)').style.display = ((game.researchLevel[5]>=1||((game.challengeEntered==5 || game.challengeEntered == 7)&&game.researchLevel[3]>=1)) ? "inline-block" : "none");
+  $('.research:nth-of-type(8)').style.display = ((game.researchLevel[6]>=1||((game.challengeEntered==5 || game.challengeEntered == 7)&&game.researchLevel[3]>=1)) ? "inline-block" : "none");
 }
 function renderOverclockInfo() {
   document.getElementById('overclockInfo').style.display = ((game.researchLevel[1]>=1)?"block":"none");
@@ -66,11 +66,11 @@ function calcRebootCooldown() {
 }
 function researchBuy(num) {
   // this if statments are too complex...
-  if (game.challengeEntered == 5 && (num == 4 || num == 5)) return;
+  if ((game.challengeEntered == 5 || game.challengeEntered == 7) && (num == 4 || num == 5)) return;
   if (((num == 3 || num == 4) && game.researchLevel[0] < 1)) return;
   if ((num == 5 && game.researchLevel[3] < 1)) return;
-  if (num == 6 && game.researchLevel[5] < 1 && game.challengeEntered != 5) return;
-  if (num == 7 && game.researchLevel[6] < 1 && game.challengeEntered != 5) return;
+  if (num == 6 && game.researchLevel[5] < 1 && (game.challengeEntered != 5 && game.challengeEntered != 7)) return;
+  if (num == 7 && game.researchLevel[6] < 1 && (game.challengeEntered != 5 && game.challengeEntered != 7)) return;
 
   if (game.quantumUpgradeBought.includes('42')) {
     researchMaxBuy(num);
@@ -85,6 +85,7 @@ function researchBuy(num) {
   }
 }
 function researchMaxBuy(num) {
+  if (game.researchPoint.lte(calcResearchCost(num, 0, game.researchSpeed[num])) || (!game.quantumUpgradeBought.includes('25') && game.money.lte(calcResearchCost(num, 1, game.researchSpeed[num])))) return;
   var mPoint = 20, eachMax = [2**mPoint, 2**mPoint];
   for (var i = 0; i < 2-game.quantumUpgradeBought.includes('25'); i++) {
     for (var j = 0; j < mPoint; j++) {
@@ -104,15 +105,28 @@ function researchMaxBuy(num) {
   }
 }
 
-function calcResearch() {
+function calcResearch(dt=0) {
   for (var i = 0; i < 9; i++) {
-    game.researchProgress[i] += Number(calcResearchSpeed(game.researchSpeed[i]).div(calcResearchDivide(i)).valueOf())*calcRealTgain();
+    game.researchProgress[i] += Number(calcResearchSpeed(game.researchSpeed[i]).div(calcResearchDivide(i)).valueOf())*calcRealDt(dt);
     if (game.researchProgress[i] >= 1) {
       game.researchProgress[i] = 0;
       game.researchLevel[i]++;
+
+      // max upgrade
+      var mPoint = 20, maxA = 2**mPoint, power = calcResearchSpeed(game.researchSpeed[i]).div(1000);
+      for (var j = 0; j < mPoint; j++) {
+        maxA += 2**(mPoint-1-j)*((power.gte(calcResearchDivide(i, maxA)))*2-1);
+      }
+      for (var j = 0; j < 6; j++) {
+        if (power.gt(calcResearchDivide(i, maxA))) maxA++;
+        if (power.lt(calcResearchDivide(i, maxA))) maxA--;
+      }
+      var bulkLv = maxA;
+      var bulkBuyCount = bulkLv-game.researchLevel[i]+1;
+      if (power.gte(calcResearchDivide(i, maxA)) && bulkBuyCount > 0) game.researchLevel[i] += bulkBuyCount;
     }
   }
-  if (game.quantumUpgradeBought.includes('43')) game.researchPoint = game.researchPoint.add(calcRPGain().gt(1) ? calcRPGain().mul(0.3*(1/calcRebootCooldown())*1000).mul(calcRealTgain()) : 0);
+  if (game.quantumUpgradeBought.includes('43')) game.researchPoint = game.researchPoint.add(calcRPGain().gt(1) ? calcRPGain().mul(0.3*(1/calcRebootCooldown())*1000).mul(calcRealDt(dt)) : 0);
   if (rebooting && game.t2time < new Date().getTime()-calcRebootCooldown()) {
     rebooting = 0;
     $('#rebootButton').className = "";
@@ -168,7 +182,8 @@ function calcPerResearchSpeedBaseBeforeMult() {
 function calcPerResearchSpeedBase() {
   var base = calcPerResearchSpeedBaseBeforeMult();
   if (game.quantumUpgradeBought.includes('23')) base = base.mul(10);
-  if (game.challengeEntered == 4) base = base.div(20);
+  if (game.quantumUpgradeBought.includes('27')) base = base.mul(4);
+  if (game.challengeEntered == 4 || game.challengeEntered == 7) base = base.div(20);
   return base;
 }
 function calcResearchSpeed(lv) {
@@ -183,32 +198,24 @@ function calcResearchSpeed(lv) {
     return D(0);
   }
 }
-function calcResearchDivide(num) {
-  switch (num) {
+function calcResearchDivide(idx, lv=game.researchLevel[idx]) {
+  switch (idx) {
     case 0:
-    return D(10).mul(factorial(game.researchLevel[num]+1));
-      break;
+    return D(10).mul(factorial(lv+1));
     case 1:
-    return D(20).mul(factorial(game.researchLevel[num]*2.5));
-      break;
+    return D(20).mul(factorial(lv*2.5));
     case 2:
-    return D(40).mul(factorial(game.researchLevel[num]*2+1));
-      break;
+    return D(40).mul(factorial(lv*2+1));
     case 3:
-    return D(5).mul(factorial(game.researchLevel[num]));
-      break;
+    return D(5).mul(factorial(lv));
     case 4:
-    return D(50).mul(factorial(game.researchLevel[num]));
-      break;
+    return D(50).mul(factorial(lv));
     case 5:
-    return D(5).mul(factorial(game.researchLevel[num]*2));
-      break;
+    return D(5).mul(factorial(lv*2));
     case 6:
-    return D(50).mul(factorial(game.researchLevel[num]**1.4));
-      break;
+    return D(50).mul(factorial(lv**1.4));
     case 7:
-    return D(150).mul(factorial(game.researchLevel[num]**2/2));
-      break;
+    return D(150).mul(factorial(lv**2/2));
     default:
     return D(Infinity);
   }

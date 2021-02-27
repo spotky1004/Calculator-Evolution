@@ -1,15 +1,15 @@
 @keyframes greenGlow {
   from {
-    color: #49d124;
-    text-shadow: 0 0 0.4vh #49d124;
+    color: var(--baseCol);
+    text-shadow: 0 0 0.4vh var(--baseCol);
   }
   50% {
-    color: #369c1a;
-    text-shadow: 0 0 1.2vh #369c1a;
+    color: var(--baseCol2);
+    text-shadow: 0 0 1.2vh var(--baseCol2);
   }
   to {
-    color: #49d124;
-    text-shadow: 0 0 0.4vh #49d124;
+    color: var(--baseCol);
+    text-shadow: 0 0 0.4vh var(--baseCol);
   }
 }
 @keyframes purpleGlow {
@@ -106,34 +106,34 @@
 }
 @keyframes rebootButtonGlow {
   from {
-    color: #49d124; text-shadow: 0 0 0.4vh #49d124;
-    background-color: #2e8018;
-    border: 0.4vh solid #49d124;
-    box-shadow: 0 0 0 0 #2e8018 inset;
+    color: var(--baseCol); text-shadow: 0 0 0.4vh var(--baseCol);
+    background-color: var(--baseCol2);
+    border: 0.4vh solid var(--baseCol);
+    box-shadow: 0 0 0 0 var(--baseCol2) inset;
   }
   45% {
-    color: #49d124; text-shadow: 0 0 3vh #49d124;
-    background-color: #2e8018;
-    border: 0.4vh solid #49d124;
-    box-shadow: 0 0 0.5vh 3vh #49d124 inset;
+    color: var(--baseCol); text-shadow: 0 0 3vh var(--baseCol);
+    background-color: var(--baseCol2);
+    border: 0.4vh solid var(--baseCol);
+    box-shadow: 0 0 0.5vh 3vh var(--baseCol) inset;
   }
   50% {
-    color: #2e8018; text-shadow: 0 0 1.2vh #2e8018;
-    background-color: #49d124;
-    border: 0.4vh solid #2e8018;
-    box-shadow: 0 0 0 0 #49d124 inset;
+    color: var(--baseCol2); text-shadow: 0 0 1.2vh var(--baseCol2);
+    background-color: var(--baseCol);
+    border: 0.4vh solid var(--baseCol2);
+    box-shadow: 0 0 0 0 var(--baseCol) inset;
   }
   95% {
-    color: #2e8018; text-shadow: 0 0 3vh #2e8018;
-    background-color: #49d124;
-    border: 0.4vh solid #2e8018;
-    box-shadow: 0 0 0.5vh 3vh #2e8018 inset;
+    color: var(--baseCol2); text-shadow: 0 0 3vh var(--baseCol2);
+    background-color: var(--baseCol);
+    border: 0.4vh solid var(--baseCol2);
+    box-shadow: 0 0 0.5vh 3vh var(--baseCol2) inset;
   }
   to {
-    color: #49d124; text-shadow: 0 0 0.4vh #49d124;
-    background-color: #2e8018;
-    border: 0.4vh solid #49d124;
-    box-shadow: 0 0 0 0 #2e8018 inset;
+    color: var(--baseCol); text-shadow: 0 0 0.4vh var(--baseCol);
+    background-color: var(--baseCol2);
+    border: 0.4vh solid var(--baseCol);
+    box-shadow: 0 0 0 0 var(--baseCol2) inset;
   }
 }
 @keyframes quantumButtonOverlapMove {

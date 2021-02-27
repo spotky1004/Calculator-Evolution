@@ -1,0 +1,25 @@
+* {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+.tabNav {
+    font-size: 2.2vh;
+    text-shadow: none !important;
+}
+
+.t1Nav {
+    background-color: #000;
+}
+.t2Nav {
+    color: #24d18c;
+    animation: none;
+}
+.t3Nav {
+    color: #d442f5;
+    animation: none;
+}
+.t4Nav {
+    color: #19306b;
+    animation: none;
+}

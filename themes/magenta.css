@@ -1,0 +1,96 @@
+body {
+    --baseCol: #b7c;
+    --baseCol2: #c6c;
+    --baseCol3: #b2b8;
+}
+
+.tabNav {
+    display: inline-block;
+    padding: 0.3vh 0.2vw 0.1vh 0.2vw;
+    border-radius: 0.3vh;
+}
+#warpAll {
+    background-color: rgb(50, 25, 70);
+}
+
+.shopBox {
+    filter: hue-rotate(140deg);
+}
+
+.research {
+    filter: hue-rotate(160deg);
+}
+.research:hover {
+    filter: hue-rotate(150deg);
+    transform: scale(1.02);
+    transition: all 0.2s;
+}
+.research:active {
+    filter: hue-rotate(160deg);
+    transform: scale(1);
+    transition: all 0.1s;
+}
+
+#achWarp {
+    filter: hue-rotate(150deg) brightness(1.15);
+}
+
+#rebootButton:not(.disabled):hover {
+  transform: scale(1.1);
+  filter: brightness(0.9) hue-rotate(-25deg);
+}
+#rebootButton:not(.disabled):active {
+  transform: scale(1);
+  filter: brightness(2) hue-rotate(-25deg);
+  transition: all 0s;
+}
+
+.quantumUpgrade {
+  border-radius: 15% !important;
+  transform: scale(0.8) rotate(45deg);
+  transition: all 0.2s;
+}
+.quantumUpgrade:hover {
+  border-radius: 20% !important;
+  transform: scale(0.9) rotate(45deg) !important;
+  transition: all 0.5s !important;
+}
+#achDesc {color: #ecf !important;}
+#achDesc span {
+  color: #fad !important;
+}
+#quantumUpgradeDesc p {
+  filter: brightness(1.3);
+}
+#quantumButton {
+  margin: 0 auto;
+  width: 20vw; height: 5.8vh;
+  font-size: 2vh;
+  border-radius: 0.5vh;
+  cursor: pointer;
+  color: #fff; text-shadow: 0 0 0.4vh #000, 0 0 0.4vh #000, 0 0 0.4vh #000;
+  border: 0.4vh solid #c954e3;
+  background: linear-gradient(
+    90deg,
+    #000 0%,
+    #90f 12.5%,
+    #b4f 25%,
+    #e6f 37.5%,
+    #f7c 50%,
+    #f7a 62.5%,
+    #f7d 75%,
+    #d5f 87.5%,
+    #000 100%
+  );
+  transition: all 0.4s;
+}
+#singularityGridInnerWarp > span {
+  display: block; float: left;
+  background: #325;
+}
+
+.program.active:hover {
+  border: 0.1vh solid var(--baseCol);
+  background-color: #95b !important;
+  filter: blur(0.05vh);
+}

@@ -4,20 +4,21 @@
     <meta charset="utf-8">
     <meta name="viewport" content="user-scalable=no">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="animation.css?ver=1.0.46">
-    <link rel="stylesheet" href="index.css?ver=1.0.46">
+    <link rel="stylesheet" href="animation.css?ver=1.1">
+    <link rel="stylesheet" href="index.css?ver=1.1">
     <script src="./scripts/decimalMin.js"></script>
-    <script src="./scripts/index.js?ver=1.0.46" defer></script>
-    <script src="./scripts/numberFunc.js?ver=1.0.46" defer></script>
-    <script src="./scripts/achievement.js?ver=1.0.46" defer></script>
-    <script src="./scripts/progress/game.js?ver=1.0.46" defer></script>
-    <script src="./scripts/progress/reboot.js?ver=1.0.46" defer></script>
-    <script src="./scripts/progress/quantum.js?ver=1.0.46" defer></script>
-    <script src="./scripts/progress/singularity.js?ver=1.0.46" defer></script>
-    <script src="./scripts/saveload.js?ver=1.0.46" defer></script>
-    <script src="./scripts/loop.js?ver=1.0.46" defer></script>
-    <script src="./scripts/reset.js?ver=1.0.46" defer></script>
-    <title>Calculator Evolution v1.0.46</title>
+    <script src="./scripts/index.js?ver=1.1" defer></script>
+    <script src="./scripts/numberFunc.js?ver=1.1" defer></script>
+    <script src="./scripts/achievement.js?ver=1.1" defer></script>
+    <script src="./scripts/progress/game.js?ver=1.1" defer></script>
+    <script src="./scripts/progress/reboot.js?ver=1.1" defer></script>
+    <script src="./scripts/progress/quantum.js?ver=1.1" defer></script>
+    <script src="./scripts/progress/singularity.js?ver=1.1" defer></script>
+    <script src="./scripts/progress/infinity.js?ver=1.1" defer></script>
+    <script src="./scripts/saveload.js?ver=1.1" defer></script>
+    <script src="./scripts/loop.js?ver=1.1" defer></script>
+    <script src="./scripts/reset.js?ver=1.1" defer></script>
+    <title>Calculator Evolution v1.1</title>
   </head>
   <body>
     <div id="warpAll">
@@ -36,6 +37,7 @@
         <span class="tabNav t2Nav" onclick="goTab(2)">Research</span>
         <span class="tabNav t3Nav" onclick="goTab(5)" style="display: none;"><span>Quantum</span></span>
         <span class="tabNav t4Nav" onclick="goTab(7)" style="display: none;">Singularity</span>
+        <span class="tabNav t5Nav" onclick="goTab(8)" style="display: none;">Infinity</span>
       </div>
       <div id="tabs">
         <!-- Module -->
@@ -106,7 +108,7 @@
                 Mine_2.0.exe
               </div>
               <div class="itemCost">
-                Cost: <span class="itemCostNum">1.0.4600e6$</span>
+                Cost: <span class="itemCostNum">0$</span>
               </div>
               <div class="itemDesc">
                 Multiply mine power by digits
@@ -371,7 +373,7 @@
             </div>
             <div class="research" onclick="researchBuy(7)">
               <div class="researchName">
-                Reboot Cool Down
+                Reboot Cooldown
               </div>
               <div class="researchProgress">
                 <span class="researchLevel">Lv.0</span>
@@ -413,12 +415,26 @@
           <div id="optionToggle1" class="optionBtn" onclick="optionBtn(1)">
             Info
           </div>
+          <div id="optionToggle2" class="optionBtn" onclick="optionBtn(2)">
+            Offline Progress
+          </div>
           <br>
+          <div id="themeBtn" class="optionBtn" onclick="game.theme=(game.theme+1)%themeUrls.length;setTheme();">Theme: None</div>
+          <br>
+          <div id="notationBtn" class="optionBtn" onclick="game.notation=(game.notation+1)%notationNames.length;setNotation();">Notation: Default</div>
+          <br>
+          <div class="optionBtn" onclick="openSavefileList()" style="display: none;">
+            Savefiles
+          </div>
+          <br style="display: none;">
           <div class="optionBtn" onclick="exportGame()">
             Export
           </div>
           <div class="optionBtn" onclick="importGame()">
             Import
+          </div>
+          <div class="optionBtn" onclick="undoGame()">
+            Undo
           </div>
           <br>
           <div id="hardResetBtn" class="optionBtn" onclick="resetGame()">
@@ -436,7 +452,9 @@
             Shift + 1 ~ 8: Buy research 1 ~ 8<br>
             A, S, D, F, G, H, J: Open tabs<br>
             R: reboot<br>
-            Q: build lab
+            Q: build lab<br>
+            Ctrl: See advanced informations<br><br>
+            Shift + H: Toggle Hyper mode! - More fancy effects, more lag!
           </div>
         </div>
         <!-- Quantum -->
@@ -461,7 +479,8 @@
             <div id="quantumRespec" onclick="quantumUpgradeRespec()">
               Respec <span style="opacity: var(--tempOp); display: var(--tempDis)">& Quantum Reset<span>
             </div>
-            <div id="quantumRestart" onclick="quantumRestart()">
+            <div id="quantumRestart" onclick="quantumRestart()" style="display: none;">
+              <!-- rip, Reset Quantum run button -->
               Restart <span style="opacity: var(--tempOp); display: var(--tempDis)">Quantum Run<span>
             </div>
           </div>
@@ -496,7 +515,7 @@
                 Go singularity 0/2 times to enter Challenge (Increases per challenge complete)
               </div>
               <div id="challengeDesc">
-                Reward of challenges are one of it's Machine, a Incrementer, a SP and a Extra Qubit
+                Reward of challenges are <span id="challengeRewardMachine" style="color: inherit; text-shadow: inherit;">one of it's Machine</span>, a Incrementer, a SP and an Extra Qubit
               </div>
             </div>
             <div id="wormholeChallengeInnerWarp">
@@ -507,9 +526,21 @@
             </div>
           </div>
         </div>
+        <!-- Infinity -->
+        <div class="tab" style="display: none;">
+          <div id="ipDisplay" style="color: white;">
+            You have 0 Infinity Points
+          </div>
+          <div id="ipDesc">
+            If you go Infinity now, you'll get x IP<br><br>Infinity upgrades coming soon :D
+          </div>
+        </div>
       </div>
       <div id="commandArea">
 
+      </div>
+      <div id="programStatusArea">
+        <span style="font-size: 1.4vh" id="programStatusProcess" class="normalText">0/10</span>
       </div>
       <div id="infoArea">
         <div id="basicInfo">
@@ -524,6 +555,9 @@
       </div>
       <div id="debugInfoArea">
         TPS: 0
+      </div>
+      <div id="savelistArea">
+        
       </div>
     </div>
   </body>

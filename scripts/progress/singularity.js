@@ -9,7 +9,7 @@
     QubitBoost: {color: "#630b56", name: "Qubit", hasBoost: true, boostType: "mul", challengeIdx: 6, idx: 6},
     Incrementer: {color: "#0b3763", name: "Incrementer", hasBoost: false, idx: 7},
     Booster: {hasArrow: false, color: "#808080", name: "Booster", hasBoost: true, challengeIdx: 7, idx: 8},
-    Merger: {hasTier: false, hasValue: false, color: "#000000", name: "Merger", hasBoost: false, idx: 9},
+    Merger: {hasTier: false, color: "#000000", name: "Merger", hasBoost: false, idx: 9},
     Output: {hasArrow: false, hasTier: false, hasValue: false, name: "Output", hasBoost: false, idx: 10}
   }
   machineIdx = ["BaseBoost", "DigitBoost", "MoneyBoost", "RpBoost", "ResearchSpeedBoost", "SpeedBoost", "QubitBoost", "Incrementer", "Booster", "Merger", "Output"];
@@ -22,7 +22,7 @@
     "Divide research upgrade effect by 20",
     "Lock Durability and Max durability research",
     "Reduce Quantum Lab requirement isn't allowed",
-    "Divide max process by 10"
+    "Effects of all previous Challenges"
   ]
 
   // singularityGridBlock
@@ -30,6 +30,7 @@
     var gridNode = document.createElement("span");
     gridNode.classList.add("singularityGridBlock");
     gridNode.onclick = new Function(`singularityGridClick(${i%5}, ${Math.floor(i/5)}, "l")`);
+    gridNode.onmousedown = new Function(`singularityGridDown(${i%5}, ${Math.floor(i/5)})`);
     gridNode.addEventListener('contextmenu', new Function(`singularityGridClick(${i%5}, ${Math.floor(i/5)}, "r")`));
     gridNode.onmouseover = new Function(`singularityGridOver(${i%5}, ${Math.floor(i/5)})`);
     gridNode.onmouseout = new Function(`singularityGridOut()`);
@@ -127,6 +128,7 @@
   selectedMachine = -1; // machineIdx[i]
   gridOn = undefined; // {x: 0, y: 0}
   gridEditing = 1;
+  gridHold = undefined;
   singularityBoostsBase = {
     BaseBoost: D(0),
     DigitBoost: D(0),
@@ -137,7 +139,10 @@
     QubitBoost: D(1)
   };
   singularityBoosts = {};
+  mergerWorks = {};
   for (var i in singularityBoostsBase) singularityBoosts[i] = D(singularityBoostsBase[i]);
+
+  gridTestMode = 0;
 })();
 
 // basic
@@ -147,40 +152,45 @@ function singularity() {
 
   game.t4resets = game.t4resets.add(1);
   game.singularityPower = game.singularityPower.add(calcSingularityPowerGain());
+  game.t4resetTime = Math.min(game.t4resetTime, new Date().getTime() - game.singularityTime);
   singularityReset();
 
   commandAppend(`Go singularity (${ordNum(game.t4resets)})`, (30+game.t4resets.toNumber()*3)%360, 1);
 }
 function renderSingularity() {
   $("#singularityButton").className = game.quantumLab.gte(80) ? "" : "disabled";
-  $("#singularityDesc").innerHTML = game.quantumLab.gte(80) ? `If you go singularity now, you'll get <b>${dNotation(calcSingularityPowerGain())} SP</b> ${game.quantumLab.lt(500) ? `(next SP at ${calcSingularityPowerGain(1)} QL)`: ''}` : 'You need 80 Quantum Labs to go Singularity';
+  $("#singularityDesc").innerHTML = game.quantumLab.gte(80) ? `If you go singularity now, you'll get <b>${dNotation(calcSingularityPowerGain(), 4, 0)} SP</b> ${game.quantumLab.lt(500) ? `(next SP at ${calcSingularityPowerGain(1)} QL)`: ''}` : 'You need 80 Quantum Labs to go Singularity';
   $("#singularityDesc").innerHTML += `<br>You have <b><span style="color: #fff;">${dNotation(game.singularityPower, 4, 0)} Singularity Power</span></b>`;
-  $("#singularityDesc").innerHTML += `<br>Each SP increases Multi Process by 4 (tot ${Math.floor(Math.min(25/4, game.singularityPower.valueOf())*4)}, cap at 25)`
-  $("#singularityDesc").innerHTML += `<br>And boosts grid machine Power by x${dNotation(game.singularityPower.pow(4), 4, 0)}`;
-  $("#singularityDesc").innerHTML += `<br>Have ${3**calcMilestoneDone()*2} SP to retain Keep ${romanize(calcMilestoneDone()+1).toUpperCase()}`;
+  $("#singularityDesc").innerHTML += `<br>Each SP increases Multi Process by 4 (tot ${Math.floor(Math.min(25, game.singularityPower.toNumber()*4)+Math.max(0, game.singularityPower.toNumber()*4-25)**0.5)}, softcap at 25)`
+  $("#singularityDesc").innerHTML += `<br>And boosts grid machine Power by x${dNotation(game.singularityPower.pow(4).pow(game.quantumUpgradeBought.includes('75')?D(1).add(game.singularityPower.log(10).pow(0.8)):1), 4, 0)}`;
+  if (calcMilestoneDone() < 7) $("#singularityDesc").innerHTML += `<br>Have ${2**calcMilestoneDone()*2} SP to retain Keep ${romanize(calcMilestoneDone()+1).toUpperCase()}`;
   $("#wormholeChallengeWarp").style.display = game.t4resets.gte(2) ? "block" : "none";
   $("#gridReq").innerHTML = `Complete ${4-(calcChallengeDone()+3)%4} more challenge to unlock ${ordNum(calcGridOpened()+1)} Grid space`;
-  //$("#challengeReq").innerHTML = `Go singularity ${dNotation(game.t4resets.toNumber(), 4, 0)}/${calcWormholeChallengeReq()} times to enter Challenge (Increases per challenge complete)`;
+  $("#challengeRewardMachine").style.color = game.challengeEntered == -1 ? "inherit" : singularityMachineData[challengeIdx[game.challengeEntered]].color;
+  $("#challengeRewardMachine").style.textShadow = game.challengeEntered == -1 ? "inherit" : `0 0 0.3vh ${singularityMachineData[challengeIdx[game.challengeEntered]].color}`;
   [...document.getElementsByClassName("wormholeChallengeName")].forEach((ele, idx) => ele.innerHTML = `${singularityMachineData[challengeIdx[idx]].name} Challenge (${game.wormholeChallengeProgress[idx]}/10)`);
   [...document.getElementsByClassName("wormholeChallenge")].forEach((ele, idx) => ele.style.setProperty("--progress", `${10*game.wormholeChallengeProgress[idx]}%`));
   [...document.getElementsByClassName("wormholeChallengeEffect")].forEach((ele, idx) => ele.innerHTML = challengeDesc[idx]);
-  [...document.getElementsByClassName("wormholeChallengeGoal")].forEach((ele, idx) => ele.innerHTML = `Goal: ${dNotation(calcChallengeGoal(idx), 4, 0)} QL`);
+  [...document.getElementsByClassName("wormholeChallengeGoal")].forEach((ele, idx) => ele.innerHTML = game.wormholeChallengeProgress[idx] == 10 ? `Record: ${game.challengeRecord[idx]} QL` : `Goal: ${dNotation(calcChallengeGoal(idx), 4, 0)} QL`);
   $("#exitChallenge").style.display = game.challengeEntered == -1 ? "none" : "block";
 }
-function calcSingularity() {
+function calcSingularity(dt) {
   for (var i in singularityBoostsBase) singularityBoosts[i] = D(singularityBoostsBase[i]);
-  for (var i in game.singularityGrid) game.singularityGrid[i].update();
+  for (var i in game.singularityGrid) game.singularityGrid[i].update(dt);
+  for (var i in mergerWorks) mergerWorks[i] = [...new Set(mergerWorks[i])];
+  if (game.achievements.includes(33)) game.singularityPower = game.singularityPower.add(calcSingularityPowerGain().mul(game.quantumUpgradeBought.includes('78')?calcRealDt(dt):dt).div(10));
   if (game.challengeEntered != -1) {
+    game.challengeRecord[game.challengeEntered] = D.max(game.challengeRecord[game.challengeEntered], game.quantumLab);
     if (game.quantumLab.gte(calcChallengeGoal(game.challengeEntered))) {
-      if (game.wormholeChallengeProgress[game.challengeEntered] < 10) game.wormholeChallengeProgress[game.challengeEntered]++;
-      game.singularityPower = game.singularityPower.add(1);
-      game.challengeEntered = -1;
-      singularityReset();
-      commandAppend("Challenge Done!", 30, 1);
-    } else if (calcChallengeTimeLeft() < 0) {
-      /*game.challengeEntered = -1;
-      singularityReset();
-      commandAppend("Challenge Fail...", 30, 1);*/
+      if (game.wormholeChallengeProgress[game.challengeEntered] < 10) {
+        game.wormholeChallengeProgress[game.challengeEntered]++;
+        game.singularityPower = game.singularityPower.add(1);
+        commandAppend(`Challenge Done! (x${game.wormholeChallengeProgress[game.challengeEntered]-1})`, 30, 1);
+        if (!game.achievements.includes(29)) {
+          game.challengeEntered = -1;
+          singularityReset();
+        }
+      }
     }
   }
 }
@@ -197,12 +207,13 @@ function renderGrid() {
         var tempObj = singularityMachineData[thisMachine.type];
         tempEle[0].innerHTML = thisMachine.tier;
         tempEle[1].innerHTML = tempObj.name;
-        tempEle[2].innerHTML = dNotation(thisMachine.value, 3, 2);
+        tempEle[2].innerHTML = dNotation(thisMachine.value, 2, 2);
         tempEle[3].style.setProperty("--arrowState", thisMachine.rotate);
         tempEle[0].style.display = typeof tempObj.hasTier == "undefined" || tempObj.hasTier == 1 ? "block" : "none";
         tempEle[1].style.display = typeof tempObj.hasName == "undefined" || tempObj.hasName == 1 ? "block" : "none";
         tempEle[2].style.display = typeof tempObj.hasValue == "undefined" || tempObj.hasValue == 1 ? "block" : "none";
         tempEle[3].style.display = typeof tempObj.hasArrow == "undefined" || tempObj.hasArrow == 1 ? "block" : "none";
+        tempEle[3].style.setProperty("--cCol", tempObj.color);
       } else {
         for (var j = 0; j < 4; j++) tempEle[j].style.display = "none";
       }
@@ -223,8 +234,10 @@ function renderGrid() {
 }
 function singularityMachineChanged() {
   for (var i in game.singularityGrid) game.singularityGrid[i].value = D(1);
+  mergerWorks = {};
 }
 function getSingularityMachineHave(name) {
+  if (gridTestMode) return 25;
   if (challengeIdx.includes(name)) {
     return game.wormholeChallengeProgress[singularityMachineData[name].challengeIdx]+(name=="MoneyBoost");
   }
@@ -233,20 +246,24 @@ function getSingularityMachineHave(name) {
       return 2+calcChallengeDone();
     case "Output":
       return 1;
+    case "Merger":
+      return game.achievements.includes(33)*2;
   }
   return 0;
 }
 function wormholeChallengeEnter(idx) {
   if (game.challengeEntered == -1) {
-    if (!canJoinWormholeChallenge() || !(calcChallengeDone() > 10 || confirm(`Do you want to enter wormhole challenge?\nEntering will preform Singularity reset without SP`))) return;
+    if (!canJoinWormholeChallenge() || !(calcChallengeDone() > 10 || confirm(`Do you want to enter wormhole challenge?\nEntering will perform Singularity reset without SP`))) return;
     game.challengeTime = new Date().getTime();
     game.challengeEntered = idx;
+    game.quantumUpgradeBought = [];
     singularityReset();
+   if (game.achievements.includes(32) && game.wormholeChallengeProgress[game.challengeEntered] != 10 && game.challengeEntered != 7) game.quantumLab = D.min(game.maxQuantumLab, calcChallengeGoal(idx).div(2)).floor(0);
   }
 }
 function renderSingularityInfo() {
   $("#singularityInfo").style.display = game.challengeEntered != -1 ? "block" : "none";
-  $("#singularityInfo").innerHTML = `In Challenge ${game.challengeEntered+1} (QL ${dNotation(game.quantumLab, 4, 0)}/${dNotation(calcChallengeGoal(game.challengeEntered), 4, 0)})`;
+  if (game.challengeEntered != -1) $("#singularityInfo").innerHTML = `In ${singularityMachineData[challengeIdx[game.challengeEntered]].name} Challenge x${game.wormholeChallengeProgress[game.challengeEntered]} - QL ${dNotation(game.quantumLab, 4, 0)}/${dNotation(calcChallengeGoal(game.challengeEntered), 4, 0)}`;
 }
 
 // dom
@@ -259,22 +276,38 @@ function singularityGridClick(x, y, side='l') {
     if (typeof thisMachine == "undefined") {
       if (selectedMachine == -1 || machineHave-clacMachineUsed(thisName) < 1 || calcProcessLeft() < 1) break f1;
       game.singularityGrid[x + '' + y] = new SingularityMachine({position: {x: x, y: y}, rotate: 0, tier: 0, type: thisName, value: D(1)});
+      if (machineHave-clacMachineUsed(thisName) < 1) selectedMachine = -1;
       singularityMachineChanged();
     } else if (thisName == thisMachine.type) {
-      for (let i = 0; i < 1+keyDowns[16]*8; i++) {
+      for (let i = 0; i < 1+(keyDowns[16]?1:0)*8; i++) {
         if (machineHave-clacMachineUsed(thisName) < 1 || calcProcessLeft() < 1 || thisMachine.tier >= 9) break f1;
         game.singularityGrid[x + '' + y].tier++;
+        if (machineHave-clacMachineUsed(thisName) < 1) selectedMachine = -1;
       }
     } else {
       thisMachine.rotate = (thisMachine.rotate+1)%4;
       singularityMachineChanged();
     }
   } else {
+    if (typeof game.singularityGrid[x + '' + y] == "undefined") break f1;
     delete game.singularityGrid[x + '' + y];
     singularityMachineChanged();
   }
 }
+function singularityGridDown(x, y) {
+  documentHold = 1;
+  if (documentHold) gridHold = {x: x, y: y};
+}
 function singularityGridOver(x, y) {
+  if (typeof gridHold != "undefined" && !(gridHold.x == x && gridHold.y == y)) {
+    var tempDeg = (Math.atan2(x - gridHold.x, y - gridHold.y)*2/Math.PI+4)%4;
+    if (tempDeg%2 == 1) tempDeg = (tempDeg+2)%4;
+    if (typeof game.singularityGrid[gridHold.x + '' + gridHold.y] != "undefined") {
+      game.singularityGrid[gridHold.x + '' + gridHold.y].rotate = Math.floor(tempDeg);
+      singularityMachineChanged();
+    }
+    gridHold = {x: x, y: y};
+  }
   gridOn = {x: x, y: y};
   renderGridSideInfo();
 }
@@ -288,12 +321,28 @@ function renderGridSideInfo() {
   if (typeof thisMachine != "undefined") {
     var thisData = singularityMachineData[thisMachine.type];
     thingToWrite += `Name: ${singularityMachineData[thisMachine.type].name}`;
-    if (thisData.hasTier != false) thingToWrite += `<br>Tier: ${dNotation(thisMachine.tier, 0, 0)} / 9`;
-    if (thisData.hasValue != false) thingToWrite += `<br>Value: ${dNotation(thisMachine.value, 4, 2)}`;
-    if (thisData.hasValue != false) thingToWrite += `<br>> Power: ${dNotation(thisMachine.getPower(), 4, 2)}`;
-    if (thisData.hasBoost) thingToWrite += `<br>&nbsp;> Boost: ${thisMachine.getBoostString()}`;
+    if (thisMachine.type != "Merger") {
+      if (thisData.hasTier != false) thingToWrite += `<br>Tier: ${dNotation(thisMachine.tier, 0, 0)} / 9`;
+      if (thisData.hasValue != false) thingToWrite += `<br>Value: ${dNotation(thisMachine.value, 4, 2)}`;
+      if (thisData.hasValue != false) thingToWrite += `<br>> Power: ${dNotation(thisMachine.getPower(), 4, 2)}`;
+      if (thisData.hasBoost) thingToWrite += `<br>&nbsp;> Boost: ${thisMachine.getBoostString()}`;
+    } else if (typeof mergerWorks[gridOn.x + '' + gridOn.y] != "undefined") {
+      var m = [...new Set(mergerWorks[gridOn.x + '' + gridOn.y])];
+      thingToWrite += "<br><br>Boost List<br>---------------";
+      for (var i = 0; i < m.length; i++) {
+        var tempMachine = game.singularityGrid[m[i]];
+        if (tempMachine.type == "Merger") continue;
+        var tempData = singularityMachineData[tempMachine.type];
+        if (tempData.hasBoost != false) thingToWrite += `<br><span style="color: ${tempData.color}; text-shadow: 0 0 1vh ${tempData.color}; filter: brightness(1.8);">${tempMachine.getBoostString(m.concat([gridOn.x + '' + gridOn.y]))}</span>`;
+      }
+    }
     if (gridEditing) {
-      thingToWrite += selectedMachine != thisData.idx ? `<br><br>LM: rotate` : `<br><br>LM: upgrade<br>Shift+LM: max upgrade`;
+      thingToWrite += "<br>";
+      if (selectedMachine != thisData.idx && thisData.hasArrow != false) {
+        thingToWrite += `<br>LM: rotate`;
+      } else if (thisData.hasTier != false) {
+        thingToWrite += `<br>LM: upgrade<br>Shift+LM: max upgrade`;
+      }
       thingToWrite += `<br>RM: remove`;
     }
   } else if (typeof gridOn != "undefined") {
@@ -306,6 +355,7 @@ function renderGridSideInfo() {
   $("#singularityEffects").innerHTML = thingToWrite;
 }
 function singularityMachineSelect(idx) {
+  if (getSingularityMachineHave(machineIdx[idx])-clacMachineUsed(machineIdx[idx]) < 1) return;
   selectedMachine = selectedMachine != idx ? idx : -1;
 }
 
@@ -318,12 +368,21 @@ function calcSingularityPowerGain(calcNext=0, baseRes=game.quantumLab) {
   var tempSpGain4 = D.max(0, tempSpGain3).floor(0); // floor, fix before mul
 
   // multiplies
-  if (game.achievements.includes(30)) tempSpGain4 = tempSpGain4.mul(4);
+  if (game.achievements.includes(34)) tempSpGain4 = tempSpGain4.mul(4);
+  if (game.quantumUpgradeBought.includes('72')) tempSpGain4 = tempSpGain4.mul(D(10).mul(((new Date().getTime() - game.singularityTime)/1000)**0.6));
+  if (game.quantumUpgradeBought.includes('73')) tempSpGain4 = tempSpGain4.mul(D(2).pow(D(game.quantumLab).pow(1/3)));
+  if (game.quantumUpgradeBought.includes('74')) tempSpGain4 = tempSpGain4.mul(game.challengeRecord.reduce((a, b) => a.mul(b.add(1)), D(1)).pow(1/4));
+  if (game.quantumUpgradeBought.includes('76')) tempSpGain4 = tempSpGain4.mul(calcMultiProcess());
 
-  return tempSpGain4; // return SP gain
+  // return SP gain
+  if (baseRes.lt(80)) return D(0);
+  return tempSpGain4;
 }
 function calcGridOpened() {
-  return Math.min(25, 4+Math.floor((calcChallengeDone()+3)/4));
+  if (gridTestMode) return 25;
+  var tempSpace = Math.min(25, 4+Math.floor((calcChallengeDone()+3)/4));
+  if (game.achievements.includes(33)) tempSpace += 2;
+  return tempSpace;
 }
 function clacMachineUsed(name) {
   if (typeof name == "number") name = machineIdx[name];
@@ -333,7 +392,8 @@ function clacMachineUsed(name) {
 }
 function calcGridMult() {
   var mul = D(1);
-  mul = mul.mul(game.singularityPower.pow(4));
+  mul = mul.mul(game.singularityPower.pow(4).pow(game.quantumUpgradeBought.includes('75')?D(1).add(game.singularityPower.log(10).pow(0.8)):1));
+  if (game.quantumUpgradeBought.includes('71')) mul = mul.mul(D(1.01).pow(game.quantumLab).mul(game.quantumLab.pow(2)).add(1));
   return mul;
 }
 function calcWormholeChallengeReq() {
@@ -345,8 +405,8 @@ function canJoinWormholeChallenge() {
 function canEnterWoemholeChallenge() {
   return game.t4resets.gte(calcWormholeChallengeReq());
 }
-function calcRealTgain() {
-  return tGain*singularityBoosts.SpeedBoost.toNumber()*(game.achievements.includes(31)?2:1);
+function calcRealDt(dt=0) {
+  return D(dt).mul(singularityBoosts.SpeedBoost).mul(game.achievements.includes(37)?2:1);
 }
 function calcChallengeDone() {
   return game.wormholeChallengeProgress.reduce((a, b) => a + b, 0);
@@ -367,27 +427,30 @@ function calcChallengeGoal(idx, lv=game.wormholeChallengeProgress[idx]) {
       goal = D(3).mul((lv/2+1)**2);
       break;
     case 4:
-      goal = D(10).add(lv**3);
+      goal = D(10).add(lv**2);
       break;
     case 5:
       goal = D(50).add(10*lv);
       break;
     case 6:
-      goal = D(80).add((10+lv)*lv);
+      goal = D(73).add((10+lv)*lv);
       break;
     case 7:
-      goal = D(Infinity).add((7+lv**2)*lv);
+      goal = D(202).mul(lv/10+1);
       break;
   }
   if (lv >= 5) goal = goal.pow(lv/25+0.8);
   if (game.achievements.includes(29)) goal = goal.sub(2);
+  if (lv == 10) goal = D(Infinity);
   return D.max(1, goal.floor(0));
 }
 function calcChallengeTimeLeft() {
   return (game.challengeTime - new Date().getTime())/1000 + 60*30;
 }
 function calcMilestoneDone() {
-  return D.max(D(game.singularityPower).div(2).log(3).add(1), 0).floor(0).toNumber();
+  var tempDone = D.max(D(game.singularityPower).div(2).log(2).add(1), 0).floor(0).toNumber();
+  tempDone = Math.min(game.achievements.includes(30)?7:6, tempDone);
+  return tempDone;
 }
 
 // SingularityMachine
@@ -400,19 +463,45 @@ class SingularityMachine {
     this.value = attrs.value;
   }
 
-  update () {
-    if (isProcessExceed()) return 0;
+  update (dt) {
+    if (isProcessExceed() && !game.quantumUpgradeBought.includes('47')) return 0;
     var power = this.getPower();
     if (typeof this.getPointedMachine() == "undefined") return 0;
     switch (this.type) {
       case "Incrementer":
-      this.getPointedMachine().value = this.getPointedMachine().value.add(power.mul(calcRealTgain()));
+      this.getPointedMachine().value = this.getPointedMachine().value.add(power.mul(calcRealDt(dt)));
         break;
+      case "Merger":
+        var m = [...new Set(mergerWorks[this.position.x + '' + this.position.y])];
+        if (this.getPointedMachine().type == "Output" && typeof m != "undefined") {
+          for (var i = 0; i < m.length; i++) {
+            var tempMachine = game.singularityGrid[m[i]];
+            var tempData = singularityMachineData[tempMachine.type];
+            if (typeof singularityBoosts[tempMachine.type] == "undefined") continue;
+            singularityBoosts[tempMachine.type] = singularityBoosts[tempMachine.type][tempData.boostType](tempMachine.getBoost(m.concat([this.position.x + '' + this.position.y])));
+          }
+          break;
+        }
+        // no break
       default:
-        if (this.getPointedMachine().type == "Output" && typeof singularityBoosts[this.type] != "undefined") {
-          singularityBoosts[this.type] = singularityBoosts[this.type][singularityMachineData[this.type].boostType](this.getBoost())
-        } else {
-          return 0;
+        switch (this.getPointedMachine().type) {
+          case "Output":
+            if (typeof singularityBoosts[this.type] != "undefined") {
+              singularityBoosts[this.type] = singularityBoosts[this.type][singularityMachineData[this.type].boostType](this.getBoost());
+            } else {
+              return 0;
+            }
+            break;
+          case "Merger":
+            var p = this.getPointed();
+            if (typeof mergerWorks[p] == "undefined") mergerWorks[p] = [];
+            if (this.type != "Merger") {
+              if (!singularityMachineData[this.type].hasBoost) return 0;
+              mergerWorks[p].push(this.position.x + '' + this.position.y);
+            } else if (typeof mergerWorks[this.position.x + '' + this.position.y] != "undefined") {
+              mergerWorks[p] = [...new Set(mergerWorks[p].concat(mergerWorks[this.position.x + '' + this.position.y]).concat([this.position.x + '' + this.position.y]))];
+            }
+            break;
         }
     }
     return 1;
@@ -434,17 +523,19 @@ class SingularityMachine {
   getPointed = () => {return this.rotate%2 ? (this.position.x+(this.rotate-2)) + '' + this.position.y : this.position.x + '' + (this.position.y-(this.rotate-1))};
   getPointedMachine = () => {return game.singularityGrid[this.getPointed()]};
 
-  getPower () {
-    var power = this.value.mul(D(1e4).pow(this.tier));
+  getPower (mergerExtra=[]) {
+    var tempValue = this.value;
+    if (mergerExtra) for (var i = 0, l = mergerExtra; i < mergerExtra.length; i++) if (game.singularityGrid[mergerExtra[i]].type == "Merger") tempValue = tempValue.add(game.singularityGrid[mergerExtra[i]].value);
+    var power = tempValue.mul(D(1e4).pow(this.tier));
     var iMachines = this.getInteracts();
     if (this.type != "Booster") for (var i = 0, l = iMachines.length; i < l; i++) if (iMachines[i].type == "Booster") power = power.mul(iMachines[i].getPower());
-    power = power.pow(this.tier/20+0.5);
+    power = power.pow(this.tier/15+0.5);
     power = power.mul(calcGridMult());
     return power;
   }
 
-  getBoost() {
-    var power = this.getPower();
+  getBoost(mergerExtra=[]) {
+    var power = this.getPower(mergerExtra);
     var value = this.value;
     var effect = D(0);
     switch (this.type) {
@@ -472,8 +563,8 @@ class SingularityMachine {
     }
     return effect;
   }
-  getBoostString() {
-    var boostNum = this.getBoost();
+  getBoostString(mergerExtra=[]) {
+    var boostNum = this.getBoost(mergerExtra);
     var tempObj = singularityMachineData[this.type];
     return tempObj.name + ' ' + (tempObj.boostType == "mul" ? 'x' : '+') + dNotation(boostNum, 4, 2);
   }

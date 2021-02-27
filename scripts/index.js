@@ -47,6 +47,9 @@ function renderAll() {
     case 7:
     renderSingularity();
       break;
+    case 8:
+      renderInfinity();
+      break;
   }
 }
 function renderInfo() {
@@ -55,16 +58,17 @@ function renderInfo() {
   renderOverclockInfo();
   renderSingularityInfo();
 }
-function calcAll() {
+function calcAll(dt=0) {
   calcToggleTabs();
 
   game.mDigits = calcMaxDigit();
 
-  calcSingularity();
-  calcQuantum();
-  calcProgram();
-  calcResearch();
   calcAchievements();
+  calcInfinity();
+  calcSingularity(dt);
+  calcQuantum(dt);
+  calcProgram(dt);
+  calcResearch(dt);
 }
 
 //visual effect
@@ -111,7 +115,6 @@ function commandFloat(speed=0.8) {
     }
   }
 }
-//$('body').style.backgroundColor = '#' + Math.floor((16**6-1)*Math.random()).toString(16).padStart(0, 6); what
 
 // etc
 function hsvToRgb(h, s, v) {
@@ -134,9 +137,16 @@ function hsvToRgb(h, s, v) {
   return '#' + Math.floor(r*255).toString(16).padStart(2, Math.floor(r*255).toString(16)) + Math.floor(g*255).toString(16).padStart(2, Math.floor(g*255).toString(16)) + Math.floor(b*255).toString(16).padStart(2, Math.floor(b*255).toString(16));
 }
 
+// idk how to call these lol
+window.onblur = () => blurSettings();
+function blurSettings() {
+  keyDowns = {};
+  documentHold = 0;
+}
+
 //hotkey
 (function(){
-  keyDowns = {16: 0};
+  keyDowns = {};
   document.addEventListener('keydown', function(e){
     const keyCode = e.keyCode;
     keyDowns[keyCode] = true;
@@ -159,7 +169,7 @@ function hsvToRgb(h, s, v) {
     if (keyCode == 68) goTab(3); // d
     if (keyCode == 70) goTab(2); // f
     if (keyCode == 71) goTab(5); // g
-    if (keyCode == 72) goTab(7); // h
+    if (keyCode == 72) !keyDowns[16] ? goTab(7) : game.hyperMode ^= 1; // h
   })
   document.addEventListener('keyup', function(e){
     const keyCode = e.keyCode;
@@ -177,5 +187,17 @@ function calcExtraHotkeys() {
     if (keyDowns[54] || keyDowns[39]) researchBuy(5);
     if (keyDowns[55] || keyDowns[36]) researchBuy(6);
     if (keyDowns[56] || keyDowns[38]) researchBuy(7);
+  }
+}
+
+// override
+Element.prototype.remove = function() {
+  this.parentElement.removeChild(this);
+}
+NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
+  for(var i = this.length - 1; i >= 0; i--) {
+      if(this[i] && this[i].parentElement) {
+          this[i].parentElement.removeChild(this[i]);
+      }
   }
 }
