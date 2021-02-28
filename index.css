@@ -962,7 +962,6 @@ body {
   table-layout: fixed;
   border-spacing: calc(var(--s) * 0.01);
   background-color: #fff3;
-  border-radius: calc(var(--s) * 0.07);
 }
 #ipRepUpgrades > tbody > tr > td {
   background-color: #fff;
@@ -985,7 +984,7 @@ body {
 }
 #ipUpgradeDesc {
   font-weight: bold;
-  font-size: 0.6vh;
+  font-size: 1.5vh;
   color: #aaa;
   opacity: 0.5; 
 }
