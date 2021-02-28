@@ -164,7 +164,7 @@ function renderSingularity() {
   $("#singularityDesc").innerHTML += `<br>Each SP increases Multi Process by 4 (tot ${Math.floor(Math.min(25, game.singularityPower.toNumber()*4)+Math.max(0, game.singularityPower.toNumber()*4-25)**0.5)}, softcap at 25)`
   $("#singularityDesc").innerHTML += `<br>And boosts grid machine Power by x${dNotation(game.singularityPower.pow(4).pow(game.quantumUpgradeBought.includes('75')?D(1).add(game.singularityPower.log(10).pow(0.8)):1), 4, 0)}`;
   if (calcMilestoneDone() < 7) $("#singularityDesc").innerHTML += `<br>Have ${2**calcMilestoneDone()*2} SP to retain Keep ${romanize(calcMilestoneDone()+1).toUpperCase()}`;
-  $("#wormholeChallengeWarp").style.display = game.t4resets.gte(2) ? "block" : "none";
+  $("#wormholeChallengeWarp").style.display = game.t4resets.gte(2) || (game.t5resets.gte(1) && game.singularityPower.gte(1)) ? "block" : "none";
   $("#gridReq").innerHTML = `Complete ${4-(calcChallengeDone()+3)%4} more challenge to unlock ${ordNum(calcGridOpened()+1)} Grid space`;
   $("#challengeRewardMachine").style.color = game.challengeEntered == -1 ? "inherit" : singularityMachineData[challengeIdx[game.challengeEntered]].color;
   $("#challengeRewardMachine").style.textShadow = game.challengeEntered == -1 ? "inherit" : `0 0 0.3vh ${singularityMachineData[challengeIdx[game.challengeEntered]].color}`;
@@ -195,8 +195,9 @@ function calcSingularity(dt) {
   }
 }
 function renderGrid() {
-  $("#singularityGridWarp").style.display = (game.singularityPower.gte(1) ? "block" : "none");
-  if (game.singularityPower.gte(1)) {
+  var unlockedBool = game.singularityPower.gte(1) || game.t5resets.gte(1);
+  $("#singularityGridWarp").style.display = (unlockedBool ? "block" : "none");
+  if (unlockedBool) {
     $("#singularityGridOutInnerWarp").style.setProperty("--s", Math.min($("#singularityGridOutWarp").offsetWidth, $("#singularityGridOutWarp").offsetHeight) + 'px');
     $("#singularityGridOutInnerWarp").style.marginTop = Math.max(0, ($("#singularityGridOutWarp").offsetHeight-$("#singularityGridOutInnerWarp").offsetHeight)/2) + 'px';
     [...document.getElementsByClassName("singularityGridBlock")].forEach((ele, idx) => {ele.classList[singularityGridIdx[idx]>calcGridOpened()?"add":"remove"]("disabled")});

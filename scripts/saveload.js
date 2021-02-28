@@ -121,10 +121,7 @@ function load(c=1) {
   }
 
   // offline progress delete
-  if (!game.optionToggle[2]) {
-    game.t5resetTime += new Date().getTime() - game.tLast;
-    game.tLast = new Date().getTime();
-  }
+  gamePauseFix(new Date().getTime() - game.tLast);
 
   // bug fix
   game.quantumUpgradeBought = [...new Set(game.quantumUpgradeBought)];

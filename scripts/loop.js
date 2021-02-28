@@ -4,8 +4,13 @@ setInterval( function () {
   if (dt >= 60*game.gameSpeed) {
     commandAppend(`${timeNotation(dt/game.gameSpeed)} of progress done!`, 0, 1);
   }
-  game.tLast = new Date().getTime();
-  calcAll(dt);
+  if (!gamePaused) {
+    game.tLast = new Date().getTime();
+    calcAll(dt);
+  } else {
+    gamePauseFix(new Date().getTime() - game.tLast);
+    game.tLast = new Date().getTime();
+  }
   calcExtraHotkeys();
   renderAll();
   renderCalcDebugInfo();

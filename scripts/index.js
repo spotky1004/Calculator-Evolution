@@ -137,6 +137,11 @@ function hsvToRgb(h, s, v) {
   return '#' + Math.floor(r*255).toString(16).padStart(2, Math.floor(r*255).toString(16)) + Math.floor(g*255).toString(16).padStart(2, Math.floor(g*255).toString(16)) + Math.floor(b*255).toString(16).padStart(2, Math.floor(b*255).toString(16));
 }
 
+var pauseFixes = ["t5resetTime", "tLast", "startTime", "rebootTime", "quantumTime", "singularityTime"];
+function gamePauseFix(dt) {
+  for (var i = 0, l = pauseFixes.length; i < l; i++) game[pauseFixes[i]] += dt;
+}
+
 // idk how to call these lol
 window.onblur = () => blurSettings();
 function blurSettings() {
@@ -159,6 +164,8 @@ function blurSettings() {
       if (keyCode == 54 || keyCode == 39) activeProgram(5); // 6
       if (keyCode == 55 || keyCode == 36) activeProgram(6); // 7
       if (keyCode == 56 || keyCode == 38) for (var i = 0; i < 7; i++) if (calcProcessLeft() > 0) activeProgram(i); // 8
+    } else {
+      if (keyCode == 80) gamePaused ^= 1;
     }
 
     if (keyCode == 82) reboot(); // r

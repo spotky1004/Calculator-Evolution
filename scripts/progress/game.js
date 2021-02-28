@@ -124,6 +124,7 @@
   // notation init
   notationNames = ["Default", "Logarithm"];
 
+  gamePaused = 0;
 })();
 
 function renderBasic() {
