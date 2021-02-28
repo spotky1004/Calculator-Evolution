@@ -218,7 +218,7 @@ function renderStat() {
   if (game.t4toggle) $("#statsText").innerHTML += `<br>You spent ${timeNotation((new Date().getTime()-game.singularityTime)/1000)} in this Singularity`;
   if (game.t5toggle) $("#statsText").innerHTML += `<br><br>You've gone Infinity ${dNotation(game.t5resets, 4, 0)} times`;
   if (game.t5toggle) $("#statsText").innerHTML += `<br>You spent ${timeNotation((new Date().getTime()-game.t5resetTime)/1000)} in this Infinity`;
-  if (game.t5toggle) $("#statsText").innerHTML += `<br>Your fast Infinity is ${timeNotation((game.t5fastTime)/1000)} - ${calcIpGain(game.t5fastTime)} IP`;
+  if (game.t5toggle) $("#statsText").innerHTML += `<br>Your fast Infinity is ${timeNotation((game.t5record)/1000)} - ${calcIpGain(game.t5record)} IP`;
 }
 function renderCalcDebugInfo() {
   $("#debugInfoArea").style.display = game.optionToggle[1] ? "block" : "none";

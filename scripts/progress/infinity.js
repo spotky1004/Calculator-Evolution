@@ -11,6 +11,7 @@ function infinity() {
     game.infinityPoint = D.max(game.infinityPoint, calcIpGain(new Date().getTime() - game.t5resetTime));
     game.t5fastTime = new Date().getTime() - game.t5resetTime;
     game.t5resetTime = new Date().getTime();
+    game.bestIp = D.max(game.bestIp, game.infinityPoint);
     infinityReset();
 
     commandAppend(`Go Infinity (${ordNum(game.t5resets)})`, (30+game.t5resets.toNumber()*1)%360, 1);

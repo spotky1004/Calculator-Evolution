@@ -54,7 +54,8 @@ tempGame = {
   t5toggle: 0,
   t5resets: D(0),
   t5resetTime: 0,
-  t5fastTime: Infinity,
+  t5record: 1e200,
+  bestIp: D(0),
   infinityUpgradeSpent: new Array(5).fill(D(0))
 };
 game = {};
@@ -113,6 +114,10 @@ function load(c=1) {
     game.quantumUpgradeBought = [];
     dokeepMilestone();
     game.b++;
+  }
+  if (game.achievements.findIndex(ele => ele == 39) != -1) {
+    game.achievements.splice(game.achievements.findIndex(ele => ele == 38), 1);
+    game.achievements.splice(game.achievements.findIndex(ele => ele == 39), 1);
   }
 
   // offline progress delete
