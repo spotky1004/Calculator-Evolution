@@ -87,7 +87,12 @@ function load(c=1) {
   }
   for (const i in game) {
     if (tempLoad[i] !== undefined) {
-      if (tempGame[i] instanceof Decimal) {
+      if (Array.isArray(tempLoad[i])) {
+        game[i] = [];
+
+        var temp = tempLoad[i];
+        for (var j = 0, l = temp.length; j < l; j++) game[i].push(temp[j]);
+      } else if (tempGame[i] instanceof Decimal) {
         game[i] = D(tempLoad[i]);
       } else {
         game[i] = tempLoad[i];
