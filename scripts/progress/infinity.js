@@ -34,9 +34,9 @@ function buyIpUpgrade(idx) {
 }
 
 function calcIpGain() {
-    var tempGain = D(5).add((6*3600*1000)**2 / (new Date().getTime() - game.t5resetTime)**2).floor(0);
+    var tempGain = D(5).add((6*3600*1000)**2 / (new Date().getTime() - game.t5resetTime)**2);
     tempGain = tempGain.mul(calcIpUpgradeEffect(4));
-    return tempGain;
+    return tempGain.floor(0);
 }
 function calcIpUpgradeEffect(idx, baseRes=game.infinityUpgradeSpent[idx]) {
     var tempMult = D(1);
