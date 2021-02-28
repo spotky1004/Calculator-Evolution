@@ -8,7 +8,8 @@ function calcInfinity() {
 
 function infinity() {
     game.t5resets = game.t5resets.add(1);
-    game.infinityPoint = D.max(game.infinityPoint, calcIpGain());
+    game.infinityPoint = D.max(game.infinityPoint, calcIpGain(new Date().getTime() - game.t5resetTime));
+    game.t5fastTime = new Date().getTime() - game.t5resetTime;
     game.t5resetTime = new Date().getTime();
     infinityReset();
 
@@ -18,7 +19,7 @@ function infinity() {
 function renderInfinity() {
     document.getElementById("ipDisplay").innerHTML = `You have ${dNotation(game.infinityPoint, 4, 0)} Infinity Point`;
     document.getElementById("ipDesc").innerHTML = `
-    If you go Infinity now, you'll get ${dNotation(calcIpGain(), 4, 0)} IP<br>
+    If you go Infinity now, you'll get ${dNotation(calcIpGain(new Date().getTime() - game.t5resetTime), 4, 0)} IP<br>
     Your IP amount will be overwritten when you go Infinity<br>
     You cannot get back spent IP, use wisely`;
     [...document.getElementsByClassName("ipUpgrade")].forEach((ele, idx) => {
@@ -33,8 +34,8 @@ function buyIpUpgrade(idx) {
     game.infinityUpgradeSpent[idx] = game.infinityUpgradeSpent[idx].add(spentIP);
 }
 
-function calcIpGain() {
-    var tempGain = D(5).add((6*3600*1000)**2 / (new Date().getTime() - game.t5resetTime)**2);
+function calcIpGain(time) {
+    var tempGain = D(5).add((6*3600*1000)**2 / time**2);
     tempGain = tempGain.mul(calcIpUpgradeEffect(4));
     return tempGain.floor(0);
 }

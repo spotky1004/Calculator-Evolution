@@ -54,6 +54,7 @@ tempGame = {
   t5toggle: 0,
   t5resets: D(0),
   t5resetTime: 0,
+  t5fastTime: Infinity,
   infinityUpgradeSpent: new Array(5).fill(D(0))
 };
 game = {};

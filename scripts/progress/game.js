@@ -139,6 +139,7 @@ function renderBasic() {
    ${dNotation(game.quantumLab, 4, 0)} Lab\n`;
   // I'm lazy (just copied that from quantum.js, will fix) :v
   if (game.t4toggle) tempRes += ` | ${dNotation(game.singularityPower, 4, 0)} SP\n`;
+  if (game.t5toggle) tempRes += ` | ${dNotation(game.infinityPoint, 4, 0)} IP\n`;
   $("#otherRes").innerHTML = tempRes;
   $("#memoryDigit").innerHTML = ("").padStart(Math.min(80, dNum(game.mDigits)-dNum(game.digits)), 0);
   $("#numberBase").innerHTML = game.base;
@@ -213,8 +214,11 @@ function renderStat() {
   if (game.t2toggle) $("#statsText").innerHTML += `<br>You spent ${timeNotation((new Date().getTime()-game.rebootTime)/1000)} in this Reboot`;
   if (game.t3toggle) $("#statsText").innerHTML += `<br><br>You've done Quantum ${dNotation(game.t3resets, 4, 0)} times`;
   if (game.t3toggle) $("#statsText").innerHTML += `<br>You spent ${timeNotation((new Date().getTime()-game.quantumTime)/1000)} in this Quantum`;
-  if (game.t4toggle) $("#statsText").innerHTML += `<br><br>You've done Singularity ${dNotation(game.t4resets, 4, 0)} times`;
+  if (game.t4toggle) $("#statsText").innerHTML += `<br><br>You've gone Singularity ${dNotation(game.t4resets, 4, 0)} times`;
   if (game.t4toggle) $("#statsText").innerHTML += `<br>You spent ${timeNotation((new Date().getTime()-game.singularityTime)/1000)} in this Singularity`;
+  if (game.t5toggle) $("#statsText").innerHTML += `<br><br>You've gone Infinity ${dNotation(game.t5resets, 4, 0)} times`;
+  if (game.t5toggle) $("#statsText").innerHTML += `<br>You spent ${timeNotation((new Date().getTime()-game.t5resetTime)/1000)} in this Infinity`;
+  if (game.t5toggle) $("#statsText").innerHTML += `<br>Your fast Infinity is ${timeNotation((game.t5fastTime)/1000)} - ${calcIpGain(game.t5fastTime)} IP`;
 }
 function renderCalcDebugInfo() {
   $("#debugInfoArea").style.display = game.optionToggle[1] ? "block" : "none";
