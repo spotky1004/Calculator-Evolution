@@ -8,7 +8,7 @@ function dNotation(infNum, dim=0, preDim=dim, notation=game.notation) {
     case 0:
       return infNum.toExponential(Math.min(4, dim)).replace('+', '');
     case 1:
-      return 'e' + dNotation(infNum.log(10), 6, 4, 0);
+      return 'e' + dNotation(infNum.log(10), 4, 3, 0);
   }
 }
 function formatWithBase(infNum, base=2, len=D(1e300), padStart=0, maxLength=Infinity, hy=game.hyperMode&&game.optionToggle[0]) {

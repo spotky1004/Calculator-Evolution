@@ -102,6 +102,7 @@
   for (let i = 0; i < 7; i++) {
     var programStatusNode = document.createElement("span");
     programStatusNode.classList.add("programStatusNode");
+    programStatusNode.innerHTML = i+1;
     $("#programStatusArea").append(programStatusNode);
   }
 
@@ -392,6 +393,7 @@ function calcCPU() {
   if (game.quantumUpgradeBought.includes('16')) tempVar = tempVar.mul(game.researchPoint.add(1).pow(0.25));
   if (game.quantumUpgradeBought.includes('17')) tempVar = tempVar.mul(D(10).pow(game.singularityPower.pow(0.5)));
   if (game.achievements.includes(25)) tempVar = tempVar.mul(25);
+  tempVar = tempVar.mul(calcIpUpgradeEffect(0));
   return tempVar;
 }
 function calcShopCost(idx, lv) {

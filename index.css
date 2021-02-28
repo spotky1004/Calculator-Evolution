@@ -138,15 +138,19 @@ body {
 }
 #programStatusArea > span {
   display: block; float: left;
+  color: var(--baseCol2);
+  font-size: 0.7vh;
+  text-align: center;
   margin-right: 0.3vh;
 }
 #programStatusArea > span:not(:first-child) {
   width: 1.3vh; height: 1.3vh;
   border: 0.2vh solid var(--baseCol3);
   background-color: rgba(0, 0, 0, 0);
-  transition: background-color cubic-bezier(.19,1.82,.96,-0.89) 0.4s, box-shadow cubic-bezier(.19,1.82,.96,-0.89) 0.4s;
+  transition: background-color cubic-bezier(.19,1.82,.96,-0.89) 0.4s, box-shadow cubic-bezier(.19,1.82,.96,-0.89) 0.4s, color cubic-bezier(.19,1.82,.96,-0.89) 0.4s;
 }
 #programStatusArea > span:not(:first-child).activated {
+  color: #000;
   background-color: var(--baseCol3);
   box-shadow: 0 0 0.6vh var(--baseCol);
 }
@@ -950,6 +954,40 @@ body {
   font-weight: bold;
   font-size: 1.8vh;
   color: #fff;
+}
+#ipRepUpgrades {
+  --s: min(100vw, 100vh);
+  margin: 2vh auto 0 auto;
+  width: calc(var(--s) * 0.5); height: calc(var(--s) * 0.1);
+  table-layout: fixed;
+  border-spacing: calc(var(--s) * 0.01);
+  background-color: #fff3;
+  border-radius: calc(var(--s) * 0.07);
+}
+#ipRepUpgrades > tbody > tr > td {
+  background-color: #fff;
+  border: 3px solid rgb(226, 83, 83);
+  color: rgb(156, 65, 65);
+  font-size: calc(var(--s) * 0.016);
+  filter: grayscale(1);
+  transition: transform 0.3s;
+}
+#ipRepUpgrades > tbody > tr > td.activated {
+  cursor: pointer;
+  animation: hueRotate ease 8s infinite;
+}
+#ipRepUpgrades > tbody > tr > td.activated:hover {
+  transform: scale(1.1);
+}
+#ipRepUpgrades > tbody > tr > td.activated:active {
+  transform: scale(1);
+  transition: transform 0s;
+}
+#ipUpgradeDesc {
+  font-weight: bold;
+  font-size: 0.6vh;
+  color: #aaa;
+  opacity: 0.5; 
 }
 
 #debugInfoArea {

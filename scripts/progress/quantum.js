@@ -320,6 +320,7 @@ function calcQubitSpeed() {
   if (game.quantumUpgradeBought.includes('35')) tempSpd = tempSpd.mul(D(10).pow([...new Set(game.quantumUpgradeBought)].length));
   tempSpd = tempSpd.mul(8); // boost
   tempSpd = tempSpd.mul(singularityBoosts.QubitBoost);
+  tempSpd = tempSpd.mul(calcIpUpgradeEffect(2));
   if (game.achievements.includes(31)) tempSpd = tempSpd.pow(1+calcChallengeDone()/200);
   return tempSpd;
 }

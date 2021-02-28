@@ -258,7 +258,7 @@ function wormholeChallengeEnter(idx) {
     game.challengeEntered = idx;
     game.quantumUpgradeBought = [];
     singularityReset();
-   if (game.achievements.includes(32) && game.wormholeChallengeProgress[game.challengeEntered] != 10 && game.challengeEntered != 7) game.quantumLab = D.min(game.maxQuantumLab, calcChallengeGoal(idx).div(2)).floor(0);
+   if (game.achievements.includes(32) && game.wormholeChallengeProgress[game.challengeEntered] != 10) game.quantumLab = D.min(game.maxQuantumLab, calcChallengeGoal(idx).div(2)).floor(0);
   }
 }
 function renderSingularityInfo() {
@@ -373,10 +373,11 @@ function calcSingularityPowerGain(calcNext=0, baseRes=game.quantumLab) {
   if (game.quantumUpgradeBought.includes('73')) tempSpGain4 = tempSpGain4.mul(D(2).pow(D(game.quantumLab).pow(1/3)));
   if (game.quantumUpgradeBought.includes('74')) tempSpGain4 = tempSpGain4.mul(game.challengeRecord.reduce((a, b) => a.mul(b.add(1)), D(1)).pow(1/4));
   if (game.quantumUpgradeBought.includes('76')) tempSpGain4 = tempSpGain4.mul(calcMultiProcess());
+  tempSpGain4 = tempSpGain4.mul(calcIpUpgradeEffect(4));
 
   // return SP gain
   if (baseRes.lt(80)) return D(0);
-  return tempSpGain4;
+  return tempSpGain4.floor(0);
 }
 function calcGridOpened() {
   if (gridTestMode) return 25;

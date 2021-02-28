@@ -53,7 +53,8 @@ tempGame = {
   infinityPoint: D(0),
   t5toggle: 0,
   t5resets: D(0),
-  t5resetTime: 0
+  t5resetTime: 0,
+  infinityUpgradeSpent: new Array(5).fill(D(0))
 };
 game = {};
 
@@ -91,9 +92,8 @@ function load(c=1) {
       }
     }
   }
-  for (var i = 0, l = game.challengeRecord.length; i < l; i++) {
-    game.challengeRecord[i] = D(game.challengeRecord[i]);
-  }
+  for (var i = 0, l = game.challengeRecord.length; i < l; i++) game.challengeRecord[i] = D(game.challengeRecord[i]);
+  for (var i = 0, l = game.infinityUpgradeSpent.length; i < l; i++) game.infinityUpgradeSpent[i] = D(game.infinityUpgradeSpent[i]);
   // Obj -> SingularityMachine
   for (var i in game.singularityGrid) {
     game.singularityGrid[i] = new SingularityMachine(game.singularityGrid[i]);
@@ -115,7 +115,10 @@ function load(c=1) {
   }
 
   // offline progress delete
-  if (!game.optionToggle[2]) game.tLast = new Date().getTime();
+  if (!game.optionToggle[2]) {
+    game.t5resetTime += new Date().getTime() - game.tLast;
+    game.tLast = new Date().getTime();
+  }
 
   // bug fix
   game.quantumUpgradeBought = [...new Set(game.quantumUpgradeBought)];

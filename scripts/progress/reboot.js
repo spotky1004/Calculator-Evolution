@@ -143,6 +143,7 @@ function calcRPGain() {
   if (game.achievements.includes(9)) tempNum = tempNum.mul(D.max(D.max(game.researchPoint, 2).log(3).log(10),1));
   if (game.achievements.includes(26)) tempNum = tempNum.mul(10);
   tempNum = tempNum.mul(singularityBoosts.RpBoost);
+  tempNum = tempNum.mul(calcIpUpgradeEffect(1));
   return Decimal.max(tempNum, 0);
 }
 function calcResearchCost(idx, type, lv=game.researchSpeed[idx]) {
