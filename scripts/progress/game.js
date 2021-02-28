@@ -218,7 +218,7 @@ function renderStat() {
   if (game.t4toggle) $("#statsText").innerHTML += `<br>You spent ${timeNotation((new Date().getTime()-game.singularityTime)/1000)} in this Singularity`;
   if (game.t5toggle) $("#statsText").innerHTML += `<br><br>You've gone Infinity ${dNotation(game.t5resets, 4, 0)} times`;
   if (game.t5toggle) $("#statsText").innerHTML += `<br>You spent ${timeNotation((new Date().getTime()-game.t5resetTime)/1000)} in this Infinity`;
-  if (game.t5toggle) $("#statsText").innerHTML += `<br>Your fast Infinity is ${timeNotation((game.t5record)/1000)} - ${calcIpGain(game.t5record)} IP`;
+  if (game.t5toggle) $("#statsText").innerHTML += `<br>Your fast Infinity is ${timeNotation((game.t5record)/1000)} / ${dNotation(D.max(5, game.bestIp), 4, 0)} IP`;
 }
 function renderCalcDebugInfo() {
   $("#debugInfoArea").style.display = game.optionToggle[1] ? "block" : "none";
@@ -497,9 +497,12 @@ function calcProgram(dt=0) {
       game.number.gte(getBaseIncreaseReq())) &&
       game.base.lt(calcMaxBase())
     ) {
-      if (game.shopBought[0] < 5) game.number = D(0);
-      if (game.shopBought[0] < 4) game.digits = D(1);
+      var tempBase = D(game.base);
       game.base = (game.quantumUpgradeBought.includes('45') ? calcMaxBase() : game.base.plus(1));
+      if (!tempBase.eq(game.base)) {
+        if (game.shopBought[0] < 5) game.number = D(0);
+        if (game.shopBought[0] < 4) game.digits = D(1);
+      }
     }
   }
   if (game.programActive[5]) {
