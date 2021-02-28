@@ -1,10 +1,14 @@
+(function(){
+
+}())
+
 function calcInfinity() {
     if (game.t4toggle && !game.money.isFinite()) infinity();
 }
 
 function infinity() {
     game.t5resets = game.t5resets.add(1);
-    game.infinityPoint = game.infinityPoint.add(calcIpGain());
+    game.infinityPoint = D.max(game.infinityPoint, calcIpGain());
     game.t5resetTime = new Date().getTime();
     infinityReset();
 
@@ -13,7 +17,7 @@ function infinity() {
 
 function renderInfinity() {
     document.getElementById("ipDisplay").innerHTML = `You have ${dNotation(game.infinityPoint, 4, 0)} Infinity Point`;
-    document.getElementById("ipDesc").innerHTML = `If you go Infinity now, you'll get ${dNotation(calcIpGain(), 4, 0)} IP<br><br>Infinity upgrades coming soon :D`
+    document.getElementById("ipDesc").innerHTML = `If you go Infinity now, you'll get ${dNotation(calcIpGain(), 4, 0)} IP<br>Your IP amount will overwrited when you go Infinity<br>You cannot get back spent IP, use wisely`
 }
 
 function calcIpGain() {
