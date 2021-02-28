@@ -54,7 +54,7 @@
 
     'Complete Boost Challenge once',
     'Complete Boost Challenge x10',
-    'Reach Infinity$<br>Reward: Game speed x2',
+    'Reach Infinity$ (cap of Decimal.js, ~1ee16)<br>Reward: Game speed x2',
     'Go Infinity in 5 hours',
     'Go Infinity in 10 seconds'
   ];
