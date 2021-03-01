@@ -74,7 +74,18 @@ function load(c=1) {
   // type fix
   // Number(string) -> Deciamal
   for (const i in tempGame) {
-    if (tempGame[i] instanceof Decimal) {
+    if (Array.isArray(tempGame[i])) {
+      var temp = tempGame[i];
+      game[i] = [];
+
+      for (var j = 0, l = temp.length; j < l; j++) {
+        if (temp[j] instanceof Decimal) {
+          game[i].push(D(temp[j]));
+        } else {
+          game[i].push(temp[j]);
+        }
+      }
+    } else if (tempGame[i] instanceof Decimal) {
       game[i] = D(tempGame[i]);
     } else {
       game[i] = tempGame[i];
@@ -86,23 +97,11 @@ function load(c=1) {
     tempLoad = {};
   }
   for (const i in game) {
-    if (tempLoad[i] !== undefined) {
-      if (Array.isArray(tempLoad[i])) {
-        game[i] = [];
-
-        var temp = tempLoad[i];
-        for (var j = 0, l = temp.length; j < l; j++) {
-          if (temp[j] instanceof Decimal) {
-            game[i].push(D(temp[j]));
-          } else {
-            game[i].push(temp[j]);
-          }
-        }
-      } else if (tempGame[i] instanceof Decimal) {
-        game[i] = D(tempLoad[i]);
-      } else {
-        game[i] = tempLoad[i];
-      }
+    if (typeof tempLoad[i] == "undefined") continue;
+    if (tempGame[i] instanceof Decimal) {
+      game[i] = D(tempLoad[i]);
+    } else {
+      game[i] = tempLoad[i];
     }
   }
   for (var i = 0, l = game.challengeRecord.length; i < l; i++) game.challengeRecord[i] = D(game.challengeRecord[i]);
@@ -154,10 +153,11 @@ function importGame() {
   var recSaveFile = atob(window.prompt("Import Savefile here", ""));
   try {
     game = JSON.parse(recSaveFile);
-    save(0);
+    save(0);;
     load(0);
     commandAppend('import string to game');
   } catch (e) {
+    console.log(e);
     commandAppend('invaild savefile!', -110, 1);
   }
   basicInits();
