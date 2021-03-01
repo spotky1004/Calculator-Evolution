@@ -56,7 +56,7 @@ function buyIpUpgrade(idx) {
     game.infinityUpgradeSpent[idx] = game.infinityUpgradeSpent[idx].add(spentIP);
 }
 function ipPassiveMove(shift=0) {
-    ipPassiveDisplay = Math.max(Math.min(ipPassiveDisplay+shift, game.ipPassiveBought-5), 0);
+    ipPassiveDisplay = Math.max(Math.min(ipPassiveDisplay+shift, game.ipPassiveBought-4), 0);
 }
 function buyIpPassive() {
     if (game.infinityPoint.lt(calcIpPassiveCost())) return;

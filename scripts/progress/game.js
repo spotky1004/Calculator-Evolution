@@ -344,7 +344,7 @@ function shopBuy(num) {
       game.shopBought[num]++;
     }
   }
-  renderShop();
+  if (tabNow == 1) renderShop();
 }
 function shopMaxBuy(num) {
   var mPoint = 30, maxA = 2**mPoint;
