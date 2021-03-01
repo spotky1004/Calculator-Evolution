@@ -544,6 +544,7 @@ function calcMultiProcess() {
   maxProcess += Math.floor(Math.min(25, game.singularityPower.toNumber()*4)+Math.max(0, game.singularityPower.toNumber()*4-25)**0.5);
   if (game.achievements.includes(7)) maxProcess += 1;
   if (game.achievements.includes(34)) maxProcess += 10;
+  if (game.ipPassiveBought >= 6) maxProcess += 250;
 
   return maxProcess;
 }

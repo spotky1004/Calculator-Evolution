@@ -3,7 +3,10 @@
     ipPassiveDesc = [
         "Start Infinity with ${dNotation(game.t5resets, 4, 0)} SP (based on Infinity stat)",
         "Active programs automatically<br>Durability won't decreases",
-        "Keep Challenge Records"
+        "Keep Challenge Records",
+        "Retain Singularity VII",
+        "Keep Challenge Completeions",
+        "250 Extra Process"
     ];
     ipPassiveDisplay = 0;
     for (var i = 0; i < 5; i++) {
@@ -65,6 +68,9 @@ function buyIpPassive() {
         case 1:
             game.singularityPower = D.max(game.singularityPower, game.t5resets);
             break;
+        case 4:
+            game.quantumUpgradeBought.push('77');
+            break;
     }
 }
 function ipPassiveAuto() {
@@ -98,5 +104,5 @@ function calcIpUpgradeEffect(idx, baseRes=game.infinityUpgradeSpent[idx]) {
     return tempMult;
 }
 function calcIpPassiveCost(lv=game.ipPassiveBought) {
-    return lv < ipPassiveDesc.length ? D(2).mul(3**lv) : D(Infinity);
+    return lv < ipPassiveDesc.length ? D(2).mul(4**lv) : D(Infinity);
 }
