@@ -126,9 +126,6 @@ function load(c=1) {
     dokeepMilestone();
     game.b++;
   }
-  if (game.achievements.findIndex(ele => ele == 39) != -1) {
-    game.achievements.splice(game.achievements.findIndex(ele => ele == 39), 1);
-  }
 
   // offline progress delete
   gamePauseFix(new Date().getTime() - game.tLast);
