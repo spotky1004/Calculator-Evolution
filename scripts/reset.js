@@ -58,7 +58,7 @@ function infinityReset() {
   game.quantumUpgradeBought = [];
   game.singularityPower = D(0);
   game.t4resets = D(0);
-  game.singularityGrid = {};
+  if (game.ipPassiveBought < 7) game.singularityGrid = {};
   if (game.ipPassiveBought < 5) game.wormholeChallengeProgress = new Array(8).fill(0);
   if (game.ipPassiveBought < 3) game.challengeRecord = new Array(8).fill(D(0));
   game.challengeEntered = -1;

@@ -6,7 +6,8 @@
         "Keep Challenge Records",
         "Retain Singularity VII",
         "Keep Challenge Completeions",
-        "250 Extra Process"
+        "250 Extra Process",
+        "Keep Grid placement"
     ];
     ipPassiveDisplay = 0;
     for (var i = 0; i < 5; i++) {
