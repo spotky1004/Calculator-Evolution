@@ -64,7 +64,7 @@
     // 7: Singularity
     [
       "Multiply Grid Machine Power Based on QL (x${dNotation(D(1.01).pow(game.quantumLab).mul(game.quantumLab.pow(2)).add(1), 4, 2)})",
-      "Multiply SP gain Based on Time spent on this Singularity (x${dNotation(D(10).mul(((new Date().getTime() - game.singularityTime)/1000)**0.6), 4, 2)})",
+      "Multiply SP gain Based on Time spent on this Singularity (x${dNotation(D(10).mul((Math.max(0, new Date().getTime() - game.singularityTime)/1000)**0.6), 4, 2)})",
       "Multiply SP gain based on QL (x${dNotation(D(2).pow(D(game.quantumLab).pow(1/3)), 3, 1)})",
       "Multiply SP gain based on Challenge Recordes (x${dNotation(game.challengeRecord.reduce((a, b) => a.mul(b.add(1)), D(1)).pow(1/4), 4, 1)})",
       "Boost SP's grid machine Power boost based on SP (^${dNotation(D(1).add(game.singularityPower.add(1).log(10).pow(0.8)), 4, 3)})",

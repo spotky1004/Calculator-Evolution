@@ -370,7 +370,7 @@ function calcSingularityPowerGain(calcNext=0, baseRes=game.quantumLab) {
 
   // multiplies
   if (game.achievements.includes(34)) tempSpGain4 = tempSpGain4.mul(4);
-  if (game.quantumUpgradeBought.includes('72')) tempSpGain4 = tempSpGain4.mul(D(10).mul(((new Date().getTime() - game.singularityTime)/1000)**0.6));
+  if (game.quantumUpgradeBought.includes('72')) tempSpGain4 = tempSpGain4.mul(D(10).mul((Math.max(0, new Date().getTime() - game.singularityTime)/1000)**0.6));
   if (game.quantumUpgradeBought.includes('73')) tempSpGain4 = tempSpGain4.mul(D(2).pow(D(game.quantumLab).pow(1/3)));
   if (game.quantumUpgradeBought.includes('74')) tempSpGain4 = tempSpGain4.mul(game.challengeRecord.reduce((a, b) => a.mul(b.add(1)), D(1)).pow(1/4));
   if (game.quantumUpgradeBought.includes('76')) tempSpGain4 = tempSpGain4.mul(calcMultiProcess());
