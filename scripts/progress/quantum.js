@@ -150,12 +150,12 @@ function renderQunatum() {
   $("#quantumLabCost").innerHTML = `Next Lab: ${dNotation(D(1e100).mul(D(10).pow(D(5).mul(afterQuantumLab.mul(afterQuantumLab.sub(1)).add(afterQuantumLab)))).pow(getQuantumReqPow()[0]), 2)}$, ${dNotation(D(1e11).mul(D(10).pow(D(1/2).mul(afterQuantumLab.mul(afterQuantumLab.sub(1)).add(afterQuantumLab)))).pow(getQuantumReqPow()[1]), 2)} RP`;
   $("#quantumLabQuantity").innerHTML = (qLabGain.floor(0).lte(1)?'a':dNotation(qLabGain.floor(0)));
   $("#quantumDesc").innerHTML = `You have ${game.quantumLab} Quantum Lab which makes Qubit Prodution ${dNotation(calcQubitSpeed(), 4, 0)}x faster<br>Each Qubit makes your CPU 2x faster (x${dNotation(calcQubitEffect(), 4, 0)})`;
-  $("#qubitDisplay").innerHTML = `You have ${game.qubit.sub(calcUsedQubit())}/${game.qubit} Qubit (next Qubit in ${timeNotation(D(3).pow(game.qubit.sub(calcChallengeDone()).add(1)).sub(game.qubitProgress).div(calcQubitSpeed()))})`;
+  $("#qubitDisplay").innerHTML = `You have ${game.qubit.sub(calcUsedQubit())}/${game.qubit} Qubit (next Qubit in ${timeNotation(D(3).pow(game.qubit.sub(calcExtraQubit()).add(1)).sub(game.qubitProgress).div(calcQubitSpeed()))})`;
 }
 function calcQuantum(dt=0) {
-  if (game.quantumUpgradeBought.includes('46') && D(3).pow(game.qubit.sub(calcChallengeDone()).add(1)).sub(game.qubitProgress).div(calcQubitSpeed()).lte(60*7)) game.qubitProgress = D(3).pow(game.qubitProgress.add(1).log(3).ceil(0));
+  if (game.quantumUpgradeBought.includes('46') && D(3).pow(game.qubit.sub(calcExtraQubit()).add(1)).sub(game.qubitProgress).div(calcQubitSpeed()).lte(60*7)) game.qubitProgress = D(3).pow(game.qubitProgress.add(1).log(3).ceil(0));
   game.qubitProgress = game.qubitProgress.add(calcQubitSpeed().mul(calcRealDt(dt)));
-  game.qubit = D.max(0, game.qubitProgress.add(1).log(3)).floor(0).add(calcChallengeDone());
+  game.qubit = D.max(0, game.qubitProgress.add(1).log(3)).floor(0).add(calcExtraQubit());
   calcQuantumAuto();
 }
 function calcQuantumAuto() {
@@ -323,6 +323,9 @@ function calcQubitSpeed() {
   tempSpd = tempSpd.mul(calcIpUpgradeEffect(2));
   if (game.achievements.includes(31)) tempSpd = tempSpd.pow(1+calcChallengeDone()/200);
   return tempSpd;
+}
+function calcExtraQubit() {
+  return calcChallengeDone();
 }
 function calcUsedQubit() {
   var tempUsed = D(0);

@@ -60,7 +60,9 @@ function infinityReset() {
   game.t4resets = D(0);
   game.singularityGrid = {};
   game.wormholeChallengeProgress = new Array(8).fill(0);
-  game.challengeRecord = new Array(8).fill(D(0));
+  if (game.ipPassiveBought < 3) game.challengeRecord = new Array(8).fill(D(0));
   game.challengeEntered = -1;
   singularityReset();
+
+  if (game.ipPassiveBought >= 1) game.singularityPower = D.max(game.singularityPower, game.t5resets);
 }

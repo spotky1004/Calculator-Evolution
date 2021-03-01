@@ -988,6 +988,69 @@ body {
   color: #aaa;
   opacity: 0.5; 
 }
+#ipPassives {
+  margin: 1vh auto; padding: 0.7vh;
+  width: 40vw; height: 50vh;
+  background-color: #fff2;
+}
+.ipPassiveNav {
+  height: 15%;
+  color: #fff;
+  text-shadow: 0 0 1vh #fff;
+  font-size: 5vh;
+  cursor: pointer;
+  transition: transform 0.3s, text-shadow 0.3s;
+}
+.ipPassiveNav:hover {
+  text-shadow: 0 0 2vh #fff;
+  transform: scale(1.1);
+}
+.ipPassiveNav:active {
+  transform: scale(1);
+  transition: transform 0s;
+}
+#ipPassiveContentWarp {
+  height: 60%;
+  overflow: hidden;
+  box-shadow: 0 0 6vh #000 inset !important;
+}
+.ipPassiveContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 20%;
+  color: rgb(238, 211, 211);
+  font-size: 2vh;
+  text-shadow: 0 0 1vh rgb(156, 65, 65);
+  animation: hueRotate ease 8s infinite;
+  transition: background-color 0.3s;
+}
+.ipPassiveContent:hover {
+  background-color: #fff2;
+}
+#buyIpPassive {
+  padding-top: 0.8vh;
+  height: 3.8vh;
+  border: 0.3vh solid rgb(226, 83, 83);
+  color: rgb(156, 65, 65);
+  background-color: #fff;
+  font-size: 2vh;
+  filter: grayscale(1);
+}
+#buyIpPassive.activated {
+  filter: grayscale(0);
+  cursor: pointer;
+  animation: hueRotate ease 8s infinite;
+  transition: transform 0.3s;
+}
+#buyIpPassive.activated:hover {
+  transform: scale(1.01);
+}
+#buyIpPassive.activated:active {
+  transform: scale(1);
+  transition: transform 0s;
+}
 
 #debugInfoArea {
   position: absolute;

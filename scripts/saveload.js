@@ -56,7 +56,8 @@ tempGame = {
   t5resetTime: 0,
   t5record: 1e200,
   bestIp: D(0),
-  infinityUpgradeSpent: new Array(5).fill(D(0))
+  infinityUpgradeSpent: new Array(5).fill(D(0)),
+  ipPassiveBought: 0
 };
 game = {};
 
@@ -126,7 +127,6 @@ function load(c=1) {
     game.b++;
   }
   if (game.achievements.findIndex(ele => ele == 39) != -1) {
-    game.achievements.splice(game.achievements.findIndex(ele => ele == 38), 1);
     game.achievements.splice(game.achievements.findIndex(ele => ele == 39), 1);
   }
 
@@ -135,6 +135,7 @@ function load(c=1) {
 
   // bug fix
   game.quantumUpgradeBought = [...new Set(game.quantumUpgradeBought)];
+  if (game.t5record < 0) game.t5record = 1e200;
 
   if (c) commandAppend('load', 70);
 }
