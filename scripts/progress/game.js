@@ -510,16 +510,16 @@ function calcProgram(dt=0) {
     shopBuy(5);
   }
   if (game.programActive[6]) {
-    game.durability = game.durability.sub(getOverclockPower().add(1).log(2).div(D.pow(1.1, game.researchLevel[4])).div(1000).mul(calcRealDt(dt)));
+    if (game.ipPassiveBought < 2) game.durability = game.durability.sub(getOverclockPower().add(1).log(2).div(D.pow(1.1, game.researchLevel[4])).div(1000).mul(calcRealDt(dt)));
 
     // minus bug fix
     if (game.durability.lte(0.01)) game.durability = D(0);
 
     // hardcap fix
     if (game.durability.eq(0) && calcRPGain().lt(1)) {
-      commandAppend('< Fatal Error Found...', -120, 1);
+      commandAppend('Fatal Error Found...', -120, 1);
       commandAppend('shutdown system', 0);
-      goTab(2);
+      if (!game.t4toggle) goTab(2);
       for (var i = 0; i < game.programActive.length; i++) {
         game.programActive[i] = 0;
       }
