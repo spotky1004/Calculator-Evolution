@@ -67,7 +67,7 @@
       "Multiply SP gain Based on Time spent on this Singularity (x${dNotation(D(10).mul(((new Date().getTime() - game.singularityTime)/1000)**0.6), 4, 2)})",
       "Multiply SP gain based on QL (x${dNotation(D(2).pow(D(game.quantumLab).pow(1/3)), 3, 1)})",
       "Multiply SP gain based on Challenge Recordes (x${dNotation(game.challengeRecord.reduce((a, b) => a.mul(b.add(1)), D(1)).pow(1/4), 4, 1)})",
-      "Boost SP's grid machine Power boost based on SP (^${dNotation(D(1).add(game.singularityPower.log(10).pow(0.8)), 4, 3)})",
+      "Boost SP's grid machine Power boost based on SP (^${dNotation(D(1).add(game.singularityPower.add(1).log(10).pow(0.8)), 4, 3)})",
       "Boost SP gain based on Processes (x${dNotation(calcMultiProcess(), 4, 0)})",
       "Passive SP Gain speed affected by Speed Boost"
     ]
