@@ -238,6 +238,7 @@ function goTab(num) {
   // block locked tabs
   if (!game.t3toggle && num == 5) return;
   if (!game.t4toggle && num == 7) return;
+  if (!game.t5toggle && num == 8) return;
 
   // make, delete events
   deleteEvents(tabNow);
@@ -518,7 +519,7 @@ function calcProgram(dt=0) {
     // hardcap fix
     if (game.durability.eq(0) && calcRPGain().lt(1)) {
       commandAppend('Fatal Error Found...', -120, 1);
-      commandAppend('shutdown system', 0);
+      commandAppend('shutdown system (focus Reboot)', 0);
       if (!game.t4toggle) goTab(2);
       for (var i = 0; i < game.programActive.length; i++) {
         game.programActive[i] = 0;

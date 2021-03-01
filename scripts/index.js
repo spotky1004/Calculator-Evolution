@@ -176,6 +176,7 @@ function blurSettings() {
     if (keyCode == 68) goTab(3); // d
     if (keyCode == 70) goTab(2); // f
     if (keyCode == 71) goTab(5); // g
+    if (keyCode == 74) goTab(8); // j
     if (keyCode == 72) !keyDowns[16] ? goTab(7) : game.hyperMode ^= 1; // h
   })
   document.addEventListener('keyup', function(e){
