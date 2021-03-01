@@ -224,6 +224,7 @@ function getQuantumUpgradeCost(idx) {
   }
   if (game.challengeEntered == 3 || game.challengeEntered == 7) tempCost *= 2;
   if (fixedIdx[1] == 5 && fixedIdx[0] < calcMilestoneDone()) tempCost = 0;
+  if (fixedIdx[1] == 6 && fixedIdx[0] == 6  && game.ipPassiveBought >= 4)
   return tempCost;
 }
 function quantumUpgradeRespec() {
