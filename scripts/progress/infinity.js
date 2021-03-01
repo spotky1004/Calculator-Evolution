@@ -25,7 +25,7 @@ function calcInfinity() {
 function infinity() {
     game.t5resets = game.t5resets.add(1);
     game.infinityPoint = D.max(game.infinityPoint, calcIpGain(new Date().getTime() - game.t5resetTime));
-    game.t5record = new Date().getTime() - game.t5resetTime;
+    game.t5record = Math.min(game.t5record, new Date().getTime() - game.t5resetTime);
     game.t5resetTime = new Date().getTime();
     game.bestIp = D.max(game.bestIp, game.infinityPoint);
     infinityReset();
