@@ -178,7 +178,7 @@ function calcSingularity(dt) {
   for (var i in singularityBoostsBase) singularityBoosts[i] = D(singularityBoostsBase[i]);
   for (var i in game.singularityGrid) game.singularityGrid[i].update(dt);
   for (var i in mergerWorks) mergerWorks[i] = [...new Set(mergerWorks[i])];
-  if (game.achievements.includes(33)) game.singularityPower = game.singularityPower.add(calcSingularityPowerGain().mul(game.quantumUpgradeBought.includes('78')?calcRealDt(dt):dt).div(10));
+  if (game.achievements.includes(33)) game.singularityPower = game.singularityPower.add(calcSingularityPowerGain().mul(game.quantumUpgradeBought.includes('77')?calcRealDt(dt):dt).div(10));
   if (game.challengeEntered != -1) {
     game.challengeRecord[game.challengeEntered] = D.max(game.challengeRecord[game.challengeEntered], game.quantumLab);
     if (game.quantumLab.gte(calcChallengeGoal(game.challengeEntered))) {

@@ -16,7 +16,7 @@ setInterval( function () {
   renderCalcDebugInfo();
   bugFixer();
   tickDone++;
-}, 33);
+}, tSpeed*1000);
 setInterval( function () {
   save();
 }, 20000);
