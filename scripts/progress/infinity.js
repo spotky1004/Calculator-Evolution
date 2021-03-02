@@ -2,7 +2,7 @@
     ipUpgradeName = ["CPU", "RP", "Qubit", "SP", "IP"];
     ipPassiveDesc = [
         "Start Infinity with ${dNotation(game.t5resets, 4, 0)} SP (based on Infinity stat)",
-        "Active programs automatically<br>Durability won't decreases",
+        "Activate programs automatically<br>Durability won't decreases",
         "Keep Challenge Records",
         "Retain Singularity VII",
         "Keep Challenge Completeions",

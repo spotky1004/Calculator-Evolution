@@ -532,7 +532,7 @@ function calcProgram(dt=0) {
       game.digits = D(1);
       game.number = D(0);
     }
-  }
+  } // Overclocker.exe
 }
 function calcProcessActive() {
   var activeProcress = 0;
