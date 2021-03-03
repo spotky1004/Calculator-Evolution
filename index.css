@@ -178,6 +178,10 @@ body {
   color: #0a205c;
   text-shadow: 0 0 0.8vh #fff, -0.2vh 0 0.3vh #63b88d, 0.2vh 0 0.3vh #f54c8f;
 }
+#inifnityInfo {
+  text-shadow: 0 0 1vh rgb(233, 163, 163), 0 0 0.5vh rgb(233, 163, 163);
+  animation: hueRotate ease 12s infinite;
+}
 
 .tab:nth-of-type(1) {
   display: flex;

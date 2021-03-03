@@ -50,6 +50,10 @@ function renderInfinity() {
     });
     document.getElementById("buyIpPassive").classList[game.infinityPoint.gte(calcIpPassiveCost())?"add":"remove"]('activated');
 }
+function renderInfinityInfo() {
+    $("#inifnityInfo").style.display = game.t5toggle ? "block" : "none";
+    if (game.t5toggle) $("#inifnityInfo").innerHTML = `${timeNotation((new Date().getTime()-game.t5resetTime)/1000)} / ${dNotation(calcIpGain(new Date().getTime() - game.t5resetTime), 4, 0)} IP`;  
+}
 
 function buyIpUpgrade(idx) {
     var spentIP = D.max(0, game.infinityPoint.div(10).ceil(0));

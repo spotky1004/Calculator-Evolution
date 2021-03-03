@@ -57,6 +57,7 @@ function renderInfo() {
   renderBasicInfo();
   renderOverclockInfo();
   renderSingularityInfo();
+  renderInfinityInfo();
 }
 function calcAll(dt=0) {
   calcToggleTabs();
