@@ -31,6 +31,7 @@ body {
   margin: 0 0 0 2.5vw;
   font-size: 2vh;
   animation: greenGlow ease 5s infinite;
+  white-space: nowrap;
 }
 #numberDigits {
   display: inline-block;

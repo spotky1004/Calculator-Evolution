@@ -5,7 +5,7 @@
         "Activate programs automatically<br>Durability won't decreases",
         "Keep Challenge Records",
         "Retain Singularity VII",
-        "Keep Challenge Completeions",
+        "Keep Challenge Completions",
         "250 Extra Process",
         "Keep Grid placement"
     ];
