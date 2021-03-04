@@ -228,7 +228,7 @@ function getQuantumUpgradeCost(idx) {
   return tempCost;
 }
 function quantumUpgradeRespec() {
-  if (game.quantumLab.lt(1)) return;
+  if (game.quantumLab.lt(1) && game.qubit.lt(1)) return;
   if (typeof qRespecTimeout != "undefined") clearTimeout(qRespecTimeout);
   if (quantumUpgradeRespecConfrim > calcQuantumResetClicks()) quantumUpgradeRespecConfrim = calcQuantumResetClicks();
   quantumUpgradeRespecConfrim--;
