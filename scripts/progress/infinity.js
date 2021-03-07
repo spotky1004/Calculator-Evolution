@@ -100,7 +100,7 @@ function calcIpUpgradeEffect(idx, baseRes=game.infinityUpgradeSpent[idx]) {
             tempMult = D.max(1, D(3).pow(baseRes.mul(6).pow(0.6)));
             break;
         case 3:
-            tempMult = baseRes.pow(1.1).div(5).add(1);
+            tempMult = baseRes.pow(1.1).div(5).add(1).pow(1/2).add(baseRes.div(10));
             break;
         case 4:
             tempMult = baseRes.div(10).pow(0.5).add(1);
