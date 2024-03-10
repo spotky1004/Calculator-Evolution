@@ -1,5 +1,5 @@
 (function(){
-  siSymbol = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'];
+  siSymbol = ['', 'k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y', 'R'];
   tabNow = 0;
   shopItems = [
     // Base_Increaser.exe
