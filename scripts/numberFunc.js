@@ -15,7 +15,7 @@ function formatWithBase(infNum, base=2, len=D(1e300), padStart=0, maxLength=Infi
   // ty Yahtzee Master#0168 to make this function for me :D
   var base = D(base);
   var infNum = D(infNum);
-  if (infNum.eq(0)) return ("0").repeat(padStart?Number(len.valueOf()):1);
+  if (infNum.eq(0)) return ("0").repeat(padStart?Math.min(50000, Number(len.valueOf())):1);
   let outputString = "";
   const logThing = Math.floor(infNum.log(base));
   if (infNum.gte(base.pow(len).sub(1))) return String.fromCharCode(getModifiedCharcode(base.sub(1).valueOf())).repeat(Math.min(maxLength, len.valueOf()));
@@ -29,7 +29,7 @@ function formatWithBase(infNum, base=2, len=D(1e300), padStart=0, maxLength=Infi
     var needToPush = maxLength - outputString.replace(/(<([^<>]+)>)/g, '$1').length;
     outputString = `<span style="opacity: 0.3">${'0'.repeat(Math.max(0, needToPush))}</span>` + outputString;
   } else if (padStart && outputString.length <= maxLength) {
-    outputString = outputString.padStart(+(len.valueOf()), '0');
+    outputString = outputString.padStart(Math.min(50000, +(len.valueOf())), '0');
   }
   if (outputString.replace(/(<[^<>]+>)/g, '').length > maxLength) {
     outputString += "...";
