@@ -51,8 +51,8 @@ function notationSI(num, dim=0) {
   if (!(num instanceof Decimal)) {
     num = D(num);
   }
-  if (num.gt(1024**8)) {
-    return dNotation(num.div(1024**8), dim) + 'Y';
+  if (num.gt(1024**10)) {
+    return dNotation(num.div(1024**10), dim) + 'Q';
   } else {
     numLv = Math.floor(num.log(1024));
     return num.div(1024**numLv).toFixed(dim) + siSymbol[numLv];
