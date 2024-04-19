@@ -31,7 +31,15 @@
     gridNode.classList.add("singularityGridBlock");
     gridNode.onclick = new Function(`singularityGridClick(${i%5}, ${Math.floor(i/5)}, "l")`);
     gridNode.onmousedown = new Function(`singularityGridDown(${i%5}, ${Math.floor(i/5)})`);
-    gridNode.addEventListener('contextmenu', new Function(`singularityGridClick(${i%5}, ${Math.floor(i/5)}, "r")`));
+    const removeItem = new Function(`singularityGridClick(${i%5}, ${Math.floor(i/5)}, "r")`);
+    let touchTimeout = null;
+    gridNode.addEventListener('contextmenu', removeItem);
+    gridNode.addEventListener('touchstart', () => {
+      touchTimeout = setTimeout(removeItem, 1000);
+    });
+    gridNode.addEventListener('touchend', () => {
+      clearTimeout(touchTimeout);
+    });
     gridNode.onmouseover = new Function(`singularityGridOver(${i%5}, ${Math.floor(i/5)})`);
     gridNode.onmouseout = new Function(`singularityGridOut()`);
     $("#singularityGridOutInnerWarp").append(gridNode);
